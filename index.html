@@ -119,18 +119,26 @@ function visiblePhotos(){return allPhotos().filter(p=>p.style.display!=='none')}
 function applyFilters(){
  let shown=0;
  allPhotos().forEach(p=>{
-  const cat=p.dataset.cat,title=(p.dataset.title||'').toLowerCase(),fav=saved.has(p.dataset.title);
+  const cat=p.dataset.cat,title=((p.dataset.title||'')+' '+($('img',p)?.alt||'')).toLowerCase(),fav=saved.has(p.dataset.title);
   const categoryOk=activeFilter==='all'||(activeFilter==='favorites'?fav:cat===activeFilter);
   const searchOk=title.includes(searchTerm);
   p.style.display=categoryOk&&searchOk?'inline-block':'none';
   if(categoryOk&&searchOk)shown++;
  });
  $('#emptyState').style.display=shown?'none':'block';
+ const meta=$('#galleryMeta');if(meta)meta.textContent='عرض '+shown+' من '+allPhotos().length+' صورة';
+ const sort=$('#gallerySort')?.value||'default';
+ const grid=$('#galleryGrid');
+ if(grid&&sort!=='default'){
+  const items=allPhotos().sort((a,b)=>{const x=(a.dataset.title||'').localeCompare(b.dataset.title||'','ar');return sort==='az'?x:-x});
+  items.forEach(p=>grid.appendChild(p));
+ }
 }
 function persistFavs(){localStorage.setItem('clayko-favs',JSON.stringify([...saved]));}
 function updateFavButtons(){allPhotos().forEach(p=>{const b=$('.save',p);if(!b)return;const yes=saved.has(p.dataset.title);b.classList.toggle('saved',yes);b.textContent=yes?'♥':'♡';});}
 $$('.filter').forEach(b=>b.addEventListener('click',()=>{$$('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeFilter=b.dataset.filter;applyFilters()}));
 $('#searchInput').addEventListener('input',e=>{searchTerm=e.target.value.trim().toLowerCase();applyFilters()});
+$('#gallerySort').addEventListener('change',applyFilters);
 $('#galleryGrid').addEventListener('click',e=>{
  const favBtn=e.target.closest('.save');if(favBtn){e.stopPropagation();const p=favBtn.closest('.photo'),name=p.dataset.title;if(saved.has(name)){saved.delete(name);toast('تمت إزالة الصورة من المفضلة')}else{saved.add(name);toast('تم حفظ الصورة في المفضلة')}persistFavs();updateFavButtons();applyFilters();return}
  const p=e.target.closest('.photo');if(p)openLightbox(p);
@@ -138,6 +146,15 @@ $('#galleryGrid').addEventListener('click',e=>{
 function openLightbox(photo){const list=visiblePhotos();currentIndex=list.indexOf(photo);renderLightbox()}
 function renderLightbox(){const list=visiblePhotos();if(!list.length)return;currentIndex=(currentIndex+list.length)%list.length;const p=list[currentIndex];$('#lbImage').src=$('img',p).src;$('#lbCaption').textContent=p.dataset.title;$('#lightbox').classList.add('open');document.body.style.overflow='hidden'}
 function closeLightbox(){$('#lightbox').classList.remove('open');document.body.style.overflow=''}
+$('#lbShare').onclick=async()=>{
+ const list=visiblePhotos(),p=list[currentIndex];if(!p)return;
+ const imageUrl=$('img',p).src,title=p.dataset.title||'CLAYKO';
+ try{if(navigator.share)await navigator.share({title:'CLAYKO — '+title,text:'شاهد هذه الصورة من معرض CLAYKO',url:imageUrl});else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(imageUrl);toast('تم نسخ رابط الصورة')}else{window.prompt('انسخ رابط الصورة:',imageUrl)}}
+ catch(err){if(err?.name!=='AbortError')toast('تعذرت مشاركة الصورة')}
+};
+let touchStartX=0;
+$('#lightbox').addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].clientX},{passive:true});
+$('#lightbox').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-touchStartX;if(Math.abs(dx)>55){if(dx>0)$('#lbPrev').click();else $('#lbNext').click()}},{passive:true});
 $('#lbClose').onclick=closeLightbox;$('#lbPrev').onclick=()=>{currentIndex--;renderLightbox()};$('#lbNext').onclick=()=>{currentIndex++;renderLightbox()};
 $('#lightbox').addEventListener('click',e=>{if(e.target.id==='lightbox')closeLightbox()});
 document.addEventListener('keydown',e=>{if(!$('#lightbox').classList.contains('open'))return;if(e.key==='Escape')closeLightbox();if(e.key==='ArrowLeft'){$('#lbNext').click()}if(e.key==='ArrowRight'){$('#lbPrev').click()}});
@@ -151,7 +168,7 @@ let customPhotos=[];
 function publicImage(path){return sbClient.storage.from(SB_BUCKET).getPublicUrl(path).data.publicUrl}
 async function loadCustom(){
  if(!sbClient){customPhotos=[];return}
- const {data,error}=await sbClient.from('gallery_images').select('id,title,category,storage_path,created_at').order('created_at',{ascending:false});
+ let data,error;try{({data,error}=await sbClient.from('gallery_images').select('id,title,category,storage_path,created_at').order('created_at',{ascending:false}))}catch(err){console.error(err);customPhotos=[];toast('تعذر الاتصال بالمعرض السحابي');return}
  if(error){console.error(error);toast('تعذر تحميل صور المعرض السحابي');customPhotos=[];return}
  customPhotos=(data||[]).map(x=>({...x,cat:x.category||'custom',data:publicImage(x.storage_path)}));
 }
@@ -160,7 +177,7 @@ function renderCustomPhotos(){
  customPhotos.forEach(item=>{
   const p=document.createElement('article');p.className='photo';p.dataset.custom='true';p.dataset.cat=item.cat;p.dataset.title=item.title;
   p.innerHTML='<img loading="lazy" alt=""><div class="photo-info"><b></b><span>CLAYKO / CLOUD GALLERY</span></div><div class="photo-actions"><button class="mini save" aria-label="أضف للمفضلة">♡</button></div>';
-  $('img',p).src=item.data;$('.photo-info b',p).textContent=item.title;$('#galleryGrid').prepend(p);
+  $('img',p).src=item.data;$('img',p).alt=item.title;$('.photo-info b',p).textContent=item.title;$('#galleryGrid').prepend(p);
  });
  updateFavButtons();applyFilters();
 }
@@ -196,6 +213,7 @@ async function openAdmin(){
 }
 function closeAdmin(){$('#adminOverlay').classList.remove('open')}
 $('#adminOpen').onclick=openAdmin;$('#adminClose').onclick=closeAdmin;
+$('#adminRefresh').onclick=async()=>{await loadCustom();renderCustomPhotos();renderAdminList();toast('تم تحديث صور المعرض')};
 $('#adminOverlay').addEventListener('click',e=>{if(e.target.id==='adminOverlay')closeAdmin()});
 $('#emailForm').addEventListener('submit',async e=>{
  e.preventDefault();const email=$('#adminEmail').value.trim().toLowerCase();if(email!==ADMIN_EMAIL){toast('هذا البريد غير مخوّل');return}
@@ -228,6 +246,7 @@ const drop=$('#uploadDrop');
 drop.addEventListener('drop',e=>{const files=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));if(files.length){const dt=new DataTransfer();files.forEach(f=>dt.items.add(f));$('#photoFiles').files=dt.files;$('#photoFiles').dispatchEvent(new Event('change'))}});
 $('#photoForm').addEventListener('submit',async e=>{
  e.preventDefault();const files=[...$('#photoFiles').files].filter(f=>f.type.startsWith('image/'));
+ if(files.some(f=>f.size>15*1024*1024)){toast('حجم الصورة الواحدة يجب ألا يتجاوز 15 MB');return}
  if(!files.length){toast('اختر صورة واحدة على الأقل');return}if(files.length>30){toast('الحد الأقصى 30 صورة');return}
  const titleBase=$('#photoTitle').value.trim(),category=$('#photoCategory').value,btn=$('#photoForm button[type="submit"]');btn.disabled=true;btn.textContent='جارٍ الرفع إلى السحابة...';
  let added=0,failed=0;
@@ -253,10 +272,13 @@ sbClient.auth.onAuthStateChange((event,session)=>{
 }
 loadCustom().then(renderCustomPhotos);
 // تم الاكتفاء بتحميل صور المعرض مرة واحدة عبر loadCustom أعلاه.
+$('#copyEmail').onclick=async()=>{try{await navigator.clipboard.writeText('mrclayko@yahoo.com');toast('تم نسخ البريد الإلكتروني')}catch(e){window.prompt('انسخ البريد الإلكتروني:','mrclayko@yahoo.com')}};
+window.addEventListener('scroll',()=>{const el=$('#readingProgress'),doc=document.documentElement,max=doc.scrollHeight-innerHeight;el.style.width=(max>0?(scrollY/max)*100:0)+'%'},{passive:true});
 $('#contactForm').addEventListener('submit',e=>{e.preventDefault();const name=$('#name').value,email=$('#email').value,subject=$('#subject').value,message=$('#message').value;const body=`الاسم: ${name}\nالبريد: ${email}\nنوع المشروع: ${subject}\n\n${message}`;window.location.href=`mailto:mrclayko@yahoo.com?subject=${encodeURIComponent('رسالة من موقع CLAYKO — '+subject)}&body=${encodeURIComponent(body)}`;toast('تم تجهيز الرسالة في تطبيق البريد')});
 if('IntersectionObserver' in window){document.body.classList.add('motion-ready');const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.12});$$('.reveal').forEach(el=>observer.observe(el))}
 window.addEventListener('scroll',()=>$('#backTop').classList.toggle('show',window.scrollY>500));$('#backTop').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
 $('#year').textContent=new Date().getFullYear();updateFavButtons();applyFilters();
+$('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest('.photo')?.classList.add('image-error')},{once:true}));
 </script>
 </body>
 </html>
