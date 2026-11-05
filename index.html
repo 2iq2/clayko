@@ -66,6 +66,13 @@ body.christmas-theme .floating-card{border-color:rgba(230,195,107,.28)}
 @media(prefers-reduced-motion:reduce){#christmasSnow,.christmas-lights{display:none!important}}
 @media(max-width:560px){.christmas-ribbon{font-size:10px;padding:8px 12px;margin-bottom:14px}}
 
+
+/* CLAYKO opening sound control */
+#claykoSoundControl{position:fixed;right:22px;bottom:22px;z-index:1200;border:1px solid rgba(231,198,109,.45);border-radius:999px;padding:10px 15px;background:rgba(12,18,20,.88);color:#f3d58a;font:600 12px inherit;letter-spacing:.2px;backdrop-filter:blur(14px);box-shadow:0 8px 28px #0005;cursor:pointer;transition:transform .2s,background .2s}
+#claykoSoundControl:hover{transform:translateY(-2px);background:rgba(25,35,31,.96)}
+#claykoSoundControl:focus-visible{outline:2px solid #f3d58a;outline-offset:4px}
+@media(max-width:560px){#claykoSoundControl{right:14px;bottom:14px;padding:9px 12px;font-size:11px}}
+
 </style>
 </head>
 <body>
@@ -361,6 +368,60 @@ if('IntersectionObserver' in window){document.body.classList.add('motion-ready')
 window.addEventListener('scroll',()=>$('#backTop').classList.toggle('show',window.scrollY>500));$('#backTop').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
 $('#year').textContent=new Date().getFullYear();updateFavButtons();applyFilters();
 $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest('.photo')?.classList.add('image-error')},{once:true}));
+</script>
+<button id="claykoSoundControl" type="button" aria-label="تشغيل المؤثر الصوتي الافتتاحي">♫ تشغيل صوت الافتتاح</button>
+<script>
+/* Original, lightweight CLAYKO welcome chime — no external audio file required. */
+(()=>{
+ const control=document.getElementById('claykoSoundControl');
+ if(!control)return;
+ let audioContext=null,played=false,muted=false;
+ const label=()=>{control.textContent=muted?'♫ الصوت مكتوم':(played?'♫ إعادة المؤثر':'♫ تشغيل صوت الافتتاح');};
+ async function playWelcome(){
+  if(muted)return;
+  try{
+   const AudioCtx=window.AudioContext||window.webkitAudioContext;
+   if(!AudioCtx)throw new Error('Web Audio unavailable');
+   audioContext=audioContext||new AudioCtx();
+   if(audioContext.state==='suspended')await audioContext.resume();
+   const now=audioContext.currentTime;
+   // Three soft bell-like notes with gentle harmonics and a short fade.
+   [659.25,830.61,987.77].forEach((frequency,index)=>{
+    const start=now+index*.19;
+    const fundamental=audioContext.createOscillator();
+    const harmonic=audioContext.createOscillator();
+    const gain=audioContext.createGain();
+    const overtone=audioContext.createGain();
+    fundamental.type='sine';fundamental.frequency.setValueAtTime(frequency,start);
+    harmonic.type='sine';harmonic.frequency.setValueAtTime(frequency*2.01,start);
+    gain.gain.setValueAtTime(.0001,start);
+    gain.gain.exponentialRampToValueAtTime(index===2?.075:.055,start+.018);
+    gain.gain.exponentialRampToValueAtTime(.0001,start+1.05);
+    overtone.gain.setValueAtTime(.0001,start);
+    overtone.gain.exponentialRampToValueAtTime(.012,start+.018);
+    overtone.gain.exponentialRampToValueAtTime(.0001,start+.48);
+    fundamental.connect(gain);gain.connect(audioContext.destination);
+    harmonic.connect(overtone);overtone.connect(audioContext.destination);
+    fundamental.start(start);harmonic.start(start);
+    fundamental.stop(start+1.08);harmonic.stop(start+.5);
+   });
+   played=true;label();
+  }catch(error){
+   // Browser autoplay restrictions are expected; the visible control remains available.
+   control.textContent='♫ اضغط لتشغيل صوت الافتتاح';
+  }
+ }
+ control.addEventListener('click',()=>{
+  if(muted){muted=false;playWelcome();return;}
+  if(played){muted=true;label();return;}
+  playWelcome();
+ });
+ // Attempt once on page load. If autoplay is blocked, first user interaction can unlock it.
+ window.addEventListener('load',()=>{setTimeout(playWelcome,350)},{once:true});
+ document.addEventListener('pointerdown',()=>{if(!played&&!muted)playWelcome()},{once:true,passive:true});
+ document.addEventListener('keydown',()=>{if(!played&&!muted)playWelcome()},{once:true});
+ label();
+})();
 </script>
 </body>
 </html>
