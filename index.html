@@ -73,9 +73,33 @@ body.christmas-theme .floating-card{border-color:rgba(230,195,107,.28)}
 #claykoSoundControl:focus-visible{outline:2px solid #f3d58a;outline-offset:4px}
 @media(max-width:560px){#claykoSoundControl{right:14px;bottom:14px;padding:9px 12px;font-size:11px}}
 
+
+/* CLAYKO cinematic welcome */
+body.intro-open{overflow:hidden}
+#claykoIntro{position:fixed;inset:0;z-index:2000;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 42%,rgba(32,93,73,.24),transparent 42%),#080d10;color:#f4f0e8;opacity:0;visibility:hidden;transition:opacity .75s ease,visibility .75s ease}
+#claykoIntro.visible{opacity:1;visibility:visible}
+#claykoIntro.leaving{opacity:0;visibility:hidden;pointer-events:none}
+#claykoIntro .intro-inner{text-align:center;padding:28px;max-width:520px}
+#claykoIntro .intro-mark{font:900 clamp(42px,10vw,76px)/1 Inter,sans-serif;letter-spacing:.19em;background:linear-gradient(110deg,#f3d58a,#fff,#4eaf83);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 12px 55px #d6b76a20;animation:introRise 1s both}
+#claykoIntro .intro-line{width:76px;height:1px;margin:25px auto;background:linear-gradient(90deg,transparent,#e7c66d,transparent);animation:introLine 1.2s .25s both}
+#claykoIntro p{margin:0;color:#b8c0bd;font-size:12px;letter-spacing:.22em;animation:introRise 1s .2s both}
+#claykoIntro button{margin-top:34px;border:1px solid #e7c66d66;border-radius:30px;background:#ffffff08;color:#f3d58a;padding:10px 23px;font:inherit;font-size:12px;cursor:pointer;animation:introRise 1s .35s both}
+@keyframes introRise{from{opacity:0;transform:translateY(14px);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+@keyframes introLine{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:1}}
+#lbZoom{position:absolute;top:25px;left:25px;border:1px solid #ffffff30;background:#111a;color:#fff;border-radius:30px;padding:10px 15px;font-size:12px;cursor:pointer}
+.lightbox img{transition:transform .22s ease;cursor:zoom-in}
+.lightbox img.zoomed{transform:scale(1.45);cursor:zoom-out}
+.analytics-title{font-size:11px;color:var(--muted);margin:18px 0 8px}
+#topPhotoViews{display:grid;gap:7px;margin:0;padding:0;list-style:none}
+#topPhotoViews li{display:flex;justify-content:space-between;gap:12px;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:8px 11px;font-size:11px;color:var(--muted)}
+#topPhotoViews b{color:var(--cyan);font-variant-numeric:tabular-nums}
+@media(max-width:560px){#lbZoom{top:14px;left:14px;padding:8px 11px}.lightbox img.zoomed{transform:scale(1.22)}}
+@media(prefers-reduced-motion:reduce){#claykoIntro,#claykoIntro *{animation:none!important;transition:none!important}}
+
 </style>
 </head>
 <body>
+<div id="claykoIntro" aria-label="مقدمة CLAYKO"><div class="intro-inner"><div class="intro-mark">CLAYKO</div><div class="intro-line"></div><p>LIGHT · FRAME · STORY</p><button id="introEnter" type="button">الدخول إلى الموقع ↗</button></div></div>
 <div class="ambient"></div><div class="grain"></div><canvas id="christmasSnow" aria-hidden="true"></canvas><div class="christmas-lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
 <header class="topbar">
  <div class="container nav">
@@ -146,8 +170,8 @@ body.christmas-theme .floating-card{border-color:rgba(230,195,107,.28)}
 </main>
 <footer><div class="container footer-row"><a class="brand" href="#home">CLAYKO<small>VISUAL STORIES</small></a><span>© <span id="year"></span> CLAYKO. جميع الحقوق محفوظة.</span><div class="footer-links"><a href="#home">للأعلى ↑</a><a href="#gallery">المعرض</a><a href="#contact">تواصل</a><a href="https://www.instagram.com/2rir4?srtk=anhmZWt1ZnFub2Rp" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div></div></footer>
 <button class="iconbtn backtop" id="backTop" aria-label="العودة للأعلى">↑</button>
-<div class="lightbox" id="lightbox"><button class="lb-close" id="lbClose" aria-label="إغلاق">×</button><button class="lb-prev" id="lbPrev" aria-label="السابق">‹</button><img id="lbImage" src="" alt="صورة مكبرة"><button class="lb-next" id="lbNext" aria-label="التالي">›</button><div class="lb-caption" id="lbCaption"></div><button class="lb-share" id="lbShare" type="button">مشاركة الصورة ↗</button></div>
-<div class="admin-overlay" id="adminOverlay" role="dialog" aria-modal="true" aria-label="لوحة الإدارة"><div class="admin-box"><div class="admin-head"><div><div class="section-kicker">CLAYKO / PRIVATE AREA</div><h2 id="adminTitle">لوحة الإدارة</h2></div><button class="admin-close" id="adminClose" aria-label="إغلاق">×</button></div><div id="adminLogin"><p class="admin-note" id="pinHelp">الدخول محمي عبر بريد الإدارة. افتح رابط الدخول الذي يصلك، أو أدخل رمز التحقق إذا وصل كرمز.</p><form class="admin-form" id="emailForm"><input id="adminEmail" type="email" autocomplete="email" value="2i3qqi@gmail.com" required><button class="btn primary" type="submit" id="emailSubmit">إرسال رابط الدخول</button></form><form class="admin-form" id="otpForm" hidden><input id="otpInput" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="رمز التحقق" maxlength="8" required><button class="btn primary" type="submit">تأكيد الرمز</button></form></div><div id="adminPanel" hidden><p class="admin-note">أضف صوراً إلى المعرض السحابي، أو عدّل بياناتها واحذفها. الصور المنشورة تظهر لجميع الزوار.</p><div class="admin-stats"><div class="admin-stat"><strong id="adminPhotoCount">0</strong>صور مضافة</div><div class="admin-stat"><strong id="adminFavCount">0</strong>صور مفضلة</div></div><form class="admin-form" id="photoForm"><label for="photoFiles" class="upload-drop" id="uploadDrop"><strong>＋ اختر الصور أو اسحبها إلى هنا</strong><span>JPG وPNG وWEBP — يتم ضغط الصور تلقائياً</span><input id="photoFiles" type="file" accept="image/*" multiple required></label><div class="upload-status" id="uploadStatus" aria-live="polite">لم يتم اختيار صور بعد</div><input id="photoTitle" type="text" placeholder="عنوان الصورة (اختياري)"><select id="photoCategory"><option value="nature">الطبيعة</option><option value="street">الشارع</option><option value="portrait">بورتريه</option><option value="architecture">عمارة</option><option value="custom">متنوع</option></select><button class="btn primary" type="submit">＋ إضافة إلى المعرض</button></form><div class="admin-actions"><button class="btn" id="adminRefresh" type="button">↻ تحديث المعرض</button><button class="btn" id="adminLogout">تسجيل خروج</button></div><div class="admin-list" id="adminList"></div></div></div></div>
+<div class="lightbox" id="lightbox"><button id="lbZoom" type="button" aria-label="تكبير الصورة">＋ تكبير</button><button class="lb-close" id="lbClose" aria-label="إغلاق">×</button><button class="lb-prev" id="lbPrev" aria-label="السابق">‹</button><img id="lbImage" src="" alt="صورة مكبرة"><button class="lb-next" id="lbNext" aria-label="التالي">›</button><div class="lb-caption" id="lbCaption"></div><button class="lb-share" id="lbShare" type="button">مشاركة الصورة ↗</button></div>
+<div class="admin-overlay" id="adminOverlay" role="dialog" aria-modal="true" aria-label="لوحة الإدارة"><div class="admin-box"><div class="admin-head"><div><div class="section-kicker">CLAYKO / PRIVATE AREA</div><h2 id="adminTitle">لوحة الإدارة</h2></div><button class="admin-close" id="adminClose" aria-label="إغلاق">×</button></div><div id="adminLogin"><p class="admin-note" id="pinHelp">الدخول محمي عبر بريد الإدارة. افتح رابط الدخول الذي يصلك، أو أدخل رمز التحقق إذا وصل كرمز.</p><form class="admin-form" id="emailForm"><input id="adminEmail" type="email" autocomplete="email" value="2i3qqi@gmail.com" required><button class="btn primary" type="submit" id="emailSubmit">إرسال رابط الدخول</button></form><form class="admin-form" id="otpForm" hidden><input id="otpInput" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="رمز التحقق" maxlength="8" required><button class="btn primary" type="submit">تأكيد الرمز</button></form></div><div id="adminPanel" hidden><p class="admin-note">أضف صوراً إلى المعرض السحابي، أو عدّل بياناتها واحذفها. الصور المنشورة تظهر لجميع الزوار.</p><div class="admin-stats"><div class="admin-stat"><strong id="adminPhotoCount">0</strong>صور مضافة</div><div class="admin-stat"><strong id="adminFavCount">0</strong>صور مفضلة</div></div><h3 class="analytics-title">إحصائيات الموقع</h3><div class="admin-stats"><div class="admin-stat"><strong id="analyticsTotalVisits">—</strong>زيارات إجمالية</div><div class="admin-stat"><strong id="analyticsWeekVisits">—</strong>زيارات آخر 7 أيام</div><div class="admin-stat"><strong id="analyticsPhotoViews">—</strong>مشاهدات الصور</div></div><h3 class="analytics-title">أكثر الصور مشاهدة</h3><ol id="topPhotoViews"><li>جارٍ تحميل الإحصائيات...</li></ol><form class="admin-form" id="photoForm"><label for="photoFiles" class="upload-drop" id="uploadDrop"><strong>＋ اختر الصور أو اسحبها إلى هنا</strong><span>JPG وPNG وWEBP — يتم ضغط الصور تلقائياً</span><input id="photoFiles" type="file" accept="image/*" multiple required></label><div class="upload-status" id="uploadStatus" aria-live="polite">لم يتم اختيار صور بعد</div><input id="photoTitle" type="text" placeholder="عنوان الصورة (اختياري)"><select id="photoCategory"><option value="nature">الطبيعة</option><option value="street">الشارع</option><option value="portrait">بورتريه</option><option value="architecture">عمارة</option><option value="custom">متنوع</option></select><button class="btn primary" type="submit">＋ إضافة إلى المعرض</button></form><div class="admin-actions"><button class="btn" id="adminRefresh" type="button">↻ تحديث المعرض</button><button class="btn" id="adminLogout">تسجيل خروج</button></div><div class="admin-list" id="adminList"></div></div></div></div>
 <div class="toast" id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
  // CLAYKO Christmas mode
@@ -174,6 +198,8 @@ const ADMIN_EMAIL="2i3qqi@gmail.com";
 const sbClient=window.supabase?.createClient?window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
 const toast=(msg)=>{const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2300)};
+function recordAnalytics(eventType,itemKey=null){if(!sbClient)return;const token=eventType==='page_view'?'clayko-analytics-page':('clayko-analytics-photo-'+String(itemKey||'').slice(0,160));try{if(sessionStorage.getItem(token))return;sessionStorage.setItem(token,'1')}catch(e){}sbClient.from('site_analytics').insert({event_type:eventType,item_key:itemKey?String(itemKey).slice(0,160):null}).then(({error})=>{if(error)console.warn('Analytics event was not saved',error)})}
+recordAnalytics('page_view');
 let activeFilter='all', searchTerm='', currentIndex=0;
 const saved=new Set(JSON.parse(localStorage.getItem('clayko-favs')||'[]'));
 function allPhotos(){return $$('.photo')}
@@ -205,8 +231,8 @@ $('#galleryGrid').addEventListener('click',e=>{
  const favBtn=e.target.closest('.save');if(favBtn){e.stopPropagation();const p=favBtn.closest('.photo'),name=p.dataset.title;if(saved.has(name)){saved.delete(name);toast('تمت إزالة الصورة من المفضلة')}else{saved.add(name);toast('تم حفظ الصورة في المفضلة')}persistFavs();updateFavButtons();applyFilters();return}
  const p=e.target.closest('.photo');if(p)openLightbox(p);
 });
-function openLightbox(photo){const list=visiblePhotos();currentIndex=list.indexOf(photo);renderLightbox()}
-function renderLightbox(){const list=visiblePhotos();if(!list.length)return;currentIndex=(currentIndex+list.length)%list.length;const p=list[currentIndex];$('#lbImage').src=$('img',p).src;$('#lbCaption').textContent=p.dataset.title;$('#lightbox').classList.add('open');document.body.style.overflow='hidden'}
+function openLightbox(photo){const list=visiblePhotos();currentIndex=list.indexOf(photo);recordAnalytics('photo_view',photo.dataset.analyticsKey||photo.dataset.title||'photo');renderLightbox()}
+function renderLightbox(){const list=visiblePhotos();if(!list.length)return;currentIndex=(currentIndex+list.length)%list.length;const p=list[currentIndex];$('#lbImage').src=$('img',p).src;$('#lbImage').classList.remove('zoomed');$('#lbZoom').textContent='＋ تكبير';$('#lbCaption').textContent=p.dataset.title;$('#lightbox').classList.add('open');document.body.style.overflow='hidden'}
 function closeLightbox(){$('#lightbox').classList.remove('open');document.body.style.overflow=''}
 $('#lbShare').onclick=async()=>{
  const list=visiblePhotos(),p=list[currentIndex];if(!p)return;
@@ -217,7 +243,7 @@ $('#lbShare').onclick=async()=>{
 let touchStartX=0;
 $('#lightbox').addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].clientX},{passive:true});
 $('#lightbox').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-touchStartX;if(Math.abs(dx)>55){if(dx>0)$('#lbPrev').click();else $('#lbNext').click()}},{passive:true});
-$('#lbClose').onclick=closeLightbox;$('#lbPrev').onclick=()=>{currentIndex--;renderLightbox()};$('#lbNext').onclick=()=>{currentIndex++;renderLightbox()};
+$('#lbClose').onclick=closeLightbox;$('#lbZoom').onclick=()=>{const img=$('#lbImage'),zoomed=img.classList.toggle('zoomed');$('#lbZoom').textContent=zoomed?'－ تصغير':'＋ تكبير'};$('#lbImage').onclick=()=>$('#lbZoom').click();$('#lbPrev').onclick=()=>{currentIndex--;renderLightbox()};$('#lbNext').onclick=()=>{currentIndex++;renderLightbox()};
 $('#lightbox').addEventListener('click',e=>{if(e.target.id==='lightbox')closeLightbox()});
 document.addEventListener('keydown',e=>{if(!$('#lightbox').classList.contains('open'))return;if(e.key==='Escape')closeLightbox();if(e.key==='ArrowLeft'){$('#lbNext').click()}if(e.key==='ArrowRight'){$('#lbPrev').click()}});
 $('#themeBtn').onclick=()=>{document.body.classList.toggle('light');localStorage.setItem('clayko-theme',document.body.classList.contains('light')?'light':'dark')};
@@ -237,7 +263,7 @@ async function loadCustom(){
 function renderCustomPhotos(){
  $$('.photo[data-custom="true"]').forEach(p=>p.remove());
  customPhotos.forEach(item=>{
-  const p=document.createElement('article');p.className='photo';p.dataset.custom='true';p.dataset.cat=item.cat;p.dataset.title=item.title;
+  const p=document.createElement('article');p.className='photo';p.dataset.custom='true';p.dataset.cat=item.cat;p.dataset.title=item.title;p.dataset.analyticsKey=item.id;
   p.innerHTML='<img loading="lazy" alt=""><div class="photo-info"><b></b><span>CLAYKO / CLOUD GALLERY</span></div><div class="photo-actions"><button class="mini save" aria-label="أضف للمفضلة">♡</button></div>';
   $('img',p).src=item.data;$('img',p).alt=item.title;$('.photo-info b',p).textContent=item.title;$('#galleryGrid').prepend(p);
  });
@@ -266,16 +292,35 @@ function renderAdminList(){
   row.append(img,meta,edit,del);$('#adminList').append(row);
  });
 }
+async function loadAnalytics(){
+ const list=$('#topPhotoViews');if(!sbClient||!list)return;
+ try{
+  const since=new Date(Date.now()-7*86400000).toISOString();
+  const [all,week,photos]=await Promise.all([
+   sbClient.from('site_analytics').select('id',{count:'exact',head:true}).eq('event_type','page_view'),
+   sbClient.from('site_analytics').select('id',{count:'exact',head:true}).eq('event_type','page_view').gte('created_at',since),
+   sbClient.from('site_analytics').select('item_key').eq('event_type','photo_view').not('item_key','is',null).order('created_at',{ascending:false}).limit(500)
+  ]);
+  if(all.error)throw all.error;if(week.error)throw week.error;if(photos.error)throw photos.error;
+  $('#analyticsTotalVisits').textContent=(all.count??0).toLocaleString('ar');
+  $('#analyticsWeekVisits').textContent=(week.count??0).toLocaleString('ar');
+  $('#analyticsPhotoViews').textContent=(photos.data||[]).length.toLocaleString('ar');
+  const counts=new Map();(photos.data||[]).forEach(row=>counts.set(row.item_key,(counts.get(row.item_key)||0)+1));
+  const top=[...counts.entries()].sort((a,b)=>b[1]-a[1]).slice(0,5);list.replaceChildren();
+  if(!top.length){const li=document.createElement('li');li.textContent='لا توجد مشاهدات مسجلة بعد';list.append(li);return}
+  top.forEach(([name,count])=>{const li=document.createElement('li'),label=document.createElement('span'),value=document.createElement('b');label.textContent=name;value.textContent=count.toLocaleString('ar');li.append(label,value);list.append(li)});
+ }catch(error){console.error('Analytics load failed',error);['analyticsTotalVisits','analyticsWeekVisits','analyticsPhotoViews'].forEach(id=>{const el=$('#'+id);if(el)el.textContent='—'});list.replaceChildren();const li=document.createElement('li');li.textContent='تعذر تحميل الإحصائيات';list.append(li)}
+}
 async function openAdmin(){
  $('#adminOverlay').classList.add('open');
  if(!sbClient){$('#adminLogin').hidden=true;$('#adminPanel').hidden=true;toast('تعذر تحميل خدمة الإدارة. حدّث الصفحة أو تحقق من الاتصال.');return}
  const {data:{session}}=await sbClient.auth.getSession();
- if(session?.user?.email?.toLowerCase()===ADMIN_EMAIL){$('#adminLogin').hidden=true;$('#adminPanel').hidden=false;$('#adminTitle').textContent='إدارة المعرض';await loadCustom();renderCustomPhotos();renderAdminList();return}
+ if(session?.user?.email?.toLowerCase()===ADMIN_EMAIL){$('#adminLogin').hidden=true;$('#adminPanel').hidden=false;$('#adminTitle').textContent='إدارة المعرض';await loadCustom();renderCustomPhotos();renderAdminList();await loadAnalytics();return}
  $('#adminLogin').hidden=false;$('#adminPanel').hidden=true;$('#emailForm').hidden=false;$('#otpForm').hidden=true;$('#adminTitle').textContent='دخول الإدارة';
 }
 function closeAdmin(){$('#adminOverlay').classList.remove('open')}
 $('#adminOpen').onclick=openAdmin;$('#adminClose').onclick=closeAdmin;
-$('#adminRefresh').onclick=async()=>{await loadCustom();renderCustomPhotos();renderAdminList();toast('تم تحديث صور المعرض')};
+$('#adminRefresh').onclick=async()=>{await loadCustom();renderCustomPhotos();renderAdminList();await loadAnalytics();toast('تم تحديث المعرض والإحصائيات')};
 $('#adminOverlay').addEventListener('click',e=>{if(e.target.id==='adminOverlay')closeAdmin()});
 $('#emailForm').addEventListener('submit',async e=>{
  e.preventDefault();const email=$('#adminEmail').value.trim().toLowerCase();if(email!==ADMIN_EMAIL){toast('هذا البريد غير مخوّل');return}
@@ -295,7 +340,7 @@ $('#otpForm').addEventListener('submit',async e=>{
  const {data,error}=await sbClient.auth.verifyOtp({email,token,type:'email'});
  if(error){console.error(error);toast('رمز التحقق غير صحيح أو منتهي');return}
  if(data.user?.email?.toLowerCase()!==ADMIN_EMAIL){await sbClient.auth.signOut();toast('الحساب غير مخوّل');return}
- $('#adminLogin').hidden=true;$('#adminPanel').hidden=false;$('#adminTitle').textContent='إدارة المعرض';await loadCustom();renderCustomPhotos();renderAdminList();toast('تم تسجيل الدخول');
+ $('#adminLogin').hidden=true;$('#adminPanel').hidden=false;$('#adminTitle').textContent='إدارة المعرض';await loadCustom();renderCustomPhotos();renderAdminList();await loadAnalytics();toast('تم تسجيل الدخول');
 });
 function readAsDataURL(blob){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error||new Error('تعذرت قراءة الصورة'));r.readAsDataURL(blob)})}
 async function compressImage(file){
@@ -336,7 +381,7 @@ async function activateAdminSession(session){
  if(session?.user?.email?.toLowerCase()!==ADMIN_EMAIL)return;
  $('#adminOverlay').classList.add('open');
  $('#adminLogin').hidden=true;$('#adminPanel').hidden=false;$('#adminTitle').textContent='إدارة المعرض';
- await loadCustom();renderCustomPhotos();renderAdminList();
+ await loadCustom();renderCustomPhotos();renderAdminList();await loadAnalytics();
 }
 if(sbClient){
  sbClient.auth.onAuthStateChange((event,session)=>{
@@ -366,6 +411,14 @@ $('#contactForm').addEventListener('submit',async e=>{
 });
 if('IntersectionObserver' in window){document.body.classList.add('motion-ready');const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.12});$$('.reveal').forEach(el=>observer.observe(el))}
 window.addEventListener('scroll',()=>$('#backTop').classList.toggle('show',window.scrollY>500));$('#backTop').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+(()=>{
+ const intro=document.getElementById('claykoIntro');if(!intro)return;
+ let seen=false;try{seen=sessionStorage.getItem('clayko-intro-seen')==='1'}catch(e){}
+ if(seen){intro.remove();return}
+ document.body.classList.add('intro-open');requestAnimationFrame(()=>intro.classList.add('visible'));
+ const dismiss=()=>{if(intro.classList.contains('leaving'))return;try{sessionStorage.setItem('clayko-intro-seen','1')}catch(e){}document.body.classList.remove('intro-open');intro.classList.add('leaving');setTimeout(()=>intro.remove(),800)};
+ document.getElementById('introEnter')?.addEventListener('click',dismiss);setTimeout(dismiss,2600);
+})();
 $('#year').textContent=new Date().getFullYear();updateFavButtons();applyFilters();
 $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest('.photo')?.classList.add('image-error')},{once:true}));
 </script>
