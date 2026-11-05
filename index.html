@@ -107,14 +107,14 @@ footer{border-top:1px solid var(--line);padding:30px 0;margin-top:30px}.footer-r
  <div class="section-head reveal"><div><div class="section-kicker">05 — GET IN TOUCH</div><h2>خلّينا نصنع <span class="gradient-text">شي يستحق.</span></h2></div><p class="section-desc">عندك فكرة، مشروع، أو تعاون؟ أرسل التفاصيل وسنبدأ من هناك.</p></div>
  <div class="contact-grid">
   <aside class="glass contact-info reveal"><h3 style="font-size:20px">تواصل وياي</h3><p>أفضّل أن تبدأ الرسالة بفكرة بسيطة عن مشروعك، والوقت المتوقع، وأي تفاصيل تساعد على فهم احتياجك.</p><div class="contact-line"><i>⌖</i><span>البصرة — العراق</span></div><div class="contact-line"><i>✉</i><a href="mailto:mrclayko@yahoo.com">mrclayko@yahoo.com</a><button class="copy-email" id="copyEmail" type="button" aria-label="نسخ البريد">نسخ</button></div><div class="contact-line"><i>◎</i><a href="https://www.instagram.com/2rir4?srtk=anhmZWt1ZnFub2Rp" target="_blank" rel="noopener noreferrer">@2rir4 — Instagram ↗</a></div></aside>
-  <form class="glass form reveal" id="contactForm"><div class="field"><label for="name">الاسم</label><input id="name" required placeholder="اسمك"></div><div class="field"><label for="email">البريد الإلكتروني</label><input id="email" type="email" required placeholder="name@example.com"></div><div class="field full"><label for="subject">نوع المشروع</label><select id="subject"><option>جلسة تصوير</option><option>تصوير منتجات</option><option>تعاون إبداعي</option><option>استفسار عام</option></select></div><div class="field full"><label for="message">تفاصيل الرسالة</label><textarea id="message" required placeholder="احچيلي عن فكرتك..."></textarea></div><div class="field full"><button class="btn primary" type="submit">جهّز رسالة البريد ↗</button><small style="color:var(--muted);font-size:10px">سيتم فتح تطبيق البريد لإرسال رسالتك إلى mrclayko@yahoo.com.</small></div></form>
+  <form class="glass form reveal" id="contactForm"><div class="field"><label for="name">الاسم</label><input id="name" required placeholder="اسمك"></div><div class="field"><label for="email">البريد الإلكتروني</label><input id="email" type="email" required placeholder="name@example.com"></div><div class="field full"><label for="subject">نوع المشروع</label><select id="subject"><option>جلسة تصوير</option><option>تصوير منتجات</option><option>تعاون إبداعي</option><option>استفسار عام</option></select></div><div class="field full"><label for="message">تفاصيل الرسالة</label><textarea id="message" required placeholder="احچيلي عن فكرتك..."></textarea></div><div class="field full"><input id="contactWebsite" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;right:-10000px;width:1px;height:1px;opacity:0"><button class="btn primary" type="submit">إرسال الرسالة مباشرة ↗</button><small style="color:var(--muted);font-size:10px">سيتم إرسال رسالتك مباشرة وبشكل آمن إلى بريد CLAYKO.</small></div></form>
  </div>
 </section>
 </main>
 <footer><div class="container footer-row"><a class="brand" href="#home">CLAYKO<small>VISUAL STORIES</small></a><span>© <span id="year"></span> CLAYKO. جميع الحقوق محفوظة.</span><div class="footer-links"><a href="#home">للأعلى ↑</a><a href="#gallery">المعرض</a><a href="#contact">تواصل</a><a href="https://www.instagram.com/2rir4?srtk=anhmZWt1ZnFub2Rp" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div></div></footer>
 <button class="iconbtn backtop" id="backTop" aria-label="العودة للأعلى">↑</button>
 <div class="lightbox" id="lightbox"><button class="lb-close" id="lbClose" aria-label="إغلاق">×</button><button class="lb-prev" id="lbPrev" aria-label="السابق">‹</button><img id="lbImage" src="" alt="صورة مكبرة"><button class="lb-next" id="lbNext" aria-label="التالي">›</button><div class="lb-caption" id="lbCaption"></div><button class="lb-share" id="lbShare" type="button">مشاركة الصورة ↗</button></div>
-<div class="admin-overlay" id="adminOverlay" role="dialog" aria-modal="true" aria-label="لوحة الإدارة"><div class="admin-box"><div class="admin-head"><div><div class="section-kicker">CLAYKO / PRIVATE AREA</div><h2 id="adminTitle">لوحة الإدارة</h2></div><button class="admin-close" id="adminClose" aria-label="إغلاق">×</button></div><div id="adminLogin"><p class="admin-note" id="pinHelp">الدخول محمي عبر بريد الإدارة. أرسل رابط الدخول إلى بريدك الإلكتروني.</p><form class="admin-form" id="emailForm"><input id="adminEmail" type="email" autocomplete="email" value="2i3qqi@gmail.com" required><button class="btn primary" type="submit" id="emailSubmit">إرسال رابط الدخول</button></form><form class="admin-form" id="otpForm" hidden><input id="otpInput" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="رمز التحقق" maxlength="8" required><button class="btn primary" type="submit">تأكيد الرمز</button></form></div><div id="adminPanel" hidden><p class="admin-note">أضف صوراً إلى المعرض السحابي، أو عدّل بياناتها واحذفها. الصور المنشورة تظهر لجميع الزوار.</p><div class="admin-stats"><div class="admin-stat"><strong id="adminPhotoCount">0</strong>صور مضافة</div><div class="admin-stat"><strong id="adminFavCount">0</strong>صور مفضلة</div></div><form class="admin-form" id="photoForm"><label for="photoFiles" class="upload-drop" id="uploadDrop"><strong>＋ اختر الصور أو اسحبها إلى هنا</strong><span>JPG وPNG وWEBP — يتم ضغط الصور تلقائياً</span><input id="photoFiles" type="file" accept="image/*" multiple required></label><div class="upload-status" id="uploadStatus" aria-live="polite">لم يتم اختيار صور بعد</div><input id="photoTitle" type="text" placeholder="عنوان الصورة (اختياري)"><select id="photoCategory"><option value="nature">الطبيعة</option><option value="street">الشارع</option><option value="portrait">بورتريه</option><option value="architecture">عمارة</option><option value="custom">متنوع</option></select><button class="btn primary" type="submit">＋ إضافة إلى المعرض</button></form><div class="admin-actions"><button class="btn" id="adminRefresh" type="button">↻ تحديث المعرض</button><button class="btn" id="adminLogout">تسجيل خروج</button></div><div class="admin-list" id="adminList"></div></div></div></div>
+<div class="admin-overlay" id="adminOverlay" role="dialog" aria-modal="true" aria-label="لوحة الإدارة"><div class="admin-box"><div class="admin-head"><div><div class="section-kicker">CLAYKO / PRIVATE AREA</div><h2 id="adminTitle">لوحة الإدارة</h2></div><button class="admin-close" id="adminClose" aria-label="إغلاق">×</button></div><div id="adminLogin"><p class="admin-note" id="pinHelp">الدخول محمي عبر بريد الإدارة. افتح رابط الدخول الذي يصلك، أو أدخل رمز التحقق إذا وصل كرمز.</p><form class="admin-form" id="emailForm"><input id="adminEmail" type="email" autocomplete="email" value="2i3qqi@gmail.com" required><button class="btn primary" type="submit" id="emailSubmit">إرسال رابط الدخول</button></form><form class="admin-form" id="otpForm" hidden><input id="otpInput" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="رمز التحقق" maxlength="8" required><button class="btn primary" type="submit">تأكيد الرمز</button></form></div><div id="adminPanel" hidden><p class="admin-note">أضف صوراً إلى المعرض السحابي، أو عدّل بياناتها واحذفها. الصور المنشورة تظهر لجميع الزوار.</p><div class="admin-stats"><div class="admin-stat"><strong id="adminPhotoCount">0</strong>صور مضافة</div><div class="admin-stat"><strong id="adminFavCount">0</strong>صور مفضلة</div></div><form class="admin-form" id="photoForm"><label for="photoFiles" class="upload-drop" id="uploadDrop"><strong>＋ اختر الصور أو اسحبها إلى هنا</strong><span>JPG وPNG وWEBP — يتم ضغط الصور تلقائياً</span><input id="photoFiles" type="file" accept="image/*" multiple required></label><div class="upload-status" id="uploadStatus" aria-live="polite">لم يتم اختيار صور بعد</div><input id="photoTitle" type="text" placeholder="عنوان الصورة (اختياري)"><select id="photoCategory"><option value="nature">الطبيعة</option><option value="street">الشارع</option><option value="portrait">بورتريه</option><option value="architecture">عمارة</option><option value="custom">متنوع</option></select><button class="btn primary" type="submit">＋ إضافة إلى المعرض</button></form><div class="admin-actions"><button class="btn" id="adminRefresh" type="button">↻ تحديث المعرض</button><button class="btn" id="adminLogout">تسجيل خروج</button></div><div class="admin-list" id="adminList"></div></div></div></div>
 <div class="toast" id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -231,9 +231,14 @@ $('#adminOverlay').addEventListener('click',e=>{if(e.target.id==='adminOverlay')
 $('#emailForm').addEventListener('submit',async e=>{
  e.preventDefault();const email=$('#adminEmail').value.trim().toLowerCase();if(email!==ADMIN_EMAIL){toast('هذا البريد غير مخوّل');return}
  const btn=$('#emailSubmit');btn.disabled=true;btn.textContent='جارٍ الإرسال...';
- const {error}=await sbClient.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:location.origin+location.pathname}});
- btn.disabled=false;btn.textContent='إرسال رابط الدخول';if(error){console.error(error);toast('تعذر إرسال رسالة الدخول: '+error.message);return}
- $('#otpForm').hidden=false;toast('تم إرسال رابط أو رمز الدخول إلى بريد الإدارة');
+ try{
+  const {error}=await sbClient.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:new URL(location.pathname,location.origin).href}});
+  if(error)throw error;
+  $('#otpForm').hidden=false;
+  $('#pinHelp').textContent='تم إرسال رسالة الدخول. افتح رابط الدخول من نفس المتصفح، أو أدخل الرمز الموجود في الرسالة. بعد نجاح التحقق ستفتح لوحة الإدارة تلقائياً.';
+  toast('تم إرسال رسالة الدخول. افحص البريد والرسائل غير المرغوب بها.');
+ }catch(error){console.error(error);toast('تعذر إرسال رسالة الدخول: '+(error.message||'خطأ غير معروف'))}
+ finally{btn.disabled=false;btn.textContent='إرسال رابط الدخول'}
 });
 $('#otpForm').addEventListener('submit',async e=>{
  e.preventDefault();const email=$('#adminEmail').value.trim().toLowerCase(),token=$('#otpInput').value.trim();
@@ -277,17 +282,39 @@ $('#photoForm').addEventListener('submit',async e=>{
  $('#photoFiles').value='';$('#photoTitle').value='';$('#uploadStatus').textContent='اكتمل الرفع';btn.disabled=false;btn.textContent='＋ إضافة إلى المعرض';
 });
 $('#adminLogout').onclick=async()=>{await sbClient.auth.signOut();closeAdmin();toast('تم تسجيل الخروج')};
+const authCallbackPending=location.hash.includes('access_token')||location.hash.includes('error')||new URLSearchParams(location.search).has('code');
+async function activateAdminSession(session){
+ if(session?.user?.email?.toLowerCase()!==ADMIN_EMAIL)return;
+ $('#adminOverlay').classList.add('open');
+ $('#adminLogin').hidden=true;$('#adminPanel').hidden=false;$('#adminTitle').textContent='إدارة المعرض';
+ await loadCustom();renderCustomPhotos();renderAdminList();
+}
 if(sbClient){
-sbClient.auth.onAuthStateChange((event,session)=>{
- if(event==='SIGNED_IN'&&session?.user?.email?.toLowerCase()===ADMIN_EMAIL){$('#adminLogin').hidden=true;$('#adminPanel').hidden=false;$('#adminTitle').textContent='إدارة المعرض';loadCustom().then(()=>{renderCustomPhotos();renderAdminList()})}
- if(event==='SIGNED_OUT'){$('#adminLogin').hidden=false;$('#adminPanel').hidden=true}
-});
+ sbClient.auth.onAuthStateChange((event,session)=>{
+  if((event==='SIGNED_IN'||(event==='INITIAL_SESSION'&&authCallbackPending))&&session?.user?.email?.toLowerCase()===ADMIN_EMAIL){setTimeout(()=>activateAdminSession(session),0)}
+  if(event==='SIGNED_OUT'){$('#adminLogin').hidden=false;$('#adminPanel').hidden=true}
+ });
+ sbClient.auth.getSession().then(({data})=>{if(authCallbackPending&&data.session?.user?.email?.toLowerCase()===ADMIN_EMAIL)activateAdminSession(data.session)}).catch(err=>console.error('Auth session restore failed',err));
 }
 loadCustom().then(renderCustomPhotos);
 // تم الاكتفاء بتحميل صور المعرض مرة واحدة عبر loadCustom أعلاه.
 $('#copyEmail').onclick=async()=>{try{await navigator.clipboard.writeText('mrclayko@yahoo.com');toast('تم نسخ البريد الإلكتروني')}catch(e){window.prompt('انسخ البريد الإلكتروني:','mrclayko@yahoo.com')}};
 window.addEventListener('scroll',()=>{const el=$('#readingProgress'),doc=document.documentElement,max=doc.scrollHeight-innerHeight;el.style.width=(max>0?(scrollY/max)*100:0)+'%'},{passive:true});
-$('#contactForm').addEventListener('submit',e=>{e.preventDefault();const name=$('#name').value,email=$('#email').value,subject=$('#subject').value,message=$('#message').value;const body=`الاسم: ${name}\nالبريد: ${email}\nنوع المشروع: ${subject}\n\n${message}`;window.location.href=`mailto:mrclayko@yahoo.com?subject=${encodeURIComponent('رسالة من موقع CLAYKO — '+subject)}&body=${encodeURIComponent(body)}`;toast('تم تجهيز الرسالة في تطبيق البريد')});
+$('#contactForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ const form=e.currentTarget,btn=form.querySelector('button[type="submit"]');
+ const payload={name:$('#name').value.trim(),email:$('#email').value.trim(),subject:$('#subject').value,message:$('#message').value.trim(),website:$('#contactWebsite').value};
+ if(!payload.name||!payload.email||!payload.message){toast('أكمل الحقول المطلوبة أولاً');return}
+ btn.disabled=true;const oldText=btn.textContent;btn.textContent='جارٍ إرسال الرسالة...';
+ try{
+  if(!sbClient)throw new Error('تعذر الاتصال بخدمة الموقع');
+  const {data,error}=await sbClient.functions.invoke('clayko-contact',{body:payload});
+  if(error)throw error;
+  if(!data?.ok)throw new Error(data?.error||'لم يتم إرسال الرسالة');
+  form.reset();toast('وصلت رسالتك بنجاح إلى بريد CLAYKO');
+ }catch(err){console.error('Contact send failed',err);toast(err?.message?.includes('not configured')?'خدمة البريد تحتاج إكمال الإعداد في Supabase':(err.message||'تعذر إرسال الرسالة حالياً'))}
+ finally{btn.disabled=false;btn.textContent=oldText}
+});
 if('IntersectionObserver' in window){document.body.classList.add('motion-ready');const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.12});$$('.reveal').forEach(el=>observer.observe(el))}
 window.addEventListener('scroll',()=>$('#backTop').classList.toggle('show',window.scrollY>500));$('#backTop').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
 $('#year').textContent=new Date().getFullYear();updateFavButtons();applyFilters();
