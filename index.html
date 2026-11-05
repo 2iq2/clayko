@@ -24,7 +24,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;margin-top:30px}.footer-r
 @media(max-width:560px){.container{width:min(100% - 28px,1180px)}.nav{height:68px}.brand{font-size:21px}.mobile-nav{top:68px}.hero{padding:45px 0}.hero-art{min-height:330px}.hero-photo{inset:0 18px 15px}.floating-card.top{right:-4px}.floating-card.bottom{left:-4px}.hero-note{gap:18px}.metric strong{font-size:20px}.section{padding:60px 0}.section-head{display:block}.section-desc{margin-top:10px}.services{grid-template-columns:1fr}.process{grid-template-columns:1fr 1fr}.gallery{columns:2 145px;column-gap:10px}.photo{margin-bottom:10px;border-radius:13px}.photo img{min-height:130px}.photo-info{opacity:1;transform:none;padding:28px 10px 10px}.photo-info b{font-size:11px}.photo-info span{font-size:9px}.photo-actions{opacity:1;top:7px;left:7px}.mini{width:29px;height:29px}.form{grid-template-columns:1fr}.field.full{grid-column:auto}.footer-row{flex-direction:column;text-align:center}.lb-prev{left:8px}.lb-next{right:8px}.lb-close{top:12px;right:12px}.lightbox{padding:15px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 
-.admin-trigger{width:42px;height:42px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--muted);font-size:17px}.admin-trigger:hover{border-color:var(--cyan);color:var(--cyan)}
+.upload-drop{display:grid;gap:7px;padding:20px;border:1px dashed rgba(0,219,227,.55);border-radius:16px;background:var(--panel2);text-align:center;cursor:pointer}.upload-drop strong{color:var(--cyan);font-size:14px}.upload-drop span{font-size:11px;color:var(--muted)}.upload-drop input{margin:8px auto 0;max-width:100%;font-size:11px}.upload-status{font-size:11px;color:var(--muted);line-height:1.8;min-height:20px}.admin-actions .btn{font-size:11px;padding:10px 13px}.admin-trigger{width:42px;height:42px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--muted);font-size:17px}.admin-trigger:hover{border-color:var(--cyan);color:var(--cyan)}
 .admin-overlay{position:fixed;inset:0;z-index:300;background:rgba(2,5,10,.82);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:18px}.admin-overlay.open{display:flex}.admin-box{width:min(760px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:25px;box-shadow:var(--shadow)}.admin-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}.admin-head h2{font-size:22px}.admin-close{border:1px solid var(--line);background:var(--panel2);color:var(--text);width:38px;height:38px;border-radius:12px;font-size:20px}.admin-note{font-size:11px;color:var(--muted);line-height:1.9;margin:10px 0 18px}.admin-form{display:grid;gap:12px}.admin-form input,.admin-form select{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--text);outline:none}.admin-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.admin-list{display:grid;gap:9px;margin-top:18px}.admin-item{display:flex;align-items:center;gap:12px;padding:9px;border:1px solid var(--line);border-radius:13px}.admin-item img{width:58px;height:58px;object-fit:cover;border-radius:9px}.admin-item .meta{flex:1;min-width:0}.admin-item b{display:block;font-size:12px}.admin-item small{color:var(--muted);font-size:10px}.admin-item button{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:9px;padding:7px 10px;font-size:11px}.admin-stats{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.admin-stat{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:11px;color:var(--muted)}.admin-stat strong{color:var(--cyan);font:800 18px Inter,sans-serif;display:block}
 
 </style>
@@ -93,15 +93,15 @@ footer{border-top:1px solid var(--line);padding:30px 0;margin-top:30px}.footer-r
 <section class="section container" id="contact">
  <div class="section-head reveal"><div><div class="section-kicker">05 — GET IN TOUCH</div><h2>خلّينا نصنع <span class="gradient-text">شي يستحق.</span></h2></div><p class="section-desc">عندك فكرة، مشروع، أو تعاون؟ أرسل التفاصيل وسنبدأ من هناك.</p></div>
  <div class="contact-grid">
-  <aside class="glass contact-info reveal"><h3 style="font-size:20px">تواصل وياي</h3><p>أفضّل أن تبدأ الرسالة بفكرة بسيطة عن مشروعك، والوقت المتوقع، وأي تفاصيل تساعد على فهم احتياجك.</p><div class="contact-line"><i>⌖</i><span>البصرة — العراق</span></div><div class="contact-line"><i>✉</i><span>أضف بريدك الإلكتروني هنا</span></div><div class="contact-line"><i>◎</i><span>Instagram — أضف رابط حسابك</span></div></aside>
-  <form class="glass form reveal" id="contactForm"><div class="field"><label for="name">الاسم</label><input id="name" required placeholder="اسمك"></div><div class="field"><label for="email">البريد الإلكتروني</label><input id="email" type="email" required placeholder="name@example.com"></div><div class="field full"><label for="subject">نوع المشروع</label><select id="subject"><option>جلسة تصوير</option><option>تصوير منتجات</option><option>تعاون إبداعي</option><option>استفسار عام</option></select></div><div class="field full"><label for="message">تفاصيل الرسالة</label><textarea id="message" required placeholder="احچيلي عن فكرتك..."></textarea></div><div class="field full"><button class="btn primary" type="submit">جهّز رسالة البريد ↗</button><small style="color:var(--muted);font-size:10px">هذا النموذج يفتح تطبيق البريد لديك ولا يرسل البيانات تلقائياً.</small></div></form>
+  <aside class="glass contact-info reveal"><h3 style="font-size:20px">تواصل وياي</h3><p>أفضّل أن تبدأ الرسالة بفكرة بسيطة عن مشروعك، والوقت المتوقع، وأي تفاصيل تساعد على فهم احتياجك.</p><div class="contact-line"><i>⌖</i><span>البصرة — العراق</span></div><div class="contact-line"><i>✉</i><a href="mailto:mrclayko@yahoo.com">mrclayko@yahoo.com</a></div><div class="contact-line"><i>◎</i><a href="https://www.instagram.com/2rir4?srtk=anhmZWt1ZnFub2Rp" target="_blank" rel="noopener noreferrer">@2rir4 — Instagram ↗</a></div></aside>
+  <form class="glass form reveal" id="contactForm"><div class="field"><label for="name">الاسم</label><input id="name" required placeholder="اسمك"></div><div class="field"><label for="email">البريد الإلكتروني</label><input id="email" type="email" required placeholder="name@example.com"></div><div class="field full"><label for="subject">نوع المشروع</label><select id="subject"><option>جلسة تصوير</option><option>تصوير منتجات</option><option>تعاون إبداعي</option><option>استفسار عام</option></select></div><div class="field full"><label for="message">تفاصيل الرسالة</label><textarea id="message" required placeholder="احچيلي عن فكرتك..."></textarea></div><div class="field full"><button class="btn primary" type="submit">جهّز رسالة البريد ↗</button><small style="color:var(--muted);font-size:10px">سيتم فتح تطبيق البريد لإرسال رسالتك إلى mrclayko@yahoo.com.</small></div></form>
  </div>
 </section>
 </main>
-<footer><div class="container footer-row"><a class="brand" href="#home">CLAYKO<small>VISUAL STORIES</small></a><span>© <span id="year"></span> CLAYKO. جميع الحقوق محفوظة.</span><div class="footer-links"><a href="#home">للأعلى ↑</a><a href="#gallery">المعرض</a><a href="#contact">تواصل</a></div></div></footer>
+<footer><div class="container footer-row"><a class="brand" href="#home">CLAYKO<small>VISUAL STORIES</small></a><span>© <span id="year"></span> CLAYKO. جميع الحقوق محفوظة.</span><div class="footer-links"><a href="#home">للأعلى ↑</a><a href="#gallery">المعرض</a><a href="#contact">تواصل</a><a href="https://www.instagram.com/2rir4?srtk=anhmZWt1ZnFub2Rp" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div></div></footer>
 <button class="iconbtn backtop" id="backTop" aria-label="العودة للأعلى">↑</button>
 <div class="lightbox" id="lightbox"><button class="lb-close" id="lbClose" aria-label="إغلاق">×</button><button class="lb-prev" id="lbPrev" aria-label="السابق">‹</button><img id="lbImage" src="" alt="صورة مكبرة"><button class="lb-next" id="lbNext" aria-label="التالي">›</button><div class="lb-caption" id="lbCaption"></div></div>
-<div class="admin-overlay" id="adminOverlay" role="dialog" aria-modal="true" aria-label="لوحة الإدارة"><div class="admin-box"><div class="admin-head"><div><div class="section-kicker">CLAYKO / PRIVATE AREA</div><h2 id="adminTitle">لوحة الإدارة</h2></div><button class="admin-close" id="adminClose" aria-label="إغلاق">×</button></div><div id="adminLogin"><p class="admin-note" id="pinHelp">هذه منطقة خاصة. أدخل رمز الأمان المكوّن من أربعة أرقام للمتابعة.</p><form class="admin-form" id="pinForm"><input id="pinInput" type="password" inputmode="numeric" autocomplete="current-password" placeholder="أدخل رمز الأمان" minlength="4" maxlength="4" pattern="[0-9٠-٩۰-۹]{4}" required><button class="btn primary" type="submit" id="pinSubmit">دخول</button></form></div><div id="adminPanel" hidden><p class="admin-note">أضف صوراً إلى المعرض، أو عدّل بياناتها واحذفها. الصور تُحفظ داخل هذا المتصفح فقط.</p><div class="admin-stats"><div class="admin-stat"><strong id="adminPhotoCount">0</strong>صور مضافة</div><div class="admin-stat"><strong id="adminFavCount">0</strong>صور مفضلة</div></div><form class="admin-form" id="photoForm"><input id="photoFiles" type="file" accept="image/*" multiple required><input id="photoTitle" type="text" placeholder="عنوان الصورة (اختياري)"><select id="photoCategory"><option value="nature">الطبيعة</option><option value="street">الشارع</option><option value="portrait">بورتريه</option><option value="architecture">عمارة</option><option value="custom">متنوع</option></select><button class="btn primary" type="submit">＋ إضافة إلى المعرض</button></form><div class="admin-actions"><button class="btn" id="changePin">تغيير الرمز السري</button><button class="btn" id="adminLogout">تسجيل خروج</button></div><div class="admin-list" id="adminList"></div></div></div></div>
+<div class="admin-overlay" id="adminOverlay" role="dialog" aria-modal="true" aria-label="لوحة الإدارة"><div class="admin-box"><div class="admin-head"><div><div class="section-kicker">CLAYKO / PRIVATE AREA</div><h2 id="adminTitle">لوحة الإدارة</h2></div><button class="admin-close" id="adminClose" aria-label="إغلاق">×</button></div><div id="adminLogin"><p class="admin-note" id="pinHelp">هذه منطقة خاصة. أدخل رمز الأمان المكوّن من أربعة أرقام للمتابعة.</p><form class="admin-form" id="pinForm"><input id="pinInput" type="password" inputmode="numeric" autocomplete="current-password" placeholder="أدخل رمز الأمان" minlength="4" maxlength="4" pattern="[0-9٠-٩۰-۹]{4}" required><button class="btn primary" type="submit" id="pinSubmit">دخول</button></form></div><div id="adminPanel" hidden><p class="admin-note">أضف صوراً إلى المعرض، أو عدّل بياناتها واحذفها. يتم ضغط الصور تلقائياً لتقليل حجمها، وتُحفظ محلياً داخل هذا المتصفح باستخدام قاعدة بيانات المتصفح.</p><div class="admin-stats"><div class="admin-stat"><strong id="adminPhotoCount">0</strong>صور مضافة</div><div class="admin-stat"><strong id="adminFavCount">0</strong>صور مفضلة</div></div><form class="admin-form" id="photoForm"><label for="photoFiles" class="upload-drop" id="uploadDrop"><strong>＋ اختر الصور أو اسحبها إلى هنا</strong><span>يدعم JPG وPNG وWEBP ومعظم صيغ الصور — الصور الكبيرة تُضغط تلقائياً</span><input id="photoFiles" type="file" accept="image/*" multiple required></label><div class="upload-status" id="uploadStatus" aria-live="polite">لم يتم اختيار صور بعد</div><input id="photoTitle" type="text" placeholder="عنوان الصورة (اختياري)"><select id="photoCategory"><option value="nature">الطبيعة</option><option value="street">الشارع</option><option value="portrait">بورتريه</option><option value="architecture">عمارة</option><option value="custom">متنوع</option></select><button class="btn primary" type="submit">＋ إضافة إلى المعرض</button></form><div class="admin-actions"><button class="btn" id="exportGallery">⬇ تصدير نسخة احتياطية</button><button class="btn" id="importGallery">⬆ استيراد نسخة احتياطية</button><input id="importGalleryFile" type="file" accept="application/json,.json" hidden><button class="btn" id="adminLogout">تسجيل خروج</button></div><p class="admin-note">النسخة الاحتياطية تحفظ الصور والعناوين والتصنيفات بملف JSON يمكنك الاحتفاظ به.</p><div class="admin-list" id="adminList"></div></div></div></div>
 <div class="toast" id="toast"></div>
 <script>
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
@@ -140,30 +140,149 @@ if(localStorage.getItem('clayko-theme')==='light')document.body.classList.add('l
 $('#favJump').onclick=()=>{$('#gallery').scrollIntoView({behavior:'smooth'});activeFilter='favorites';$$('.filter').forEach(x=>x.classList.toggle('active',x.dataset.filter==='favorites'));applyFilters()};
 $('#menuBtn').onclick=()=>$('#mobileNav').classList.toggle('open');
 $$('#mobileNav a').forEach(a=>a.addEventListener('click',()=>$('#mobileNav').classList.remove('open')));
-// لوحة الإدارة المحلية: الرمز والصور محفوظة في هذا المتصفح فقط.
-const ADMIN_PIN='2007', CUSTOM_KEY='clayko-custom-photos-v1';
+// لوحة إدارة CLAYKO: الرمز 2007، وتخزين الصور في IndexedDB لتفادي حد localStorage.
+const ADMIN_PIN='2007', CUSTOM_KEY='clayko-custom-photos-v2', DB_NAME='clayko-gallery-db', DB_STORE='photos';
 let customPhotos=[];
-try{customPhotos=JSON.parse(localStorage.getItem(CUSTOM_KEY)||'[]')}catch(e){customPhotos=[]}
-function persistCustom(){try{localStorage.setItem(CUSTOM_KEY,JSON.stringify(customPhotos));return true}catch(e){toast('مساحة التخزين ممتلئة؛ جرّب صوراً أصغر');return false}}
+function openGalleryDB(){
+ return new Promise((resolve,reject)=>{
+  if(!('indexedDB' in window)){reject(new Error('IndexedDB غير مدعوم'));return}
+  const req=indexedDB.open(DB_NAME,1);
+  req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains(DB_STORE))db.createObjectStore(DB_STORE,{keyPath:'id'})};
+  req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error('تعذر فتح قاعدة البيانات'));
+ });
+}
+async function loadCustom(){
+ try{
+  const db=await openGalleryDB();
+  const rows=await new Promise((resolve,reject)=>{const tx=db.transaction(DB_STORE,'readonly');const q=tx.objectStore(DB_STORE).getAll();q.onsuccess=()=>resolve(q.result||[]);q.onerror=()=>reject(q.error)});
+  customPhotos=rows;
+  if(!rows.length){
+   let legacy=[];try{legacy=JSON.parse(localStorage.getItem('clayko-custom-photos-v1')||'[]')}catch(e){}
+   if(legacy.length){customPhotos=legacy;await persistCustom();}
+  }
+  db.close();
+ }catch(err){
+  try{customPhotos=JSON.parse(localStorage.getItem(CUSTOM_KEY)||localStorage.getItem('clayko-custom-photos-v1')||'[]')}catch(e){customPhotos=[]}
+ }
+}
+async function persistCustom(){
+ try{
+  const db=await openGalleryDB();
+  await new Promise((resolve,reject)=>{
+   const tx=db.transaction(DB_STORE,'readwrite'),store=tx.objectStore(DB_STORE);
+   store.clear();customPhotos.forEach(item=>store.put(item));
+   tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('فشل حفظ الصور'));tx.onabort=()=>reject(tx.error||new Error('تم إلغاء الحفظ'));
+  });
+  db.close();return true;
+ }catch(err){
+  try{localStorage.setItem(CUSTOM_KEY,JSON.stringify(customPhotos));return true}
+  catch(e){toast('تعذر الحفظ: مساحة المتصفح ممتلئة. صدّر نسخة احتياطية أو احذف بعض الصور.');return false}
+ }
+}
 function renderCustomPhotos(){
  $$('.photo[data-custom="true"]').forEach(p=>p.remove());
- customPhotos.forEach(item=>{const p=document.createElement('article');p.className='photo';p.dataset.custom='true';p.dataset.cat=item.cat;p.dataset.title=item.title;p.innerHTML='<img loading="lazy" alt=""><div class="photo-info"><b></b><span>CLAYKO / ADMIN</span></div><div class="photo-actions"><button class="mini save" aria-label="أضف للمفضلة">♡</button></div>';$('img',p).src=item.data;$('.photo-info b',p).textContent=item.title;$('#galleryGrid').prepend(p)});
+ customPhotos.forEach(item=>{
+  const p=document.createElement('article');p.className='photo';p.dataset.custom='true';p.dataset.cat=item.cat;p.dataset.title=item.title;
+  p.innerHTML='<img loading="lazy" alt=""><div class="photo-info"><b></b><span>CLAYKO / ADMIN</span></div><div class="photo-actions"><button class="mini save" aria-label="أضف للمفضلة">♡</button></div>';
+  $('img',p).src=item.data;$('.photo-info b',p).textContent=item.title;$('#galleryGrid').prepend(p);
+ });
  updateFavButtons();applyFilters();
 }
 function renderAdminList(){
- $('#adminPhotoCount').textContent=customPhotos.length;$('#adminFavCount').textContent=saved.size;
- $('#adminList').innerHTML='';
- customPhotos.forEach((item,i)=>{const row=document.createElement('div');row.className='admin-item';const img=document.createElement('img');img.src=item.data;const meta=document.createElement('div');meta.className='meta';const title=document.createElement('b');title.textContent=item.title;const sub=document.createElement('small');sub.textContent=item.cat;meta.append(title,sub);const edit=document.createElement('button');edit.textContent='تعديل';edit.onclick=()=>{const title2=prompt('عنوان الصورة:',item.title);if(title2===null)return;const cats=['nature','street','portrait','architecture','custom'];const cat2=prompt('التصنيف: nature / street / portrait / architecture / custom',item.cat);if(cat2===null)return;if(!cats.includes(cat2)){toast('تصنيف غير صالح');return}customPhotos[i]={...item,title:title2.trim()||item.title,cat:cat2};persistCustom();renderCustomPhotos();renderAdminList()};const del=document.createElement('button');del.textContent='حذف';del.onclick=()=>{if(!confirm('متأكد من حذف هذه الصورة؟'))return;saved.delete(item.title);persistFavs();customPhotos.splice(i,1);persistCustom();renderCustomPhotos();renderAdminList();toast('تم حذف الصورة')};row.append(img,meta,edit,del);$('#adminList').append(row)});
+ $('#adminPhotoCount').textContent=customPhotos.length;$('#adminFavCount').textContent=saved.size;$('#adminList').innerHTML='';
+ customPhotos.forEach((item,i)=>{
+  const row=document.createElement('div');row.className='admin-item';
+  const img=document.createElement('img');img.src=item.data;
+  const meta=document.createElement('div');meta.className='meta';
+  const title=document.createElement('b');title.textContent=item.title;
+  const sub=document.createElement('small');sub.textContent=item.cat;
+  meta.append(title,sub);
+  const edit=document.createElement('button');edit.textContent='تعديل';
+  edit.onclick=async()=>{const title2=prompt('عنوان الصورة:',item.title);if(title2===null)return;const cats=['nature','street','portrait','architecture','custom'];const cat2=prompt('التصنيف: nature / street / portrait / architecture / custom',item.cat);if(cat2===null)return;if(!cats.includes(cat2)){toast('تصنيف غير صالح');return}customPhotos[i]={...item,title:title2.trim()||item.title,cat:cat2};if(await persistCustom()){renderCustomPhotos();renderAdminList();toast('تم حفظ التعديل')}};
+  const del=document.createElement('button');del.textContent='حذف';
+  del.onclick=async()=>{if(!confirm('متأكد من حذف هذه الصورة؟'))return;saved.delete(item.title);persistFavs();customPhotos.splice(i,1);if(await persistCustom()){renderCustomPhotos();renderAdminList();toast('تم حذف الصورة')}};
+  row.append(img,meta,edit,del);$('#adminList').append(row);
+ });
 }
-function openAdmin(){$('#adminLogin').hidden=false;$('#adminPanel').hidden=true;$('#pinInput').value='';$('#pinHelp').textContent='هذه منطقة خاصة. أدخل رمز الأمان المكوّن من أربعة أرقام للمتابعة.';$('#adminTitle').textContent='دخول الإدارة';$('#pinSubmit').textContent='فتح الإعدادات';$('#changePin').hidden=true;$('#adminOverlay').classList.add('open');setTimeout(()=>$('#pinInput').focus(),80)}
+function openAdmin(){
+ $('#adminLogin').hidden=false;$('#adminPanel').hidden=true;$('#pinInput').value='';
+ $('#pinHelp').textContent='هذه منطقة خاصة. أدخل رمز الأمان المكوّن من أربعة أرقام للمتابعة.';
+ $('#adminTitle').textContent='دخول الإدارة';$('#pinSubmit').textContent='فتح الإعدادات';
+ $('#adminOverlay').classList.add('open');setTimeout(()=>$('#pinInput').focus(),80);
+}
 function closeAdmin(){$('#adminOverlay').classList.remove('open')}
-$('#adminOpen').onclick=openAdmin;$('#adminClose').onclick=closeAdmin;$('#adminOverlay').addEventListener('click',e=>{if(e.target.id==='adminOverlay')closeAdmin()});
-$('#pinForm').addEventListener('submit',e=>{e.preventDefault();const raw=$('#pinInput').value.trim();const pin=raw.replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d));if(pin!==ADMIN_PIN){$('#pinInput').value='';$('#pinInput').focus();toast('رمز الأمان غير صحيح');return}$('#adminLogin').hidden=true;$('#adminPanel').hidden=false;$('#adminTitle').textContent='إدارة المعرض';$('#changePin').hidden=true;renderAdminList()});
-$('#photoForm').addEventListener('submit',async e=>{e.preventDefault();const files=[...$('#photoFiles').files].filter(f=>f.type.startsWith('image/'));if(!files.length)return;const titleBase=$('#photoTitle').value.trim(),cat=$('#photoCategory').value;for(let i=0;i<files.length;i++){const file=files[i];if(file.size>1800000){toast('الصورة أكبر من 1.8MB: '+file.name);continue}const data=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});const title=titleBase?(files.length>1?`${titleBase} ${i+1}`:titleBase):file.name.replace(/\.[^.]+$/,'');customPhotos.unshift({id:Date.now()+'-'+i,title,cat,data})}if(persistCustom()){renderCustomPhotos();renderAdminList();toast('تم تحديث المعرض')}$('#photoFiles').value='';$('#photoTitle').value=''});
-$('#changePin').onclick=()=>toast('رمز الأمان ثابت في هذه النسخة.');
+$('#adminOpen').onclick=openAdmin;$('#adminClose').onclick=closeAdmin;
+$('#adminOverlay').addEventListener('click',e=>{if(e.target.id==='adminOverlay')closeAdmin()});
+$('#pinForm').addEventListener('submit',e=>{
+ e.preventDefault();const raw=$('#pinInput').value.trim();
+ const pin=raw.replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+ if(pin!==ADMIN_PIN){$('#pinInput').value='';$('#pinInput').focus();toast('رمز الأمان غير صحيح');return}
+ $('#adminLogin').hidden=true;$('#adminPanel').hidden=false;$('#adminTitle').textContent='إدارة المعرض';renderAdminList();
+});
+function readAsDataURL(blob){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error||new Error('تعذرت قراءة الصورة'));r.readAsDataURL(blob)})}
+async function compressImage(file){
+ let bitmap;
+ if('createImageBitmap' in window) bitmap=await createImageBitmap(file);
+ else bitmap=await new Promise((resolve,reject)=>{const img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{URL.revokeObjectURL(url);resolve(img)};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('صيغة الصورة غير مدعومة'))};img.src=url});
+ const maxSide=2200,scale=Math.min(1,maxSide/Math.max(bitmap.width,bitmap.height));
+ const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(bitmap.width*scale));canvas.height=Math.max(1,Math.round(bitmap.height*scale));
+ const ctx=canvas.getContext('2d',{alpha:false});ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
+ if(bitmap.close)bitmap.close();
+ const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.84));
+ if(!blob)throw new Error('فشل ضغط الصورة');
+ return await readAsDataURL(blob);
+}
+$('#photoFiles').addEventListener('change',()=>{
+ const files=[...$('#photoFiles').files];const total=files.reduce((n,f)=>n+f.size,0);
+ $('#uploadStatus').textContent=files.length?`${files.length} صورة مختارة — الحجم الأصلي ${(total/1024/1024).toFixed(1)} MB. سيتم ضغطها تلقائياً.`:'لم يتم اختيار صور بعد';
+});
+const drop=$('#uploadDrop');
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.style.borderColor='var(--pink)'}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.style.borderColor='rgba(0,219,227,.55)'}));
+drop.addEventListener('drop',e=>{const files=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));if(files.length){const dt=new DataTransfer();files.forEach(f=>dt.items.add(f));$('#photoFiles').files=dt.files;$('#photoFiles').dispatchEvent(new Event('change'))}});
+$('#photoForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ const files=[...$('#photoFiles').files].filter(f=>f.type.startsWith('image/'));
+ if(!files.length){toast('اختار صورة واحدة على الأقل');return}
+ if(files.length>30){toast('الحد الأقصى 30 صورة في الدفعة الواحدة');return}
+ const titleBase=$('#photoTitle').value.trim(),cat=$('#photoCategory').value,btn=$('#photoForm button[type="submit"]');
+ btn.disabled=true;btn.textContent='جارٍ ضغط الصور وحفظها…';
+ let added=0,failed=0;
+ for(let i=0;i<files.length;i++){
+  const file=files[i];
+  try{
+   $('#uploadStatus').textContent=`معالجة الصورة ${i+1} من ${files.length}: ${file.name}`;
+   const data=await compressImage(file);
+   const title=titleBase?(files.length>1?`${titleBase} ${i+1}`:titleBase):file.name.replace(/\.[^.]+$/,'');
+   customPhotos.unshift({id:Date.now()+'-'+i+'-'+Math.random().toString(36).slice(2,7),title,cat,data});
+   added++;
+   if((i+1)%3===0)await new Promise(r=>setTimeout(r,0));
+  }catch(err){failed++;console.error(err)}
+ }
+ const ok=await persistCustom();
+ if(ok){renderCustomPhotos();renderAdminList();toast(`تمت إضافة ${added} صورة${failed?`، وتعذر تجهيز ${failed}`:''}`)}
+ else {toast('لم يتم حفظ الصور؛ صدّر نسخة احتياطية أو جرّب دفعة أصغر')}
+ $('#photoFiles').value='';$('#photoTitle').value='';$('#uploadStatus').textContent='اكتمل الرفع. يمكنك اختيار صور أخرى.';
+ btn.disabled=false;btn.textContent='＋ إضافة إلى المعرض';
+});
 $('#adminLogout').onclick=()=>{closeAdmin();toast('تم تسجيل الخروج')};
-renderCustomPhotos();
-$('#contactForm').addEventListener('submit',e=>{e.preventDefault();const name=$('#name').value,email=$('#email').value,subject=$('#subject').value,message=$('#message').value;const body=`الاسم: ${name}%0Aالبريد: ${email}%0Aنوع المشروع: ${subject}%0A%0A${encodeURIComponent(message)}`;window.location.href=`mailto:YOUR_EMAIL@example.com?subject=${encodeURIComponent('رسالة من موقع CLAYKO — '+subject)}&body=${body}`;toast('استبدل YOUR_EMAIL@example.com ببريدك داخل الملف أولاً')});
+$('#exportGallery').onclick=()=>{
+ const payload={app:'CLAYKO PRO',version:2,exportedAt:new Date().toISOString(),photos:customPhotos};
+ const blob=new Blob([JSON.stringify(payload)],{type:'application/json'}),url=URL.createObjectURL(blob);
+ const a=document.createElement('a');a.href=url;a.download='CLAYKO-gallery-backup.json';a.click();URL.revokeObjectURL(url);toast('تم تجهيز النسخة الاحتياطية');
+};
+$('#importGallery').onclick=()=>$('#importGalleryFile').click();
+$('#importGalleryFile').addEventListener('change',async e=>{
+ const file=e.target.files[0];if(!file)return;
+ try{const data=JSON.parse(await file.text());if(!Array.isArray(data.photos))throw new Error('ملف غير صالح');
+  if(!confirm(`سيتم استبدال المعرض المضاف حالياً بـ ${data.photos.length} صورة. متابعة؟`))return;
+  customPhotos=data.photos.filter(p=>p&&p.id&&p.data&&p.title&&p.cat);
+  if(await persistCustom()){renderCustomPhotos();renderAdminList();toast('تم استيراد النسخة الاحتياطية')}
+ }catch(err){toast('تعذر استيراد الملف؛ تأكد أنه ملف CLAYKO JSON')}
+ e.target.value='';
+});
+loadCustom().then(()=>{renderCustomPhotos()}).catch(()=>{renderCustomPhotos()});
+$('#contactForm').addEventListener('submit',e=>{e.preventDefault();const name=$('#name').value,email=$('#email').value,subject=$('#subject').value,message=$('#message').value;const body=`الاسم: ${name}%0Aالبريد: ${email}%0Aنوع المشروع: ${subject}%0A%0A${encodeURIComponent(message)}`;window.location.href=`mailto:mrclayko@yahoo.com?subject=${encodeURIComponent('رسالة من موقع CLAYKO — '+subject)}&body=${body}`;toast('تم تجهيز الرسالة في تطبيق البريد')});
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.12});$$('.reveal').forEach(el=>observer.observe(el));
 window.addEventListener('scroll',()=>$('#backTop').classList.toggle('show',window.scrollY>500));$('#backTop').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
 $('#year').textContent=new Date().getFullYear();updateFavButtons();applyFilters();
