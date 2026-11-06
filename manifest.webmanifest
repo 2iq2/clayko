@@ -1,0 +1,21 @@
+{
+  "name": "CLAYKO — Visual Stories",
+  "short_name": "CLAYKO",
+  "description": "معرض CLAYKO للتصوير والقصص البصرية من البصرة",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/clayko/",
+  "scope": "/clayko/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#090b10",
+  "theme_color": "#090b10",
+  "icons": [
+    {
+      "src": "/clayko/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
