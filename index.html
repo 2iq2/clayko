@@ -334,7 +334,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 <footer><div class="container footer-row"><a class="brand" href="#home">CLAYKO<small>VISUAL STORIES</small></a><span>© <span id="year"></span> CLAYKO. جميع الحقوق محفوظة.</span><div class="footer-links"><a href="#home">للأعلى ↑</a><a href="#gallery">المعرض</a><a href="#contact">تواصل</a><a href="https://www.instagram.com/2rir4?srtk=anhmZWt1ZnFub2Rp" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div></div></footer>
 <button class="iconbtn backtop" id="backTop" aria-label="العودة للأعلى">↑</button>
 <div class="lightbox" id="lightbox"><button id="lbZoom" type="button" aria-label="تكبير الصورة">＋ تكبير</button><button class="lb-close" id="lbClose" aria-label="إغلاق">×</button><button class="lb-prev" id="lbPrev" aria-label="السابق">‹</button><img id="lbImage" src="" alt="صورة مكبرة"><button class="lb-next" id="lbNext" aria-label="التالي">›</button><div class="lb-caption" id="lbCaption"></div><button class="lb-share" id="lbShare" type="button">مشاركة الصورة ↗</button></div>
-<div class="admin-overlay" id="adminOverlay" role="dialog" aria-modal="true" aria-label="لوحة الإدارة"><div class="admin-box"><div class="admin-head"><div><div class="section-kicker">CLAYKO / PRIVATE AREA</div><h2 id="adminTitle">لوحة الإدارة</h2></div><button class="admin-close" id="adminClose" aria-label="إغلاق">×</button></div><div id="adminLogin"><p class="admin-note" id="pinHelp">الدخول إلى الإدارة محمي بكلمة مرور. أدخل كلمة مرور حساب الإدارة للمتابعة.</p><form class="admin-form" id="passwordForm"><input id="adminPassword" type="password" autocomplete="current-password" placeholder="كلمة مرور الإدارة" required><button class="btn primary" type="submit" id="passwordSubmit">دخول الإدارة</button></form></div><div id="adminPanel" hidden><p class="admin-note">أضف صوراً إلى المعرض السحابي، أو عدّل بياناتها واحذفها. الصور المنشورة تظهر لجميع الزوار.</p><div class="admin-stats"><div class="admin-stat"><strong id="adminPhotoCount">0</strong>صور مضافة</div><div class="admin-stat"><strong id="adminFavCount">0</strong>صور مفضلة</div></div><h3 class="analytics-title">إحصائيات الموقع</h3><div class="admin-stats"><div class="admin-stat"><strong id="analyticsTotalVisits">—</strong>زيارات إجمالية</div><div class="admin-stat"><strong id="analyticsWeekVisits">—</strong>زيارات آخر 7 أيام</div><div class="admin-stat"><strong id="analyticsPhotoViews">—</strong>مشاهدات الصور</div></div><h3 class="analytics-title">أكثر الصور مشاهدة</h3><ol id="topPhotoViews"><li>جارٍ تحميل الإحصائيات...</li></ol><form class="admin-form" id="photoForm"><label for="photoFiles" class="upload-drop" id="uploadDrop"><strong>＋ اختر الصور أو اسحبها إلى هنا</strong><span>JPG وPNG وWEBP — يتم ضغط الصور تلقائياً</span><input id="photoFiles" type="file" accept="image/*" multiple required></label><div class="upload-status" id="uploadStatus" aria-live="polite">لم يتم اختيار صور بعد</div><input id="photoTitle" type="text" placeholder="عنوان الصورة (اختياري)"><select id="photoCategory"><option value="nature">الطبيعة</option><option value="street">الشارع</option><option value="portrait">بورتريه</option><option value="architecture">عمارة</option><option value="custom">متنوع</option></select><button class="btn primary" type="submit">＋ إضافة إلى المعرض</button></form><div class="admin-actions"><button class="btn" id="adminRefresh" type="button">↻ تحديث المعرض</button><button class="btn" id="adminLogout">تسجيل خروج</button></div><div class="admin-list" id="adminList"></div></div></div></div>
+<div class="admin-overlay" id="adminOverlay" role="dialog" aria-modal="true" aria-label="لوحة الإدارة"><div class="admin-box"><div class="admin-head"><div><div class="section-kicker">CLAYKO / PRIVATE AREA</div><h2 id="adminTitle">لوحة الإدارة</h2></div><button class="admin-close" id="adminClose" aria-label="إغلاق">×</button></div><div id="adminLogin"><p class="admin-note" id="pinHelp">الدخول إلى الإدارة محمي بكلمة مرور. أدخل كلمة مرور حساب الإدارة للمتابعة.</p><form class="admin-form" id="passwordForm"><input id="adminPassword" type="password" autocomplete="current-password" placeholder="كلمة مرور الإدارة" required><button class="btn primary" type="submit" id="passwordSubmit">دخول الإدارة</button></form><form class="admin-form" id="recoveryForm" hidden><p class="admin-note">أدخل كلمة المرور الجديدة مرتين لحفظها لحساب الإدارة.</p><input id="newAdminPassword" type="password" autocomplete="new-password" minlength="8" placeholder="كلمة المرور الجديدة (8 أحرف على الأقل)" required><input id="confirmAdminPassword" type="password" autocomplete="new-password" minlength="8" placeholder="تأكيد كلمة المرور الجديدة" required><button class="btn primary" type="submit" id="recoverySubmit">حفظ كلمة المرور</button></form></div><div id="adminPanel" hidden><p class="admin-note">أضف صوراً إلى المعرض السحابي، أو عدّل بياناتها واحذفها. الصور المنشورة تظهر لجميع الزوار.</p><div class="admin-stats"><div class="admin-stat"><strong id="adminPhotoCount">0</strong>صور مضافة</div><div class="admin-stat"><strong id="adminFavCount">0</strong>صور مفضلة</div></div><h3 class="analytics-title">إحصائيات الموقع</h3><div class="admin-stats"><div class="admin-stat"><strong id="analyticsTotalVisits">—</strong>زيارات إجمالية</div><div class="admin-stat"><strong id="analyticsWeekVisits">—</strong>زيارات آخر 7 أيام</div><div class="admin-stat"><strong id="analyticsPhotoViews">—</strong>مشاهدات الصور</div></div><h3 class="analytics-title">أكثر الصور مشاهدة</h3><ol id="topPhotoViews"><li>جارٍ تحميل الإحصائيات...</li></ol><form class="admin-form" id="photoForm"><label for="photoFiles" class="upload-drop" id="uploadDrop"><strong>＋ اختر الصور أو اسحبها إلى هنا</strong><span>JPG وPNG وWEBP — يتم ضغط الصور تلقائياً</span><input id="photoFiles" type="file" accept="image/*" multiple required></label><div class="upload-status" id="uploadStatus" aria-live="polite">لم يتم اختيار صور بعد</div><input id="photoTitle" type="text" placeholder="عنوان الصورة (اختياري)"><select id="photoCategory"><option value="nature">الطبيعة</option><option value="street">الشارع</option><option value="portrait">بورتريه</option><option value="architecture">عمارة</option><option value="custom">متنوع</option></select><button class="btn primary" type="submit">＋ إضافة إلى المعرض</button></form><div class="admin-actions"><button class="btn" id="adminRefresh" type="button">↻ تحديث المعرض</button><button class="btn" id="adminLogout">تسجيل خروج</button></div><div class="admin-list" id="adminList"></div></div></div></div>
 <div class="toast" id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
  // CLAYKO Christmas mode
@@ -501,6 +501,25 @@ $('#passwordForm').addEventListener('submit',async e=>{
  }catch(error){console.error('Admin password sign-in failed',error);toast('تعذر تسجيل الدخول: '+(error.message||'تحقق من كلمة المرور'))}
  finally{btn.disabled=false;btn.textContent='دخول الإدارة'}
 });
+$('#recoveryForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ const password=$('#newAdminPassword').value,confirm=$('#confirmAdminPassword').value;
+ if(password.length<8){toast('كلمة المرور يجب أن تكون 8 أحرف على الأقل');return}
+ if(password!==confirm){toast('كلمتا المرور غير متطابقتين');return}
+ const btn=$('#recoverySubmit');btn.disabled=true;btn.textContent='جارٍ حفظ كلمة المرور...';
+ try{
+  const {error}=await sbClient.auth.updateUser({password});
+  if(error)throw error;
+  $('#newAdminPassword').value='';$('#confirmAdminPassword').value='';
+  await sbClient.auth.signOut();
+  $('#recoveryForm').hidden=true;$('#passwordForm').hidden=false;
+  $('#adminLogin').hidden=false;$('#adminPanel').hidden=true;
+  $('#pinHelp').textContent='تم حفظ كلمة المرور. سجّل الدخول الآن باستخدامها.';
+  history.replaceState(null,'',location.pathname+location.search);
+  toast('تم تعيين كلمة المرور. أدخلها لتسجيل الدخول.');
+ }catch(error){console.error('Password recovery failed',error);toast('تعذر حفظ كلمة المرور: '+(error.message||'حاول مرة أخرى'))}
+ finally{btn.disabled=false;btn.textContent='حفظ كلمة المرور'}
+});
 function readAsDataURL(blob){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error||new Error('تعذرت قراءة الصورة'));r.readAsDataURL(blob)})}
 async function compressImage(file){
  let bitmap;if('createImageBitmap'in window)bitmap=await createImageBitmap(file);
@@ -535,7 +554,14 @@ $('#photoForm').addEventListener('submit',async e=>{
  $('#photoFiles').value='';$('#photoTitle').value='';$('#uploadStatus').textContent='اكتمل الرفع';btn.disabled=false;btn.textContent='＋ إضافة إلى المعرض';
 });
 $('#adminLogout').onclick=async()=>{await sbClient.auth.signOut();closeAdmin();toast('تم تسجيل الخروج')};
+const hashParams=new URLSearchParams(location.hash.replace(/^#/,''));
+let recoveryMode=hashParams.get('type')==='recovery';
 const authCallbackPending=location.hash.includes('access_token')||location.hash.includes('error')||new URLSearchParams(location.search).has('code');
+function showPasswordRecovery(){
+ recoveryMode=true;$('#adminOverlay').classList.add('open');$('#adminLogin').hidden=false;$('#adminPanel').hidden=true;
+ $('#passwordForm').hidden=true;$('#recoveryForm').hidden=false;$('#adminTitle').textContent='تعيين كلمة مرور جديدة';
+ $('#pinHelp').textContent='الرابط صالح لتعيين كلمة مرور جديدة. اكتبها مرتين ثم اضغط حفظ.';
+}
 async function activateAdminSession(session){
  if(session?.user?.email?.toLowerCase()!==ADMIN_EMAIL)return;
  $('#adminOverlay').classList.add('open');
@@ -544,10 +570,12 @@ async function activateAdminSession(session){
 }
 if(sbClient){
  sbClient.auth.onAuthStateChange((event,session)=>{
-  if((event==='SIGNED_IN'||(event==='INITIAL_SESSION'&&authCallbackPending))&&session?.user?.email?.toLowerCase()===ADMIN_EMAIL){setTimeout(()=>activateAdminSession(session),0)}
-  if(event==='SIGNED_OUT'){$('#adminLogin').hidden=false;$('#adminPanel').hidden=true}
+  if(event==='PASSWORD_RECOVERY'){setTimeout(showPasswordRecovery,0);return}
+  if(event==='SIGNED_IN'&&recoveryMode){setTimeout(showPasswordRecovery,0);return}
+  if(event==='SIGNED_IN'&&session?.user?.email?.toLowerCase()===ADMIN_EMAIL){setTimeout(()=>activateAdminSession(session),0)}
+  if(event==='SIGNED_OUT'){$('#adminLogin').hidden=false;$('#adminPanel').hidden=true;$('#recoveryForm').hidden=true;$('#passwordForm').hidden=false}
  });
- sbClient.auth.getSession().then(({data})=>{if(authCallbackPending&&data.session?.user?.email?.toLowerCase()===ADMIN_EMAIL)activateAdminSession(data.session)}).catch(err=>console.error('Auth session restore failed',err));
+ if(recoveryMode){sbClient.auth.getSession().then(({data})=>{if(data.session?.user?.email?.toLowerCase()===ADMIN_EMAIL)showPasswordRecovery()}).catch(err=>console.error('Recovery session restore failed',err))}
 }
 loadCustom().then(renderCustomPhotos);
 // تم الاكتفاء بتحميل صور المعرض مرة واحدة عبر loadCustom أعلاه.
