@@ -608,6 +608,14 @@ $('#year').textContent=new Date().getFullYear();updateFavButtons();applyFilters(
 $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest('.photo')?.classList.add('image-error')},{once:true}));
 
 
+</script>
+<script>
+// Isolated CLAYKO community module: runs even if an unrelated gallery script fails.
+const SB_URL="https://dwjukmqdhkrcpztwifwx.supabase.co";
+const SB_KEY="sb_publishable_pINuXgrub9X1vSxDjUgR5Q_jQtETJ6Q";
+const SB_BUCKET="clayko-gallery";
+const sbClient=window.supabase?.createClient?window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
+const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2300)};
 // CLAYKO community: email/password accounts, member profiles and public tickets.
 (()=>{
  const byId=id=>document.getElementById(id);
@@ -780,7 +788,9 @@ $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest
  setMode('signin');
 })();
 
+
 </script>
+
 <script>
 /* CLAYKO multilingual language system — Arabic, English and French */
 (()=>{
