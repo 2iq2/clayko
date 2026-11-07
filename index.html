@@ -510,6 +510,8 @@ const SB_URL="https://dwjukmqdhkrcpztwifwx.supabase.co";
 const SB_KEY="sb_publishable_pINuXgrub9X1vSxDjUgR5Q_jQtETJ6Q";
 const SB_BUCKET="clayko-gallery";
 const sbClient=window.supabase?.createClient?window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
+let communityRecoveryPending=false;
+if(sbClient)sbClient.auth.onAuthStateChange(event=>{if(event==='PASSWORD_RECOVERY')communityRecoveryPending=true;});
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
 const toast=(msg)=>{const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2300)};
 function recordAnalytics(eventType,itemKey=null){if(!sbClient)return;const token=eventType==='page_view'?'clayko-analytics-page':('clayko-analytics-photo-'+String(itemKey||'').slice(0,160));try{if(sessionStorage.getItem(token))return;sessionStorage.setItem(token,'1')}catch(e){}sbClient.from('site_analytics').insert({event_type:eventType,item_key:itemKey?String(itemKey).slice(0,160):null}).then(({error})=>{if(error)console.warn('Analytics event was not saved',error)})}
@@ -811,6 +813,13 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  sbClient.auth.getSession().then(({data,error})=>{
   if(error){status('communityAuthStatus','تعذر التحقق من جلسة الدخول: '+error.message,'error');return}
   refreshUser(data.session?.user||null);
+  const hashParams=new URLSearchParams(location.hash.startsWith('#')?location.hash.slice(1):location.hash);
+  const queryParams=new URLSearchParams(location.search);
+  const recoveryRequested=communityRecoveryPending||hashParams.get('type')==='recovery'||queryParams.get('type')==='recovery';
+  if(recoveryRequested){
+   if(data.session?.user){openModal(recoveryModal);status('communityRecoveryStatus','تم التحقق من رابط الاستعادة. اكتب كلمة المرور الجديدة ثم احفظها.','success');}
+   else{status('communityAuthStatus','رابط الاستعادة لم يكتمل أو انتهت صلاحيته. اطلب رابطاً جديداً.','error');}
+  }
  });
  try{
   realtimeChannel=sbClient.channel('clayko-community-feed').on('postgres_changes',{event:'*',schema:'public',table:'support_tickets'},()=>loadTickets()).on('postgres_changes',{event:'*',schema:'public',table:'profiles'},()=>loadTickets()).subscribe();
