@@ -315,6 +315,12 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 .community-ticket-author time{display:block;color:var(--muted);font-size:10px;margin-top:3px}
 .community-ticket h4{font-size:14px;margin:5px 0 8px;overflow-wrap:anywhere}
 .community-ticket-body{font-size:12px;color:var(--muted);line-height:2;white-space:pre-wrap;overflow-wrap:anywhere}
+.community-reactions{display:flex;gap:9px;align-items:center;margin-top:15px;padding-top:12px;border-top:1px solid var(--line)}
+.community-reaction{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:11px;padding:7px 12px;background:var(--panel);color:var(--muted);font-size:12px;transition:.2s}
+.community-reaction:hover{border-color:var(--cyan);transform:translateY(-1px)}
+.community-reaction.active{border-color:rgba(0,219,227,.65);background:rgba(0,219,227,.1);color:var(--cyan)}
+.community-reaction.dislike.active{border-color:rgba(232,59,255,.55);background:rgba(232,59,255,.09);color:var(--pink)}
+.community-reaction:disabled{opacity:.55;cursor:wait}
 .community-ticket-footer{display:flex;justify-content:flex-end;margin-top:10px}
 .community-ticket-footer button{border:1px solid var(--line);border-radius:9px;padding:6px 10px;background:transparent;color:var(--muted);font-size:10px}
 .community-empty{padding:25px;text-align:center;border:1px dashed var(--line);border-radius:14px;color:var(--muted);font-size:12px;line-height:1.9}
@@ -698,6 +704,14 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   if(result.error){feed.textContent='تعذر تحميل الرسائل حالياً. حاول التحديث.';console.error('Community feed error:',result.error);return}
   const rows=result.data||[];
   if(!rows.length){feed.innerHTML='<div class="community-empty">ماكو رسائل منشورة حالياً. كن أول شخص يشارك رسالة بالمجتمع.</div>';return}
+  const ticketIds=rows.map(row=>row.id);
+  const reactionsResult=await sbClient.from('support_ticket_reactions').select('ticket_id,user_id,reaction_type').in('ticket_id',ticketIds);
+  if(reactionsResult.error)console.error('Community reactions error:',reactionsResult.error);
+  const reactionsByTicket=new Map();
+  (reactionsResult.data||[]).forEach(reaction=>{
+   if(!reactionsByTicket.has(reaction.ticket_id))reactionsByTicket.set(reaction.ticket_id,[]);
+   reactionsByTicket.get(reaction.ticket_id).push(reaction);
+  });
   const userIds=[...new Set(rows.map(row=>row.user_id))];
   const profileResult=await sbClient.from('profiles').select('id,display_name,avatar_path').in('id',userIds);
   if(profileResult.error){feed.textContent='تعذر تحميل ملفات أصحاب الرسائل.';console.error(profileResult.error);return}
@@ -714,6 +728,30 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    author.append(name,time);head.append(img,author);card.append(head);
    const title=document.createElement('h4');title.textContent=row.subject;card.append(title);
    const body=document.createElement('p');body.className='community-ticket-body';body.textContent=row.body;card.append(body);
+   const ticketReactions=reactionsByTicket.get(row.id)||[];
+   const myReaction=ticketReactions.find(reaction=>reaction.user_id===currentUser?.id)?.reaction_type||null;
+   const reactionBar=document.createElement('div');reactionBar.className='community-reactions';
+   const makeReactionButton=(type,emoji,label)=>{
+    const count=ticketReactions.filter(reaction=>reaction.reaction_type===type).length;
+    const button=document.createElement('button');button.type='button';button.className='community-reaction'+(type==='dislike'?' dislike':'')+(myReaction===type?' active':'');
+    button.textContent=emoji+' '+count;button.title=label;button.setAttribute('aria-label',label+'، '+count);button.setAttribute('aria-pressed',String(myReaction===type));
+    button.addEventListener('click',async()=>{
+     if(!currentUser){toast('سجّل الدخول حتى تتفاعل مع الرسائل');return}
+     button.disabled=true;
+     try{
+      let change;
+      if(myReaction===type)change=await sbClient.from('support_ticket_reactions').delete().eq('ticket_id',row.id).eq('user_id',currentUser.id);
+      else change=await sbClient.from('support_ticket_reactions').upsert({ticket_id:row.id,user_id:currentUser.id,reaction_type:type},{onConflict:'ticket_id,user_id'});
+      if(change.error)throw change.error;
+      await loadTickets();
+     }catch(error){console.error('Reaction update error:',error);toast('تعذر حفظ التفاعل. حاول مرة ثانية');button.disabled=false}
+    });
+    reactionBar.append(button);
+   };
+   const lang=document.documentElement.lang;
+   makeReactionButton('like','👍',lang==='en'?'Like':lang==='fr'?'J’aime':'أعجبني');
+   makeReactionButton('dislike','👎',lang==='en'?'Dislike':lang==='fr'?'Je n’aime pas':'لم يعجبني');
+   card.append(reactionBar);
    const isAdmin=currentUser?.app_metadata?.role==='admin';
    if(currentUser&&(isAdmin||currentUser.id===row.user_id)){
     const footer=document.createElement('div');footer.className='community-ticket-footer';
@@ -837,7 +875,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   }
  });
  try{
-  realtimeChannel=sbClient.channel('clayko-community-feed').on('postgres_changes',{event:'*',schema:'public',table:'support_tickets'},()=>loadTickets()).on('postgres_changes',{event:'*',schema:'public',table:'profiles'},()=>loadTickets()).subscribe();
+  realtimeChannel=sbClient.channel('clayko-community-feed').on('postgres_changes',{event:'*',schema:'public',table:'support_tickets'},()=>loadTickets()).on('postgres_changes',{event:'*',schema:'public',table:'profiles'},()=>loadTickets()).on('postgres_changes',{event:'*',schema:'public',table:'support_ticket_reactions'},()=>loadTickets()).subscribe();
  }catch(error){console.warn('Community live updates unavailable:',error)}
  setMode('signin');
 })();
