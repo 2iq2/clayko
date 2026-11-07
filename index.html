@@ -611,6 +611,8 @@ $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest
 </script>
 <script>
 // Isolated CLAYKO community module: runs even if an unrelated gallery script fails.
+(()=>{
+
 const SB_URL="https://dwjukmqdhkrcpztwifwx.supabase.co";
 const SB_KEY="sb_publishable_pINuXgrub9X1vSxDjUgR5Q_jQtETJ6Q";
 const SB_BUCKET="clayko-gallery";
@@ -789,6 +791,8 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
 })();
 
 
+
+})();
 </script>
 
 <script>
