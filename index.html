@@ -59,11 +59,6 @@ body.christmas-theme .floating-card{border-color:rgba(230,195,107,.28)}
 @media(max-width:560px){.christmas-ribbon{font-size:10px;padding:8px 12px;margin-bottom:14px}}
 
 
-/* CLAYKO opening sound control */
-#claykoSoundControl{position:fixed;right:22px;bottom:22px;z-index:1200;border:1px solid rgba(231,198,109,.45);border-radius:999px;padding:10px 15px;background:rgba(12,18,20,.88);color:#f3d58a;font:600 12px inherit;letter-spacing:.2px;backdrop-filter:blur(14px);box-shadow:0 8px 28px #0005;cursor:pointer;transition:transform .2s,background .2s}
-#claykoSoundControl:hover{transform:translateY(-2px);background:rgba(25,35,31,.96)}
-#claykoSoundControl:focus-visible{outline:2px solid #f3d58a;outline-offset:4px}
-@media(max-width:560px){#claykoSoundControl{right:14px;bottom:14px;padding:9px 12px;font-size:11px}}
 
 
 /* CLAYKO cinematic welcome */
@@ -109,7 +104,6 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 .lightbox img{max-width:100%;max-height:calc(100dvh - 150px)}
 .admin-overlay{padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))}
 .admin-box{width:min(760px,100%);max-height:calc(100dvh - 20px);overscroll-behavior:contain}
-#claykoSoundControl{max-width:calc(100vw - 28px);padding-inline:12px}
 @media(min-width:851px) and (max-width:1100px){
  .container{width:calc(100% - 48px)}
  .hero{gap:30px;min-height:560px}
@@ -212,7 +206,6 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
  .admin-actions .btn{flex:1 1 130px}
  .admin-item{gap:8px;flex-wrap:wrap}
  .admin-item .meta{min-width:calc(100% - 75px)}
- #claykoSoundControl{right:12px;bottom:max(12px,env(safe-area-inset-bottom));font-size:10px;padding:8px 10px}
  .christmas-ribbon{white-space:normal;text-align:center;line-height:1.7}
 }
 @media(max-width:360px){
@@ -540,61 +533,6 @@ if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventLis
 $('#year').textContent=new Date().getFullYear();updateFavButtons();applyFilters();
 $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest('.photo')?.classList.add('image-error')},{once:true}));
 </script>
-<button id="claykoSoundControl" type="button" aria-label="تشغيل المؤثر الصوتي الافتتاحي">♫ تشغيل صوت الافتتاح</button>
-<script>
-/* Original, lightweight CLAYKO welcome chime — no external audio file required. */
-(()=>{
- const control=document.getElementById('claykoSoundControl');
- if(!control)return;
- let audioContext=null,played=false,muted=false;
- const label=()=>{control.textContent=muted?'♫ الصوت مكتوم':(played?'♫ إعادة المؤثر':'♫ تشغيل صوت الافتتاح');};
- async function playWelcome(){
-  if(muted)return;
-  try{
-   const AudioCtx=window.AudioContext||window.webkitAudioContext;
-   if(!AudioCtx)throw new Error('Web Audio unavailable');
-   audioContext=audioContext||new AudioCtx();
-   if(audioContext.state==='suspended')await audioContext.resume();
-   const now=audioContext.currentTime;
-   // Three soft bell-like notes with gentle harmonics and a short fade.
-   [659.25,830.61,987.77].forEach((frequency,index)=>{
-    const start=now+index*.19;
-    const fundamental=audioContext.createOscillator();
-    const harmonic=audioContext.createOscillator();
-    const gain=audioContext.createGain();
-    const overtone=audioContext.createGain();
-    fundamental.type='sine';fundamental.frequency.setValueAtTime(frequency,start);
-    harmonic.type='sine';harmonic.frequency.setValueAtTime(frequency*2.01,start);
-    gain.gain.setValueAtTime(.0001,start);
-    gain.gain.exponentialRampToValueAtTime(index===2?.075:.055,start+.018);
-    gain.gain.exponentialRampToValueAtTime(.0001,start+1.05);
-    overtone.gain.setValueAtTime(.0001,start);
-    overtone.gain.exponentialRampToValueAtTime(.012,start+.018);
-    overtone.gain.exponentialRampToValueAtTime(.0001,start+.48);
-    fundamental.connect(gain);gain.connect(audioContext.destination);
-    harmonic.connect(overtone);overtone.connect(audioContext.destination);
-    fundamental.start(start);harmonic.start(start);
-    fundamental.stop(start+1.08);harmonic.stop(start+.5);
-   });
-   played=true;label();
-  }catch(error){
-   // Browser autoplay restrictions are expected; the visible control remains available.
-   control.textContent='♫ اضغط لتشغيل صوت الافتتاح';
-  }
- }
- control.addEventListener('click',()=>{
-  if(muted){muted=false;playWelcome();return;}
-  if(played){muted=true;label();return;}
-  playWelcome();
- });
- // Attempt once on page load. If autoplay is blocked, first user interaction can unlock it.
- window.addEventListener('load',()=>{setTimeout(playWelcome,350)},{once:true});
- document.addEventListener('pointerdown',()=>{if(!played&&!muted)playWelcome()},{once:true,passive:true});
- document.addEventListener('keydown',()=>{if(!played&&!muted)playWelcome()},{once:true});
- label();
-})();
-</script>
-
 <script>
 /* CLAYKO multilingual language system — Arabic, English and French */
 (()=>{
@@ -637,7 +575,7 @@ $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest
   '#contactForm small':'Your message will be sent securely and directly to CLAYKO’s email.',
   '.copy-email':'Copy','footer .footer-row>span':'© '+new Date().getFullYear()+' CLAYKO. All rights reserved.',
   '.footer-links a':['Back to top ↑','Gallery','Contact','Instagram ↗'],
-  '#lbZoom':'＋ Zoom','#lbShare':'Share photo ↗','#claykoSoundControl':'♫ Play welcome sound'
+  '#lbZoom':'＋ Zoom','#lbShare':'Share photo ↗'
  },
  fr:{
   '.intro-inner p':'LIGHT · FRAME · STORY','.intro-inner button':'Entrer sur le site ↗',
@@ -675,7 +613,7 @@ $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest
   '#contactForm small':'Votre message sera envoyé directement et en toute sécurité à CLAYKO.',
   '.copy-email':'Copier','footer .footer-row>span':'© '+new Date().getFullYear()+' CLAYKO. Tous droits réservés.',
   '.footer-links a':['Retour en haut ↑','Galerie','Contact','Instagram ↗'],
-  '#lbZoom':'＋ Agrandir','#lbShare':'Partager la photo ↗','#claykoSoundControl':'♫ Jouer le son d’accueil'
+  '#lbZoom':'＋ Agrandir','#lbShare':'Partager la photo ↗'
  }
  };
  const originals=new Map();
