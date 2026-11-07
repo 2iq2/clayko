@@ -283,7 +283,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 
 
 /* CLAYKO community accounts and public message board */
-.community-top{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.community-top{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}.profile-nav{width:42px;height:42px;padding:2px;border:1px solid var(--cyan);border-radius:50%;background:var(--panel);overflow:hidden;display:grid;place-items:center}.profile-nav img{width:100%;height:100%;border-radius:50%;object-fit:cover}.profile-nav[hidden]{display:none!important}.password-wrap{display:flex;gap:8px}.password-wrap input{flex:1;min-width:0}.password-toggle,.forgot-link{border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted);padding:8px 12px;font-size:11px}.forgot-link{justify-self:start;background:transparent;border:0;color:var(--cyan);padding:2px 0}.profile-modal{position:fixed;inset:0;z-index:400;background:rgba(2,5,10,.82);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:16px}.profile-modal.open{display:flex}.profile-modal-card{width:min(600px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}.profile-modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.profile-modal-head h3{font-size:20px}.profile-modal-head button{width:38px;height:38px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text);font-size:22px}
 .community-card{min-width:0}
 .community-title{font-size:19px;font-weight:900;margin-bottom:7px}
 .community-hint{font-size:12px;line-height:1.9;color:var(--muted);margin-bottom:18px}
@@ -334,7 +334,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
  <div class="container nav">
   <a class="brand" href="#home">CLAYKO<small>VISUAL STORIES / BASRA</small></a>
   <nav class="navlinks"><a href="#home">الرئيسية</a><a href="#about">من أنا</a><a href="#gallery">المعرض</a><a href="#community">مجتمع CLAYKO</a><a href="#services">الخدمات</a><a href="#contact">تواصل</a></nav>
-  <div class="navtools"><select id="languageSelect" class="language-select" aria-label="Select language" title="Language"><option value="ar">عربي</option><option value="en">English</option><option value="fr">Français</option></select><button class="iconbtn" id="christmasToggle" aria-label="إيقاف أو تشغيل زينة الكريسماس" title="زينة الكريسماس">❄</button><button class="iconbtn" id="themeBtn" aria-label="تبديل المظهر">☼</button><button class="iconbtn" id="favJump" aria-label="المفضلة">♡</button><button class="iconbtn" id="shareSite" aria-label="مشاركة الموقع" title="مشاركة الموقع">↗</button><button class="menu-toggle" id="menuBtn" aria-label="القائمة">☰</button></div>
+  <div class="navtools"><select id="languageSelect" class="language-select" aria-label="Select language" title="Language"><option value="ar">عربي</option><option value="en">English</option><option value="fr">Français</option></select><button class="iconbtn" id="christmasToggle" aria-label="إيقاف أو تشغيل زينة الكريسماس" title="زينة الكريسماس">❄</button><button class="iconbtn" id="themeBtn" aria-label="تبديل المظهر">☼</button><button class="iconbtn" id="favJump" aria-label="المفضلة">♡</button><button class="iconbtn" id="shareSite" aria-label="مشاركة الموقع" title="مشاركة الموقع">↗</button><button class="profile-nav" id="communityProfileOpen" type="button" aria-label="ملفي الشخصي" title="ملفي الشخصي" hidden><img id="communityNavAvatar" alt=""></button><button class="menu-toggle" id="menuBtn" aria-label="القائمة">☰</button></div>
  </div>
  <nav class="mobile-nav" id="mobileNav"><a href="#home">الرئيسية</a><a href="#about">من أنا</a><a href="#gallery">المعرض</a><a href="#community">مجتمع CLAYKO</a><a href="#services">الخدمات</a><a href="#contact">تواصل</a></nav>
 </header>
@@ -387,8 +387,8 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
     <form id="communityAuthForm" class="community-form">
      <div class="field" id="communityNameField" hidden><label for="communityName">الاسم الظاهر للجميع</label><input id="communityName" type="text" minlength="2" maxlength="40" autocomplete="name" placeholder="اكتب اسمك" /></div>
      <div class="field"><label for="communityEmail">البريد الإلكتروني</label><input id="communityEmail" type="email" required autocomplete="email" placeholder="name@example.com" /></div>
-     <div class="field"><label for="communityPassword">كلمة المرور</label><input id="communityPassword" type="password" required minlength="8" autocomplete="current-password" placeholder="8 أحرف على الأقل" /></div>
-     <button class="btn primary" id="communityAuthSubmit" type="submit">دخول إلى الحساب ↗</button>
+     <div class="field"><label for="communityPassword">كلمة المرور</label><div class="password-wrap"><input id="communityPassword" type="password" required minlength="8" autocomplete="current-password" placeholder="8 أحرف على الأقل" /><button type="button" class="password-toggle" id="communityPasswordToggle">إظهار</button></div></div>
+     <button class="btn primary" id="communityAuthSubmit" type="submit">دخول إلى الحساب ↗</button><button class="forgot-link" id="communityForgotPassword" type="button">نسيت كلمة المرور؟</button>
      <p class="community-status" id="communityAuthStatus" aria-live="polite"></p>
     </form>
    </div>
@@ -446,7 +446,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 <footer><div class="container footer-row"><a class="brand" href="#home">CLAYKO<small>VISUAL STORIES</small></a><span>© <span id="year"></span> CLAYKO. جميع الحقوق محفوظة.</span><div class="footer-links"><a href="#home">للأعلى ↑</a><a href="#gallery">المعرض</a><a href="#contact">تواصل</a><a href="https://www.instagram.com/2rir4?srtk=anhmZWt1ZnFub2Rp" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div></div></footer>
 <button class="iconbtn backtop" id="backTop" aria-label="العودة للأعلى">↑</button>
 <div class="lightbox" id="lightbox"><button id="lbZoom" type="button" aria-label="تكبير الصورة">＋ تكبير</button><button class="lb-close" id="lbClose" aria-label="إغلاق">×</button><button class="lb-prev" id="lbPrev" aria-label="السابق">‹</button><img id="lbImage" src="" alt="صورة مكبرة"><button class="lb-next" id="lbNext" aria-label="التالي">›</button><div class="lb-caption" id="lbCaption"></div><button class="lb-share" id="lbShare" type="button">مشاركة الصورة ↗</button></div>
-<div class="toast" id="toast"></div>
+<div id="communityProfileModal" class="profile-modal" aria-hidden="true"><div class="profile-modal-card"><div class="profile-modal-head"><h3>ملفي الشخصي</h3><button type="button" id="communityProfileClose">×</button></div><div id="communityProfileModalBody"></div></div></div><div id="communityRecoveryModal" class="profile-modal" aria-hidden="true"><div class="profile-modal-card"><div class="profile-modal-head"><h3>تعيين كلمة مرور جديدة</h3><button type="button" id="communityRecoveryClose">×</button></div><form id="communityRecoveryForm" class="community-form"><div class="field"><label for="communityNewPassword">كلمة المرور الجديدة</label><input id="communityNewPassword" type="password" minlength="8" required autocomplete="new-password"></div><div class="field"><label for="communityNewPasswordConfirm">تأكيد كلمة المرور</label><input id="communityNewPasswordConfirm" type="password" minlength="8" required autocomplete="new-password"></div><button class="btn primary" type="submit" id="communityRecoverySubmit">حفظ كلمة المرور</button><p class="community-status" id="communityRecoveryStatus"></p></form></div></div><div class="toast" id="toast"></div>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'"></script>
 <script>
@@ -624,6 +624,29 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  const status=(id,message,type='')=>{const el=byId(id);if(!el)return;el.textContent=message;el.className='community-status'+(type?' '+type:'')};
  if(!byId('communityAuthForm'))return;
  let authMode='signin', currentUser=null, currentProfile=null, avatarFile=null, realtimeChannel=null;
+ const profileModal=byId('communityProfileModal'),recoveryModal=byId('communityRecoveryModal');
+ const profileBody=byId('communityProfileModalBody');profileBody.appendChild(byId('communityLoggedIn'));
+ const openModal=modal=>{modal.classList.add('open');modal.setAttribute('aria-hidden','false')};
+ const closeModal=modal=>{modal.classList.remove('open');modal.setAttribute('aria-hidden','true')};
+ byId('communityProfileOpen').addEventListener('click',()=>openModal(profileModal));
+ byId('communityProfileClose').addEventListener('click',()=>closeModal(profileModal));
+ byId('communityRecoveryClose').addEventListener('click',()=>closeModal(recoveryModal));
+ [profileModal,recoveryModal].forEach(modal=>modal.addEventListener('click',e=>{if(e.target===modal)closeModal(modal)}));
+ const passInput=byId('communityPassword'),passToggle=byId('communityPasswordToggle');
+ passToggle.addEventListener('click',()=>{const show=passInput.type==='password';passInput.type=show?'text':'password';passToggle.textContent=show?'إخفاء':'إظهار'});
+ byId('communityForgotPassword').addEventListener('click',async()=>{
+  const email=byId('communityEmail').value.trim();if(!email){status('communityAuthStatus','اكتب بريدك الإلكتروني أولاً.','error');byId('communityEmail').focus();return}
+  const button=byId('communityForgotPassword');button.disabled=true;status('communityAuthStatus','جارٍ إرسال رابط الاستعادة...');
+  try{const result=await sbClient.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname+'#community'});if(result.error)throw result.error;status('communityAuthStatus','إذا كان البريد مسجلاً، سيصلك رابط آمن. افحص الوارد والرسائل غير المرغوب بها.','success')}
+  catch(error){status('communityAuthStatus','تعذر إرسال رابط الاستعادة: '+error.message,'error')}finally{button.disabled=false}
+ });
+ byId('communityRecoveryForm').addEventListener('submit',async event=>{
+  event.preventDefault();const password=byId('communityNewPassword').value,confirm=byId('communityNewPasswordConfirm').value,button=byId('communityRecoverySubmit');
+  if(password.length<8||password!==confirm){status('communityRecoveryStatus',password.length<8?'كلمة المرور يجب أن تكون 8 أحرف على الأقل.':'كلمتا المرور غير متطابقتين.','error');return}
+  button.disabled=true;status('communityRecoveryStatus','جارٍ تحديث كلمة المرور...');
+  try{const result=await sbClient.auth.updateUser({password});if(result.error)throw result.error;byId('communityRecoveryForm').reset();closeModal(recoveryModal);toast('تم تغيير كلمة المرور بنجاح')}
+  catch(error){status('communityRecoveryStatus','تعذر تغيير كلمة المرور: '+error.message,'error')}finally{button.disabled=false}
+ });
  const fallbackAvatar='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="50" fill="#202938"/><circle cx="50" cy="37" r="18" fill="#8995a8"/><path d="M16 94c3-22 16-33 34-33s31 11 34 33" fill="#8995a8"/></svg>');
  const avatarUrl=path=>path?sbClient.storage.from('clayko-avatars').getPublicUrl(path).data.publicUrl:fallbackAvatar;
  const setMode=mode=>{
@@ -643,6 +666,9 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   const logged=!!currentUser;
   byId('communityLoggedOut').hidden=logged;
   byId('communityLoggedIn').hidden=!logged;
+  byId('communityAccount').hidden=logged;
+  byId('communityProfileOpen').hidden=!logged;
+  if(logged&&currentProfile){byId('communityNavAvatar').src=avatarUrl(currentProfile.avatar_path);byId('communityNavAvatar').onerror=()=>{byId('communityNavAvatar').src=fallbackAvatar}}
   byId('communityNeedLogin').hidden=logged;
   byId('communityTicketForm').hidden=!logged;
   if(logged&&currentProfile){
@@ -761,7 +787,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  byId('communitySignOut').addEventListener('click',async()=>{
   const result=await sbClient.auth.signOut();
   if(result.error){status('communityProfileStatus','تعذر تسجيل الخروج: '+result.error.message,'error');return}
-  currentUser=null;currentProfile=null;renderAuth();status('communityAuthStatus','تم تسجيل الخروج.');toast('تم تسجيل الخروج');loadTickets();
+  currentUser=null;currentProfile=null;closeModal(profileModal);renderAuth();status('communityAuthStatus','تم تسجيل الخروج.');toast('تم تسجيل الخروج');loadTickets();
  });
  byId('communityTicketForm').addEventListener('submit',async event=>{
   event.preventDefault();
@@ -779,6 +805,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  byId('communityRefresh').addEventListener('click',loadTickets);
  sbClient.auth.onAuthStateChange((event,session)=>{
   currentUser=session?.user||null;
+  if(event==='PASSWORD_RECOVERY'){openModal(recoveryModal);status('communityRecoveryStatus','أدخل كلمة مرور جديدة لحسابك.');}
   setTimeout(()=>refreshUser(currentUser),0);
  });
  sbClient.auth.getSession().then(({data,error})=>{
