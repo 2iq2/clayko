@@ -8,7 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
 :root{--bg:#090b10;--panel:#11151e;--panel2:#171d28;--line:rgba(255,255,255,.09);--text:#f5f7fb;--muted:#9aa4b5;--cyan:#00dbe3;--pink:#e83bff;--gold:#d9bd83;--grad:linear-gradient(115deg,var(--cyan),var(--pink));--shadow:0 25px 80px rgba(0,0,0,.38);--radius:24px}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;scroll-padding-top:90px}body{background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;overflow-x:hidden}body.light{--bg:#f4f6fa;--panel:#fff;--panel2:#edf0f6;--line:rgba(15,23,42,.12);--text:#151a25;--muted:#657084;--shadow:0 20px 60px rgba(26,37,56,.12)}a{color:inherit;text-decoration:none}button,input,textarea,select{font:inherit}button{cursor:pointer}.ambient{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(ellipse at 12% 10%,rgba(0,219,227,.12),transparent 32%),radial-gradient(ellipse at 88% 40%,rgba(232,59,255,.10),transparent 34%),radial-gradient(ellipse at 50% 100%,rgba(217,189,131,.06),transparent 35%)}.grain{position:fixed;inset:0;z-index:-1;opacity:.035;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
-.container{width:min(1180px,calc(100% - 42px));margin:auto}.topbar{position:sticky;top:0;z-index:50;background:rgba(9,11,16,.76);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}body.light .topbar{background:rgba(244,246,250,.8)}.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:22px}.brand{font:900 25px Inter,sans-serif;letter-spacing:3px;background:var(--grad);background-clip:text;color:transparent;white-space:nowrap}.brand small{display:block;font:600 8px Inter,sans-serif;letter-spacing:4px;color:var(--muted);margin-top:4px}.navlinks{display:flex;gap:25px;align-items:center;color:var(--muted);font-size:13px}.navlinks a{transition:.25s}.navlinks a:hover{color:var(--cyan)}.navtools{display:flex;gap:9px;align-items:center}.iconbtn,.menu-toggle{width:42px;height:42px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--text);display:grid;place-items:center;font-size:17px;transition:.25s}.iconbtn:hover,.menu-toggle:hover{border-color:var(--cyan);transform:translateY(-2px)}.menu-toggle{display:none}
+.container{width:min(1180px,calc(100% - 42px));margin:auto}.topbar{position:sticky;top:0;z-index:50;background:rgba(9,11,16,.76);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}body.light .topbar{background:rgba(244,246,250,.8)}.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:22px}.brand{font:900 25px Inter,sans-serif;letter-spacing:3px;background:var(--grad);background-clip:text;color:transparent;white-space:nowrap}.brand small{display:block;font:600 8px Inter,sans-serif;letter-spacing:4px;color:var(--muted);margin-top:4px}.navlinks{display:flex;gap:25px;align-items:center;color:var(--muted);font-size:13px}.navlinks a{transition:.25s}.navlinks a:hover{color:var(--cyan)}.navtools{display:flex;gap:9px;align-items:center}.iconbtn,.menu-toggle{width:42px;height:42px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--text);display:grid;place-items:center;font-size:17px;transition:.25s}.iconbtn:hover,.menu-toggle:hover{border-color:var(--cyan);transform:translateY(-2px)}.language-select{height:42px;max-width:112px;padding:0 10px;border:1px solid var(--line);border-radius:13px;background:var(--panel);color:var(--text);font-size:12px;outline:none;cursor:pointer}.language-select:focus{border-color:var(--cyan)}.menu-toggle{display:none}
 .hero{padding:72px 0 64px;min-height:620px;display:grid;grid-template-columns:1.03fr .97fr;align-items:center;gap:55px}.eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--cyan);font:700 11px Inter,sans-serif;letter-spacing:2.2px;text-transform:uppercase}.eyebrow:before{content:"";width:28px;height:1px;background:var(--cyan)}h1{font-size:clamp(45px,6.4vw,82px);line-height:1.12;font-weight:900;margin:22px 0}.gradient-text{background:var(--grad);background-clip:text;color:transparent}.hero-copy{font-size:17px;color:var(--muted);line-height:2;max-width:570px}.hero-actions{display:flex;gap:13px;flex-wrap:wrap;margin-top:30px}.btn{border:1px solid var(--line);padding:13px 22px;border-radius:14px;background:var(--panel);color:var(--text);font-weight:800;font-size:13px;transition:.25s;display:inline-flex;align-items:center;justify-content:center;gap:9px}.btn.primary{background:var(--grad);border:0;color:#071014;box-shadow:0 10px 30px rgba(0,219,227,.18)}.btn:hover{transform:translateY(-3px);box-shadow:var(--shadow)}.hero-note{display:flex;gap:25px;margin-top:42px}.metric strong{font:800 25px Inter,sans-serif;display:block}.metric span{font-size:11px;color:var(--muted)}.hero-art{position:relative;min-height:475px}.hero-photo{position:absolute;inset:0 35px 20px 35px;border-radius:34px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);transform:rotate(2deg)}.hero-photo img{width:100%;height:100%;object-fit:cover;filter:saturate(.8)}.hero-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.5),transparent 60%)}.floating-card{position:absolute;z-index:2;background:rgba(17,21,30,.82);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:15px 18px;box-shadow:var(--shadow)}.floating-card.top{top:34px;right:0}.floating-card.bottom{bottom:0;left:0}.floating-card b{font:800 13px Inter,sans-serif;display:block}.floating-card span{font-size:11px;color:#b4bdc9}.orbit{position:absolute;width:105px;height:105px;border:1px solid rgba(0,219,227,.35);border-radius:50%;left:3px;top:70px;box-shadow:0 0 35px rgba(0,219,227,.12)}
 .section{padding:82px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:32px}.section-kicker{color:var(--cyan);font:700 10px Inter,sans-serif;letter-spacing:2px}.section h2{font-size:clamp(28px,4vw,42px);font-weight:900;margin-top:8px}.section-desc{color:var(--muted);font-size:13px;max-width:450px;line-height:1.9}.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.glass{background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));border:1px solid var(--line);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow)}body.light .glass{background:var(--panel)}.about-copy{color:var(--muted);line-height:2.1;font-size:14px}.about-points{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:24px}.point{background:var(--panel2);border:1px solid var(--line);padding:16px;border-radius:16px}.point b{display:block;font-size:13px}.point span{font-size:11px;color:var(--muted)}.skill-list{display:grid;gap:19px;margin-top:20px}.skill-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:8px}.track{height:6px;background:var(--panel2);border-radius:20px;overflow:hidden}.track i{height:100%;display:block;background:var(--grad);border-radius:20px}
 .gallery-tools{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:25px}.filters{display:flex;gap:8px;flex-wrap:wrap}.filter{border:1px solid var(--line);border-radius:30px;padding:9px 17px;background:var(--panel);color:var(--muted);font-size:12px;font-weight:700;transition:.2s}.filter.active,.filter:hover{background:var(--grad);color:#071014;border-color:transparent}.search-wrap{display:flex;gap:8px}.search{width:min(260px,60vw);background:var(--panel);border:1px solid var(--line);border-radius:13px;color:var(--text);padding:10px 14px;outline:none;font-size:12px}.search:focus{border-color:var(--cyan)}.gallery{columns:3 280px;column-gap:18px}.photo{position:relative;break-inside:avoid;margin-bottom:18px;border-radius:18px;overflow:hidden;background:var(--panel);border:1px solid var(--line);cursor:pointer;isolation:isolate}.photo img{display:block;width:100%;height:auto;min-height:210px;max-height:440px;object-fit:cover;transition:transform .6s,filter .4s}.photo:hover img{transform:scale(1.055);filter:brightness(.7)}.photo-info{position:absolute;inset:auto 0 0;padding:35px 17px 16px;background:linear-gradient(transparent,rgba(0,0,0,.85));color:#fff;opacity:0;transform:translateY(8px);transition:.3s}.photo:hover .photo-info{opacity:1;transform:none}.photo-info b{font-size:14px}.photo-info span{display:block;color:#cbd2dc;font-size:10px;margin-top:4px}.photo-actions{position:absolute;top:12px;left:12px;display:flex;gap:7px;opacity:0;transition:.25s}.photo:hover .photo-actions{opacity:1}.mini{width:34px;height:34px;border:1px solid #ffffff50;background:#10141dcc;color:#fff;border-radius:50%;display:grid;place-items:center}.mini.saved{color:#ff6d9a}.empty{display:none;text-align:center;padding:45px;color:var(--muted);border:1px dashed var(--line);border-radius:18px}
@@ -297,7 +297,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
  <div class="container nav">
   <a class="brand" href="#home">CLAYKO<small>VISUAL STORIES / BASRA</small></a>
   <nav class="navlinks"><a href="#home">الرئيسية</a><a href="#about">من أنا</a><a href="#gallery">المعرض</a><a href="#services">الخدمات</a><a href="#contact">تواصل</a></nav>
-  <div class="navtools"><button class="iconbtn" id="christmasToggle" aria-label="إيقاف أو تشغيل زينة الكريسماس" title="زينة الكريسماس">❄</button><button class="iconbtn" id="themeBtn" aria-label="تبديل المظهر">☼</button><button class="iconbtn" id="favJump" aria-label="المفضلة">♡</button><button class="iconbtn" id="shareSite" aria-label="مشاركة الموقع" title="مشاركة الموقع">↗</button><button class="menu-toggle" id="menuBtn" aria-label="القائمة">☰</button></div>
+  <div class="navtools"><select id="languageSelect" class="language-select" aria-label="Select language" title="Language"><option value="ar">عربي</option><option value="en">English</option><option value="fr">Français</option></select><button class="iconbtn" id="christmasToggle" aria-label="إيقاف أو تشغيل زينة الكريسماس" title="زينة الكريسماس">❄</button><button class="iconbtn" id="themeBtn" aria-label="تبديل المظهر">☼</button><button class="iconbtn" id="favJump" aria-label="المفضلة">♡</button><button class="iconbtn" id="shareSite" aria-label="مشاركة الموقع" title="مشاركة الموقع">↗</button><button class="menu-toggle" id="menuBtn" aria-label="القائمة">☰</button></div>
  </div>
  <nav class="mobile-nav" id="mobileNav"><a href="#home">الرئيسية</a><a href="#about">من أنا</a><a href="#gallery">المعرض</a><a href="#services">الخدمات</a><a href="#contact">تواصل</a></nav>
 </header>
@@ -595,5 +595,120 @@ $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest
  label();
 })();
 </script>
+
+<script>
+/* CLAYKO multilingual language system — Arabic, English and French */
+(()=>{
+ const select=document.getElementById('languageSelect');
+ if(!select)return;
+ const translations={
+ en:{
+  '.intro-inner p':'LIGHT · FRAME · STORY','.intro-inner button':'Enter website ↗',
+  '.navlinks a':['Home','About','Gallery','Services','Contact'],'#mobileNav a':['Home','About','Gallery','Services','Contact'],
+  '.hero .christmas-ribbon':'🎄 <span>CLAYKO HOLIDAY EDITION</span> ✨ A season full of beautiful moments 🎁',
+  '.hero .eyebrow':'PHOTOGRAPHY / CREATIVE PORTFOLIO','.hero h1':'I see the world<br><span class="gradient-text">differently.</span>',
+  '.hero-copy':'I’m Ali, a photographer from Basra. I look for the story hidden behind every scene, turning light, shadow and fleeting moments into photographs that last.',
+  '.hero-actions a':['Explore my work <span>↙</span>','Let’s discuss your project'],
+  '.hero-note .metric span':['An eye for details','Stories worth telling','Basra, Iraq'],
+  '.floating-card.bottom span':'Every photograph begins a story',
+  '#about .section-head h2':'Behind the lens, <span class="gradient-text">a human.</span>',
+  '#about .section-desc':'Photography is more than pressing a button; it is a way to understand the world and notice things that might otherwise go unseen.',
+  '#about .about-grid article:first-child h3':'Hello, I’m Ali.',
+  '#about .about-grid article:first-child .about-copy':'From the city of Basra, I love finding beauty in everyday details — from the calm of nature to the movement of streets and human expressions. I believe a powerful photograph needs no long explanation; it lets the viewer feel the story before knowing it.',
+  '#about .point b':['Location','Interests','Style','Goal'],'#about .point span':['Basra, Iraq','Photography & visual arts','Cinematic / storytelling','Unforgettable moments'],
+  '#about .about-grid article:last-child h3':'Areas I work on',
+  '#about .skill-top span':['Visual composition','A passion for growth','Light & shadow','Ongoing experimentation','Visual storytelling','The identity of the work','Color grading','A cinematic touch'],
+  '#gallery .section-head h2':'A gallery of <span class="gradient-text">stories.</span>',
+  '#gallery .section-desc':'A curated collection of scenes. Choose a category, search for a photo, or save your favorite work.',
+  '.filters button':['All','Nature','Street','Portrait','Architecture','♡ Favorites'],
+  '#searchInput':'Search the gallery...','#gallerySort option':['Default order','Name: A to Z','Name: Z to A'],
+  '#galleryMeta':'Preparing gallery...','#emptyState':'No photos match your search right now.',
+  '#services .section-head h2':'Spaces for <span class="gradient-text">collaboration.</span>',
+  '#services .section-desc':'Creative ideas and services that can be tailored to your project and the result you are looking for.',
+  '#services .service h3':['Portrait photography','Street photography','Nature photography','Product photography','Photo editing','Creative projects'],
+  '#services .service p':['Personal sessions that highlight expression and identity through a balanced visual style.','Documenting everyday life and spontaneous moments with human detail.','Natural scenes focused on light, color and calm composition.','Clear, elegant images that present products visually.','Enhancing color and contrast to create a consistent visual look.','Collaborating on custom ideas and visual projects on request.'],
+  '#contact .section-head h2':'Let’s create <span class="gradient-text">something meaningful.</span>',
+  '#contact .section-desc':'Have an idea, a project or a collaboration in mind? Send the details and we’ll take it from there.',
+  '.contact-info h3':'Get in touch',
+  '.contact-info p':'Start with a brief idea of your project, the expected timeline and any details that help me understand what you need.',
+  '.contact-line span':'Basra — Iraq','label[for="name"]':'Name','label[for="email"]':'Email address','label[for="subject"]':'Project type','label[for="message"]':'Message details',
+  '#subject option':['Photo session','Product photography','Creative collaboration','General inquiry'],
+  '#name':'Your name','#email':'name@example.com','#message':'Tell me about your idea...',
+  '#contactForm button[type="submit"]':'Send message directly ↗',
+  '#contactForm small':'Your message will be sent securely and directly to CLAYKO’s email.',
+  '.copy-email':'Copy','footer .footer-row>span':'© '+new Date().getFullYear()+' CLAYKO. All rights reserved.',
+  '.footer-links a':['Back to top ↑','Gallery','Contact','Instagram ↗'],
+  '#lbZoom':'＋ Zoom','#lbShare':'Share photo ↗','#claykoSoundControl':'♫ Play welcome sound'
+ },
+ fr:{
+  '.intro-inner p':'LIGHT · FRAME · STORY','.intro-inner button':'Entrer sur le site ↗',
+  '.navlinks a':['Accueil','À propos','Galerie','Services','Contact'],'#mobileNav a':['Accueil','À propos','Galerie','Services','Contact'],
+  '.hero .christmas-ribbon':'🎄 <span>ÉDITION DES FÊTES CLAYKO</span> ✨ Une saison pleine de beaux moments 🎁',
+  '.hero .eyebrow':'PHOTOGRAPHIE / PORTFOLIO CRÉATIF','.hero h1':'Je vois le monde<br><span class="gradient-text">autrement.</span>',
+  '.hero-copy':'Je suis Ali, photographe originaire de Bassora. Je cherche l’histoire cachée derrière chaque scène et transforme la lumière, l’ombre et les instants fugaces en images durables.',
+  '.hero-actions a':['Découvrir mes créations <span>↙</span>','Parlons de votre projet'],
+  '.hero-note .metric span':['Un œil pour les détails','Des histoires à raconter','Bassora, Irak'],
+  '.floating-card.bottom span':'Chaque photo commence une histoire',
+  '#about .section-head h2':'Derrière l’objectif, <span class="gradient-text">un être humain.</span>',
+  '#about .section-desc':'La photographie ne consiste pas seulement à appuyer sur un bouton ; c’est une façon de comprendre le monde et de remarquer ce qui pourrait passer inaperçu.',
+  '#about .about-grid article:first-child h3':'Bonjour, je suis Ali.',
+  '#about .about-grid article:first-child .about-copy':'Originaire de Bassora, j’aime découvrir la beauté des détails quotidiens : le calme de la nature, le mouvement des rues et les expressions humaines. Une photo forte n’a pas besoin de longues explications : elle fait ressentir l’histoire.',
+  '#about .point b':['Lieu','Intérêts','Style','Objectif'],'#about .point span':['Bassora, Irak','Photographie et arts visuels','Cinématographique / narratif','Des instants inoubliables'],
+  '#about .about-grid article:last-child h3':'Mes domaines de travail',
+  '#about .skill-top span':['Composition visuelle','Envie constante de progresser','Lumière et ombres','Expérimentation continue','Narration visuelle','Identité du travail','Étalonnage des couleurs','Touche cinématographique'],
+  '#gallery .section-head h2':'Galerie des <span class="gradient-text">histoires.</span>',
+  '#gallery .section-desc':'Une sélection de scènes. Choisissez une catégorie, recherchez une photo ou enregistrez vos œuvres préférées.',
+  '.filters button':['Tout','Nature','Rue','Portrait','Architecture','♡ Favoris'],
+  '#searchInput':'Rechercher dans la galerie...','#gallerySort option':['Ordre par défaut','Nom : A à Z','Nom : Z à A'],
+  '#galleryMeta':'Préparation de la galerie...','#emptyState':'Aucune photo ne correspond à votre recherche.',
+  '#services .section-head h2':'Des espaces de <span class="gradient-text">collaboration.</span>',
+  '#services .section-desc':'Des idées et services créatifs adaptés à votre projet et au résultat souhaité.',
+  '#services .service h3':['Photographie de portrait','Photographie de rue','Photographie de nature','Photographie de produits','Retouche photo','Projets créatifs'],
+  '#services .service p':['Des séances personnelles qui mettent en valeur l’expression et l’identité.','Documenter la vie quotidienne et les instants spontanés.','Des scènes naturelles axées sur la lumière, la couleur et la composition.','Des images élégantes pour présenter les produits.','Améliorer les couleurs et le contraste pour un rendu cohérent.','Collaborer sur des idées et projets visuels personnalisés.'],
+  '#contact .section-head h2':'Créons quelque chose <span class="gradient-text">qui compte.</span>',
+  '#contact .section-desc':'Une idée, un projet ou une collaboration ? Envoyez les détails et commençons.',
+  '.contact-info h3':'Me contacter',
+  '.contact-info p':'Présentez brièvement votre projet, le délai souhaité et les détails utiles pour comprendre votre besoin.',
+  '.contact-line span':'Bassora — Irak','label[for="name"]':'Nom','label[for="email"]':'Adresse e-mail','label[for="subject"]':'Type de projet','label[for="message"]':'Votre message',
+  '#subject option':['Séance photo','Photographie de produits','Collaboration créative','Demande générale'],
+  '#name':'Votre nom','#email':'name@example.com','#message':'Parlez-moi de votre idée...',
+  '#contactForm button[type="submit"]':'Envoyer le message ↗',
+  '#contactForm small':'Votre message sera envoyé directement et en toute sécurité à CLAYKO.',
+  '.copy-email':'Copier','footer .footer-row>span':'© '+new Date().getFullYear()+' CLAYKO. Tous droits réservés.',
+  '.footer-links a':['Retour en haut ↑','Galerie','Contact','Instagram ↗'],
+  '#lbZoom':'＋ Agrandir','#lbShare':'Partager la photo ↗','#claykoSoundControl':'♫ Jouer le son d’accueil'
+ }
+ };
+ const originals=new Map();
+ function setValue(selector,value){
+  const nodes=[...document.querySelectorAll(selector)];
+  nodes.forEach((el,i)=>{
+   if(!originals.has(el))originals.set(el,{html:el.innerHTML,placeholder:el.getAttribute('placeholder')});
+   const v=Array.isArray(value)?value[i]:value;
+   if(v===undefined)return;
+   if(el.tagName==='OPTION'){el.textContent=v;return}
+   if(el.matches('input,textarea')){el.placeholder=v;return}
+   el.innerHTML=v;
+  });
+ }
+ function apply(lang){
+  const rtl=lang==='ar';
+  document.documentElement.lang=lang;
+  document.documentElement.dir=rtl?'rtl':'ltr';
+  if(rtl){
+   originals.forEach((v,el)=>{el.innerHTML=v.html;if(v.placeholder!==null)el.setAttribute('placeholder',v.placeholder)});
+  }else Object.entries(translations[lang]||translations.en).forEach(([selector,value])=>setValue(selector,value));
+  select.value=lang;
+  try{localStorage.setItem('clayko-language',lang)}catch(e){}
+  const meta=document.querySelector('meta[property="og:locale"]');
+  if(meta)meta.content=lang==='ar'?'ar_IQ':(lang==='fr'?'fr_FR':'en_US');
+ }
+ select.addEventListener('change',()=>apply(select.value));
+ let saved='ar';try{saved=localStorage.getItem('clayko-language')||'ar'}catch(e){}
+ if(!['ar','en','fr'].includes(saved))saved='ar';
+ apply(saved);
+})();
+</script>
+
 </body>
 </html>
