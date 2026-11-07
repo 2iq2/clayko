@@ -281,6 +281,50 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
  .about-grid,.contact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
+
+/* CLAYKO community accounts and public message board */
+.community-top{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.community-card{min-width:0}
+.community-title{font-size:19px;font-weight:900;margin-bottom:7px}
+.community-hint{font-size:12px;line-height:1.9;color:var(--muted);margin-bottom:18px}
+.community-tabs{display:flex;gap:8px;margin:15px 0}
+.community-tabs button{flex:1;border:1px solid var(--line);background:var(--panel2);color:var(--muted);border-radius:12px;padding:10px;font-size:12px;font-weight:800}
+.community-tabs button.active{background:var(--grad);border-color:transparent;color:#071014}
+.community-form{display:grid;gap:13px}
+.community-form .btn{width:100%}
+.community-status{min-height:18px;color:var(--muted);font-size:11px;line-height:1.8;overflow-wrap:anywhere}
+.community-status.error{color:#ff8292}
+.community-status.success{color:#62d6a4}
+.community-login-prompt{padding:17px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);font-size:12px;line-height:1.9}
+.profile-edit{display:flex;align-items:center;gap:17px;margin:18px 0}
+.community-avatar{width:48px;height:48px;flex:0 0 48px;border-radius:50%;object-fit:cover;background:var(--panel2);border:1px solid var(--line)}
+.community-avatar.large{width:94px;height:94px;flex-basis:94px}
+.profile-fields{flex:1;min-width:0;display:grid;gap:12px}
+.profile-fields input[type=file]{font-size:10px;padding:9px}
+.community-private-note{font-size:10px;color:var(--muted);margin:6px 0 14px}
+.community-actions{display:flex;gap:9px;flex-wrap:wrap}
+.community-actions .btn{flex:1}
+.community-feed-wrap{margin-top:20px;padding:25px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel)}
+.community-feed-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px}
+.community-refresh{font-size:11px;padding:9px 13px}
+.community-feed{display:grid;gap:12px}
+.community-ticket{padding:17px;border:1px solid var(--line);border-radius:16px;background:var(--panel2);min-width:0}
+.community-ticket-head{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+.community-ticket-author{min-width:0;flex:1}
+.community-ticket-author strong{display:block;font-size:12px;overflow-wrap:anywhere}
+.community-ticket-author time{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.community-ticket h4{font-size:14px;margin:5px 0 8px;overflow-wrap:anywhere}
+.community-ticket-body{font-size:12px;color:var(--muted);line-height:2;white-space:pre-wrap;overflow-wrap:anywhere}
+.community-ticket-footer{display:flex;justify-content:flex-end;margin-top:10px}
+.community-ticket-footer button{border:1px solid var(--line);border-radius:9px;padding:6px 10px;background:transparent;color:var(--muted);font-size:10px}
+.community-empty{padding:25px;text-align:center;border:1px dashed var(--line);border-radius:14px;color:var(--muted);font-size:12px;line-height:1.9}
+.contact-community{display:grid;align-content:center;justify-items:start;gap:12px}
+.contact-community .symbol{width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:rgba(0,219,227,.1);color:var(--cyan);font-size:22px}
+.contact-community p{font-size:12px;color:var(--muted);line-height:2}
+[hidden]{display:none!important}
+@media(max-width:850px){.community-top{grid-template-columns:1fr}}
+@media(max-width:560px){.community-feed-wrap{padding:16px}.community-feed-head{align-items:flex-start}.profile-edit{align-items:flex-start;flex-direction:column}.profile-fields{width:100%}.community-actions{flex-direction:column}}
+
 </style>
 </head>
 <body>
@@ -289,10 +333,10 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 <header class="topbar">
  <div class="container nav">
   <a class="brand" href="#home">CLAYKO<small>VISUAL STORIES / BASRA</small></a>
-  <nav class="navlinks"><a href="#home">الرئيسية</a><a href="#about">من أنا</a><a href="#gallery">المعرض</a><a href="#services">الخدمات</a><a href="#contact">تواصل</a></nav>
+  <nav class="navlinks"><a href="#home">الرئيسية</a><a href="#about">من أنا</a><a href="#gallery">المعرض</a><a href="#community">مجتمع CLAYKO</a><a href="#services">الخدمات</a><a href="#contact">تواصل</a></nav>
   <div class="navtools"><select id="languageSelect" class="language-select" aria-label="Select language" title="Language"><option value="ar">عربي</option><option value="en">English</option><option value="fr">Français</option></select><button class="iconbtn" id="christmasToggle" aria-label="إيقاف أو تشغيل زينة الكريسماس" title="زينة الكريسماس">❄</button><button class="iconbtn" id="themeBtn" aria-label="تبديل المظهر">☼</button><button class="iconbtn" id="favJump" aria-label="المفضلة">♡</button><button class="iconbtn" id="shareSite" aria-label="مشاركة الموقع" title="مشاركة الموقع">↗</button><button class="menu-toggle" id="menuBtn" aria-label="القائمة">☰</button></div>
  </div>
- <nav class="mobile-nav" id="mobileNav"><a href="#home">الرئيسية</a><a href="#about">من أنا</a><a href="#gallery">المعرض</a><a href="#services">الخدمات</a><a href="#contact">تواصل</a></nav>
+ <nav class="mobile-nav" id="mobileNav"><a href="#home">الرئيسية</a><a href="#about">من أنا</a><a href="#gallery">المعرض</a><a href="#community">مجتمع CLAYKO</a><a href="#services">الخدمات</a><a href="#contact">تواصل</a></nav>
 </header>
 <main>
 <section class="container hero" id="home">
@@ -332,6 +376,50 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
  </div><div class="empty" id="emptyState">ماكو صور تطابق بحثك حالياً.</div>
  
 </section>
+
+<section class="section container" id="community">
+ <div class="section-head reveal"><div><div class="section-kicker">03 — CLAYKO COMMUNITY</div><h2>مجتمع <span class="gradient-text">CLAYKO.</span></h2></div><p class="section-desc">أنشئ حسابك، عرّف بنفسك، وشارك استفسارك أو رسالتك مع زوار الموقع. المنشورات هنا عامة ويمكن للجميع قراءتها.</p></div>
+ <div class="community-top">
+  <div class="glass community-card reveal" id="communityAccount">
+   <div id="communityLoggedOut">
+    <h3 class="community-title">حساب العضو</h3><p class="community-hint">سجّل الدخول أو أنشئ حساباً جديداً بالبريد وكلمة المرور.</p>
+    <div class="community-tabs"><button type="button" id="communitySignInTab" class="active">تسجيل الدخول</button><button type="button" id="communitySignUpTab">إنشاء حساب</button></div>
+    <form id="communityAuthForm" class="community-form">
+     <div class="field" id="communityNameField" hidden><label for="communityName">الاسم الظاهر للجميع</label><input id="communityName" type="text" minlength="2" maxlength="40" autocomplete="name" placeholder="اكتب اسمك" /></div>
+     <div class="field"><label for="communityEmail">البريد الإلكتروني</label><input id="communityEmail" type="email" required autocomplete="email" placeholder="name@example.com" /></div>
+     <div class="field"><label for="communityPassword">كلمة المرور</label><input id="communityPassword" type="password" required minlength="8" autocomplete="current-password" placeholder="8 أحرف على الأقل" /></div>
+     <button class="btn primary" id="communityAuthSubmit" type="submit">دخول إلى الحساب ↗</button>
+     <p class="community-status" id="communityAuthStatus" aria-live="polite"></p>
+    </form>
+   </div>
+   <div id="communityLoggedIn" hidden>
+    <h3 class="community-title">ملفي الشخصي</h3>
+    <div class="profile-edit">
+     <img id="communityAvatarPreview" class="community-avatar large" alt="الصورة الشخصية" />
+     <div class="profile-fields">
+      <div class="field"><label for="communityProfileName">الاسم الظاهر</label><input id="communityProfileName" type="text" minlength="2" maxlength="40" required /></div>
+      <div class="field"><label for="communityAvatarFile">الصورة الشخصية (JPG / PNG / WebP، حتى 3MB)</label><input id="communityAvatarFile" type="file" accept="image/jpeg,image/png,image/webp" /></div>
+     </div>
+    </div>
+    <p class="community-private-note">بريدك الإلكتروني وكلمة مرورك لا يظهران للزوار.</p>
+    <div class="community-actions"><button class="btn primary" id="communitySaveProfile" type="button">حفظ الملف الشخصي</button><button class="btn" id="communitySignOut" type="button">تسجيل الخروج</button></div>
+    <p class="community-status" id="communityProfileStatus" aria-live="polite"></p>
+   </div>
+  </div>
+  <div class="glass community-card reveal" id="communityComposer">
+   <h3 class="community-title">أضف تذكرة أو رسالة</h3><p class="community-hint">اكتب استفسارك أو ملاحظتك. ستظهر الرسالة في لوحة المجتمع باسمك وصورتك.</p>
+   <div id="communityNeedLogin" class="community-login-prompt">حتى تنشر رسالة، سجّل الدخول أو أنشئ حساباً أولاً.</div>
+   <form id="communityTicketForm" class="community-form" hidden>
+    <div class="field"><label for="communityTicketSubject">عنوان الرسالة</label><input id="communityTicketSubject" type="text" minlength="3" maxlength="100" required placeholder="مثلاً: استفسار عن التصوير" /></div>
+    <div class="field"><label for="communityTicketBody">تفاصيل الرسالة</label><textarea id="communityTicketBody" minlength="5" maxlength="2000" required placeholder="اكتب رسالتك هنا..."></textarea></div>
+    <button class="btn primary" id="communityTicketSubmit" type="submit">نشر الرسالة للجميع ↗</button>
+    <p class="community-status" id="communityTicketStatus" aria-live="polite"></p>
+   </form>
+  </div>
+ </div>
+ <div class="community-feed-wrap reveal"><div class="community-feed-head"><div><h3 class="community-title">رسائل المجتمع</h3><p class="community-hint">أحدث الرسائل المنشورة من أعضاء CLAYKO.</p></div><button class="btn community-refresh" id="communityRefresh" type="button">↻ تحديث</button></div><div id="communityTicketFeed" class="community-feed" aria-live="polite"><div class="community-empty">جارٍ تحميل الرسائل...</div></div></div>
+</section>
+
 <section class="section container" id="services">
  <div class="section-head reveal"><div><div class="section-kicker">03 — WHAT I DO</div><h2>مساحات <span class="gradient-text">للتعاون.</span></h2></div><p class="section-desc">أفكار وخدمات إبداعية قابلة للتخصيص حسب طبيعة المشروع والنتيجة التي تبحث عنها.</p></div>
  <div class="services">
@@ -351,7 +439,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
  <div class="section-head reveal"><div><div class="section-kicker">05 — GET IN TOUCH</div><h2>خلّينا نصنع <span class="gradient-text">شي يستحق.</span></h2></div><p class="section-desc">عندك فكرة، مشروع، أو تعاون؟ أرسل التفاصيل وسنبدأ من هناك.</p></div>
  <div class="contact-grid">
   <aside class="glass contact-info reveal"><h3 style="font-size:20px">تواصل وياي</h3><p>أفضّل أن تبدأ الرسالة بفكرة بسيطة عن مشروعك، والوقت المتوقع، وأي تفاصيل تساعد على فهم احتياجك.</p><div class="contact-line"><i>⌖</i><span>البصرة — العراق</span></div><div class="contact-line"><i>✉</i><a href="mailto:mrclayko@yahoo.com">mrclayko@yahoo.com</a><button class="copy-email" id="copyEmail" type="button" aria-label="نسخ البريد">نسخ</button></div><div class="contact-line"><i>◎</i><a href="https://www.instagram.com/2rir4?srtk=anhmZWt1ZnFub2Rp" target="_blank" rel="noopener noreferrer">@2rir4 — Instagram ↗</a></div></aside>
-  <form class="glass form reveal" id="contactForm" action="https://formsubmit.co/mrclayko@yahoo.com" method="POST"><div class="field"><label for="name">الاسم</label><input id="name" name="name" required placeholder="اسمك"></div><div class="field"><label for="email">البريد الإلكتروني</label><input id="email" name="email" type="email" required placeholder="name@example.com"></div><div class="field full"><label for="subject">نوع المشروع</label><select id="subject" name="نوع المشروع"><option>جلسة تصوير</option><option>تصوير منتجات</option><option>تعاون إبداعي</option><option>استفسار عام</option></select></div><div class="field full"><label for="message">تفاصيل الرسالة</label><textarea id="message" name="message" required placeholder="احچيلي عن فكرتك..."></textarea></div><div class="field full"><input id="contactWebsite" name="_honey" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;right:-10000px;width:1px;height:1px;opacity:0"><input type="hidden" name="_subject" value="رسالة جديدة من موقع CLAYKO"><button class="btn primary" type="submit">إرسال الرسالة مباشرة ↗</button><small style="color:var(--muted);font-size:10px">ستصل رسالتك إلى بريد CLAYKO بعد تأكيد عنوان البريد أول مرة.</small></div></form>
+  <div class="glass contact-community reveal"><div class="symbol">✉</div><h3>راسلني من مجتمع CLAYKO</h3><p>لإرسال استفسار أو طلب، أنشئ حساباً مجانياً وانشر رسالة في لوحة المجتمع. ستظهر الرسالة باسمك وصورتك، من دون عرض بريدك الإلكتروني.</p><a class="btn primary" href="#community">الانتقال إلى الرسائل ↗</a></div>
  </div>
 </section>
 </main>
@@ -421,7 +509,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 const SB_URL="https://dwjukmqdhkrcpztwifwx.supabase.co";
 const SB_KEY="sb_publishable_pINuXgrub9X1vSxDjUgR5Q_jQtETJ6Q";
 const SB_BUCKET="clayko-gallery";
-const sbClient=window.supabase?.createClient?window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}}):null;
+const sbClient=window.supabase?.createClient?window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
 const toast=(msg)=>{const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2300)};
 function recordAnalytics(eventType,itemKey=null){if(!sbClient)return;const token=eventType==='page_view'?'clayko-analytics-page':('clayko-analytics-photo-'+String(itemKey||'').slice(0,160));try{if(sessionStorage.getItem(token))return;sessionStorage.setItem(token,'1')}catch(e){}sbClient.from('site_analytics').insert({event_type:eventType,item_key:itemKey?String(itemKey).slice(0,160):null}).then(({error})=>{if(error)console.warn('Analytics event was not saved',error)})}
@@ -518,6 +606,177 @@ $('#shareSite')?.addEventListener('click',async()=>{
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('/clayko/sw.js').catch(error=>console.warn('PWA worker registration failed',error)),{once:true});
 $('#year').textContent=new Date().getFullYear();updateFavButtons();applyFilters();
 $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest('.photo')?.classList.add('image-error')},{once:true}));
+
+
+// CLAYKO community: email/password accounts, member profiles and public tickets.
+(()=>{
+ const byId=id=>document.getElementById(id);
+ const status=(id,message,type='')=>{const el=byId(id);if(!el)return;el.textContent=message;el.className='community-status'+(type?' '+type:'')};
+ if(!byId('communityAuthForm'))return;
+ if(!sbClient){status('communityAuthStatus','تعذر تحميل خدمة الحسابات. حدّث الصفحة وحاول مرة أخرى.','error');return}
+ let authMode='signin', currentUser=null, currentProfile=null, avatarFile=null, realtimeChannel=null;
+ const fallbackAvatar='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="50" fill="#202938"/><circle cx="50" cy="37" r="18" fill="#8995a8"/><path d="M16 94c3-22 16-33 34-33s31 11 34 33" fill="#8995a8"/></svg>');
+ const avatarUrl=path=>path?sbClient.storage.from('clayko-avatars').getPublicUrl(path).data.publicUrl:fallbackAvatar;
+ const setMode=mode=>{
+  authMode=mode;
+  byId('communityNameField').hidden=mode!=='signup';
+  byId('communityPassword').autocomplete=mode==='signup'?'new-password':'current-password';
+  byId('communityAuthSubmit').textContent=mode==='signup'?'إنشاء الحساب ↗':'دخول إلى الحساب ↗';
+  byId('communitySignInTab').classList.toggle('active',mode==='signin');
+  byId('communitySignUpTab').classList.toggle('active',mode==='signup');
+  status('communityAuthStatus','');
+ };
+ const renderAuth=()=>{
+  const logged=!!currentUser;
+  byId('communityLoggedOut').hidden=logged;
+  byId('communityLoggedIn').hidden=!logged;
+  byId('communityNeedLogin').hidden=logged;
+  byId('communityTicketForm').hidden=!logged;
+  if(logged&&currentProfile){
+   byId('communityProfileName').value=currentProfile.display_name||'';
+   byId('communityAvatarPreview').src=avatarUrl(currentProfile.avatar_path);
+  }
+ };
+ const ensureProfile=async user=>{
+  if(!user)return null;
+  const found=await sbClient.from('profiles').select('id,display_name,avatar_path,updated_at').eq('id',user.id).maybeSingle();
+  if(found.error)throw found.error;
+  if(found.data){currentProfile=found.data;return found.data}
+  const candidate=String(user.user_metadata?.display_name||user.email?.split('@')[0]||'عضو CLAYKO').trim().slice(0,40);
+  const name=candidate.length>=2?candidate:'عضو CLAYKO';
+  const created=await sbClient.from('profiles').insert({id:user.id,display_name:name}).select('id,display_name,avatar_path,updated_at').single();
+  if(created.error)throw created.error;
+  currentProfile=created.data;return created.data;
+ };
+ const loadTickets=async()=>{
+  const feed=byId('communityTicketFeed');
+  feed.innerHTML='<div class="community-empty">جارٍ تحميل الرسائل...</div>';
+  const result=await sbClient.from('support_tickets').select('id,user_id,subject,body,created_at').order('created_at',{ascending:false}).limit(60);
+  if(result.error){feed.textContent='تعذر تحميل الرسائل حالياً. حاول التحديث.';console.error('Community feed error:',result.error);return}
+  const rows=result.data||[];
+  if(!rows.length){feed.innerHTML='<div class="community-empty">ماكو رسائل منشورة حالياً. كن أول شخص يشارك رسالة بالمجتمع.</div>';return}
+  const userIds=[...new Set(rows.map(row=>row.user_id))];
+  const profileResult=await sbClient.from('profiles').select('id,display_name,avatar_path').in('id',userIds);
+  if(profileResult.error){feed.textContent='تعذر تحميل ملفات أصحاب الرسائل.';console.error(profileResult.error);return}
+  const profiles=new Map((profileResult.data||[]).map(p=>[p.id,p]));
+  feed.replaceChildren();
+  rows.forEach(row=>{
+   const profile=profiles.get(row.user_id)||{display_name:'عضو CLAYKO',avatar_path:null};
+   const card=document.createElement('article');card.className='community-ticket';
+   const head=document.createElement('div');head.className='community-ticket-head';
+   const img=document.createElement('img');img.className='community-avatar';img.alt='';img.src=avatarUrl(profile.avatar_path);img.onerror=()=>{img.src=fallbackAvatar};
+   const author=document.createElement('div');author.className='community-ticket-author';
+   const name=document.createElement('strong');name.textContent=profile.display_name||'عضو CLAYKO';
+   const time=document.createElement('time');time.dateTime=row.created_at;time.textContent=new Date(row.created_at).toLocaleString('ar-IQ',{dateStyle:'medium',timeStyle:'short'});
+   author.append(name,time);head.append(img,author);card.append(head);
+   const title=document.createElement('h4');title.textContent=row.subject;card.append(title);
+   const body=document.createElement('p');body.className='community-ticket-body';body.textContent=row.body;card.append(body);
+   if(currentUser&&currentUser.id===row.user_id){
+    const footer=document.createElement('div');footer.className='community-ticket-footer';
+    const remove=document.createElement('button');remove.type='button';remove.textContent='حذف رسالتي';
+    remove.addEventListener('click',async()=>{
+     if(!window.confirm('تحذف هذه الرسالة من لوحة المجتمع؟'))return;
+     const deleted=await sbClient.from('support_tickets').delete().eq('id',row.id).eq('user_id',currentUser.id);
+     if(deleted.error){toast('تعذر حذف الرسالة');console.error(deleted.error);return}
+     toast('تم حذف الرسالة');loadTickets();
+    });
+    footer.append(remove);card.append(footer);
+   }
+   feed.append(card);
+  });
+ };
+ const refreshUser=async user=>{
+  currentUser=user||null;currentProfile=null;avatarFile=null;
+  byId('communityAvatarFile').value='';
+  renderAuth();
+  if(user){
+   try{await ensureProfile(user);renderAuth();status('communityProfileStatus','حسابك جاهز. يمكنك تحديث اسمك وصورتك.','success')}
+   catch(error){console.error('Profile load error:',error);status('communityProfileStatus','تعذر تحميل ملفك الشخصي: '+error.message,'error')}
+  }
+  await loadTickets();
+ };
+ byId('communitySignInTab').addEventListener('click',()=>setMode('signin'));
+ byId('communitySignUpTab').addEventListener('click',()=>setMode('signup'));
+ byId('communityAuthForm').addEventListener('submit',async event=>{
+  event.preventDefault();
+  const email=byId('communityEmail').value.trim(),password=byId('communityPassword').value;
+  const submit=byId('communityAuthSubmit');submit.disabled=true;status('communityAuthStatus','جارٍ تنفيذ الطلب...');
+  try{
+   if(authMode==='signup'){
+    const displayName=byId('communityName').value.trim();
+    if(displayName.length<2||displayName.length>40)throw new Error('اكتب اسماً من حرفين إلى 40 حرفاً.');
+    const result=await sbClient.auth.signUp({email,password,options:{data:{display_name:displayName},emailRedirectTo:location.origin+location.pathname}});
+    if(result.error)throw result.error;
+    if(result.data.session){await refreshUser(result.data.user);toast('تم إنشاء حسابك بنجاح')}
+    else status('communityAuthStatus','تم إنشاء الحساب. افتح بريدك الإلكتروني واضغط رابط التأكيد، وبعدها ارجع وسجّل الدخول.','success');
+   }else{
+    const result=await sbClient.auth.signInWithPassword({email,password});
+    if(result.error)throw result.error;
+    await refreshUser(result.data.user);toast('تم تسجيل الدخول');
+   }
+  }catch(error){status('communityAuthStatus',error.message||'تعذر إكمال العملية. تحقق من البيانات وحاول مجدداً.','error')}
+  finally{submit.disabled=false}
+ });
+ byId('communityAvatarFile').addEventListener('change',event=>{
+  const file=event.target.files?.[0]||null;
+  if(file&&(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>3145728)){
+   event.target.value='';avatarFile=null;status('communityProfileStatus','اختر صورة JPG أو PNG أو WebP بحجم لا يتجاوز 3MB.','error');return;
+  }
+  avatarFile=file;
+  if(file)byId('communityAvatarPreview').src=URL.createObjectURL(file);
+ });
+ byId('communitySaveProfile').addEventListener('click',async()=>{
+  if(!currentUser)return;
+  const name=byId('communityProfileName').value.trim(),button=byId('communitySaveProfile');
+  if(name.length<2||name.length>40){status('communityProfileStatus','الاسم لازم يكون بين حرفين و40 حرفاً.','error');return}
+  button.disabled=true;status('communityProfileStatus','جارٍ حفظ الملف الشخصي...');
+  try{
+   let path=currentProfile?.avatar_path||null;
+   if(avatarFile){
+    const ext=avatarFile.type==='image/png'?'png':(avatarFile.type==='image/webp'?'webp':'jpg');
+    path=currentUser.id+'/'+crypto.randomUUID()+'.'+ext;
+    const uploaded=await sbClient.storage.from('clayko-avatars').upload(path,avatarFile,{contentType:avatarFile.type,upsert:false});
+    if(uploaded.error)throw uploaded.error;
+   }
+   const updated=await sbClient.from('profiles').update({display_name:name,avatar_path:path,updated_at:new Date().toISOString()}).eq('id',currentUser.id).select('id,display_name,avatar_path,updated_at').single();
+   if(updated.error)throw updated.error;
+   currentProfile=updated.data;avatarFile=null;byId('communityAvatarFile').value='';renderAuth();status('communityProfileStatus','تم حفظ الملف الشخصي.','success');loadTickets();toast('تم تحديث ملفك الشخصي');
+  }catch(error){console.error('Profile update error:',error);status('communityProfileStatus','تعذر حفظ الملف: '+error.message,'error')}
+  finally{button.disabled=false}
+ });
+ byId('communitySignOut').addEventListener('click',async()=>{
+  const result=await sbClient.auth.signOut();
+  if(result.error){status('communityProfileStatus','تعذر تسجيل الخروج: '+result.error.message,'error');return}
+  currentUser=null;currentProfile=null;renderAuth();status('communityAuthStatus','تم تسجيل الخروج.');toast('تم تسجيل الخروج');loadTickets();
+ });
+ byId('communityTicketForm').addEventListener('submit',async event=>{
+  event.preventDefault();
+  if(!currentUser){status('communityTicketStatus','سجّل الدخول أولاً.','error');return}
+  const subject=byId('communityTicketSubject').value.trim(),body=byId('communityTicketBody').value.trim(),button=byId('communityTicketSubmit');
+  if(subject.length<3||subject.length>100||body.length<5||body.length>2000){status('communityTicketStatus','العنوان من 3 إلى 100 حرف، والرسالة من 5 إلى 2000 حرف.','error');return}
+  button.disabled=true;status('communityTicketStatus','جارٍ نشر الرسالة...');
+  try{
+   const result=await sbClient.from('support_tickets').insert({user_id:currentUser.id,subject,body});
+   if(result.error)throw result.error;
+   byId('communityTicketForm').reset();status('communityTicketStatus','تم نشر رسالتك وأصبحت ظاهرة للجميع.','success');toast('تم نشر رسالتك');await loadTickets();
+  }catch(error){console.error('Ticket insert error:',error);status('communityTicketStatus','تعذر نشر الرسالة: '+error.message,'error')}
+  finally{button.disabled=false}
+ });
+ byId('communityRefresh').addEventListener('click',loadTickets);
+ sbClient.auth.onAuthStateChange((event,session)=>{
+  currentUser=session?.user||null;
+  setTimeout(()=>refreshUser(currentUser),0);
+ });
+ sbClient.auth.getSession().then(({data,error})=>{
+  if(error){status('communityAuthStatus','تعذر التحقق من جلسة الدخول: '+error.message,'error');return}
+  refreshUser(data.session?.user||null);
+ });
+ try{
+  realtimeChannel=sbClient.channel('clayko-community-feed').on('postgres_changes',{event:'*',schema:'public',table:'support_tickets'},()=>loadTickets()).subscribe();
+ }catch(error){console.warn('Community live updates unavailable:',error)}
+ setMode('signin');
+})();
+
 </script>
 <script>
 /* CLAYKO multilingual language system — Arabic, English and French */
@@ -527,7 +786,8 @@ $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest
  const translations={
  en:{
   '.intro-inner p':'LIGHT · FRAME · STORY','.intro-inner button':'Enter website ↗',
-  '.navlinks a':['Home','About','Gallery','Services','Contact'],'#mobileNav a':['Home','About','Gallery','Services','Contact'],
+  '.navlinks a':['Home','About','Gallery','Community','Services','Contact'],'#mobileNav a':['Home','About','Gallery','Community','Services','Contact'],
+  '#community .section-head h2':'CLAYKO Community','#community .section-desc':'Create an account, add your name and photo, and share a question or message with visitors. Posts are public.','#community .community-title':'Member account','#community .community-hint':'Sign in or create an account using your email and password.','#communitySignInTab':'Sign in','#communitySignUpTab':'Create account','#communityNameField label':'Public display name','#communityEmail':'Email address','#communityPassword':'Password','#communityAuthSubmit':'Sign in','#communityNeedLogin':'Sign in or create an account before posting a message.','#communityTicketSubmit':'Publish message publicly','#communityRefresh':'↻ Refresh',
   '.hero .christmas-ribbon':'🎄 <span>CLAYKO HOLIDAY EDITION</span> ✨ A season full of beautiful moments 🎁',
   '.hero .eyebrow':'PHOTOGRAPHY / CREATIVE PORTFOLIO','.hero h1':'I capture<br><span class="gradient-text">what I see.</span>',
   '.hero-copy':'I’m Ali from Basra. Here, I share a collection of my photos and the work I enjoy creating.',
@@ -565,7 +825,8 @@ $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest
  },
  fr:{
   '.intro-inner p':'LIGHT · FRAME · STORY','.intro-inner button':'Entrer sur le site ↗',
-  '.navlinks a':['Accueil','À propos','Galerie','Services','Contact'],'#mobileNav a':['Accueil','À propos','Galerie','Services','Contact'],
+  '.navlinks a':['Accueil','À propos','Galerie','Communauté','Services','Contact'],'#mobileNav a':['Accueil','À propos','Galerie','Communauté','Services','Contact'],
+  '#community .section-head h2':'Communauté CLAYKO','#community .section-desc':'Créez un compte, ajoutez votre nom et votre photo, puis partagez une question ou un message. Les publications sont publiques.','#community .community-title':'Compte membre','#community .community-hint':'Connectez-vous ou créez un compte avec votre e-mail et votre mot de passe.','#communitySignInTab':'Connexion','#communitySignUpTab':'Créer un compte','#communityNeedLogin':'Connectez-vous ou créez un compte avant de publier.','#communityTicketSubmit':'Publier le message','#communityRefresh':'↻ Actualiser',
   '.hero .christmas-ribbon':'🎄 <span>ÉDITION DES FÊTES CLAYKO</span> ✨ Une saison pleine de beaux moments 🎁',
   '.hero .eyebrow':'PHOTOGRAPHIE / PORTFOLIO CRÉATIF','.hero h1':'Je capture<br><span class="gradient-text">ce que je vois.</span>',
   '.hero-copy':'Je partage ici une sélection de mes photos et des travaux que j’aime réaliser.',
