@@ -640,7 +640,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   const email=byId('communityEmail').value.trim();if(!email){status('communityAuthStatus','اكتب بريدك الإلكتروني أولاً.','error');byId('communityEmail').focus();return}
   const button=byId('communityForgotPassword');button.disabled=true;status('communityAuthStatus','جارٍ إرسال رابط الاستعادة...');
   try{const result=await sbClient.auth.resetPasswordForEmail(email,{redirectTo:'https://2iq2.github.io/clayko/?recovery=1#community'});if(result.error)throw result.error;status('communityAuthStatus','إذا كان البريد مسجلاً، سيصلك رابط آمن. افحص الوارد والرسائل غير المرغوب بها.','success')}
-  catch(error){status('communityAuthStatus','تعذر إرسال رابط الاستعادة: '+error.message,'error')}finally{button.disabled=false}
+  catch(error){const limited=error.status===429||/rate limit|too many requests|email.*limit/i.test(error.message||'');status('communityAuthStatus',limited?'خدمة البريد وصلت الحد المؤقت لإرسال روابط الاستعادة. لا تعاود الطلب الآن؛ انتظر حتى يُرفع التقييد ثم جرّب مرة واحدة.':'تعذر إرسال رابط الاستعادة: '+error.message,'error')}finally{button.disabled=false}
  });
  byId('communityRecoveryForm').addEventListener('submit',async event=>{
   event.preventDefault();const password=byId('communityNewPassword').value,confirm=byId('communityNewPasswordConfirm').value,button=byId('communityRecoverySubmit');
