@@ -520,7 +520,7 @@ $('#contactForm').addEventListener('submit',async e=>{
    })
   });
   const result=await response.json();
-  if(!response.ok||result.success!==true)throw new Error(result.message||'تعذر إرسال الرسالة حالياً');
+  if(!response.ok||String(result.success)!=='true')throw new Error(result.message||'تعذر إرسال الرسالة حالياً');
   form.reset();
   toast('تم إرسال الرسالة. إذا كانت أول مرة، افتح بريدك وأكّد تفعيل النموذج.');
  }catch(err){console.error('Contact send failed',err);toast(err.message||'تعذر إرسال الرسالة حالياً')}
