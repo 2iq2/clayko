@@ -315,12 +315,16 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 .community-ticket-author time{display:block;color:var(--muted);font-size:10px;margin-top:3px}
 .community-ticket h4{font-size:14px;margin:5px 0 8px;overflow-wrap:anywhere}
 .community-ticket-body{font-size:12px;color:var(--muted);line-height:2;white-space:pre-wrap;overflow-wrap:anywhere}
-.community-reactions{display:flex;gap:9px;align-items:center;margin-top:15px;padding-top:12px;border-top:1px solid var(--line)}
-.community-reaction{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:11px;padding:7px 12px;background:var(--panel);color:var(--muted);font-size:12px;transition:.2s}
-.community-reaction:hover{border-color:var(--cyan);transform:translateY(-1px)}
-.community-reaction.active{border-color:rgba(0,219,227,.65);background:rgba(0,219,227,.1);color:var(--cyan)}
-.community-reaction.dislike.active{border-color:rgba(232,59,255,.55);background:rgba(232,59,255,.09);color:var(--pink)}
-.community-reaction:disabled{opacity:.55;cursor:wait}
+.community-reactions{display:flex;align-items:center;gap:10px;margin-top:15px;padding-top:12px;border-top:1px solid var(--line)}
+.community-reaction{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-width:54px;height:38px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(135deg,rgba(0,219,227,.045),rgba(232,59,255,.035));color:var(--muted);font:700 12px Inter,sans-serif;transition:background .22s,border-color .22s,color .22s,box-shadow .22s;cursor:pointer;scroll-margin:0}
+.community-reaction svg{width:17px;height:17px;flex:0 0 17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s,fill .22s}
+.community-reaction:hover{border-color:var(--cyan);color:var(--text);background:rgba(0,219,227,.08)}
+.community-reaction.active{border-color:rgba(0,219,227,.7);background:linear-gradient(110deg,rgba(0,219,227,.16),rgba(232,59,255,.1));color:var(--cyan);box-shadow:0 0 16px rgba(0,219,227,.1)}
+.community-reaction.dislike.active{border-color:rgba(232,59,255,.65);color:var(--pink);background:linear-gradient(110deg,rgba(232,59,255,.13),rgba(0,219,227,.07));box-shadow:0 0 16px rgba(232,59,255,.09)}
+.community-reaction.active svg{fill:currentColor;fill-opacity:.18}
+.community-reaction.reaction-pop svg{animation:communityReactionPop .38s cubic-bezier(.2,.8,.2,1)}
+@keyframes communityReactionPop{0%{transform:scale(.65)}55%{transform:scale(1.3)}100%{transform:scale(1)}}
+.community-reaction:disabled{opacity:.6;cursor:wait}
 .community-ticket-footer{display:flex;justify-content:flex-end;margin-top:10px}
 .community-ticket-footer button{border:1px solid var(--line);border-radius:9px;padding:6px 10px;background:transparent;color:var(--muted);font-size:10px}
 .community-empty{padding:25px;text-align:center;border:1px dashed var(--line);border-radius:14px;color:var(--muted);font-size:12px;line-height:1.9}
@@ -697,6 +701,28 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   if(refreshed.error)throw refreshed.error;
   currentProfile=refreshed.data;return refreshed.data;
  };
+ const refreshCommunityReactions=async()=>{
+  const cards=[...byId('communityTicketFeed').querySelectorAll('.community-ticket')];
+  if(!cards.length)return;
+  const ids=cards.map(card=>card.dataset.ticketId).filter(Boolean);
+  if(!ids.length)return;
+  const result=await sbClient.from('support_ticket_reactions').select('ticket_id,user_id,reaction_type').in('ticket_id',ids);
+  if(result.error){console.error('Reaction refresh error:',result.error);return}
+  cards.forEach(card=>{
+   const id=card.dataset.ticketId;
+   const rows=result.data.filter(item=>item.ticket_id===id);
+   const mine=rows.find(item=>item.user_id===currentUser?.id)?.reaction_type||null;
+   card.querySelectorAll('.community-reaction').forEach(button=>{
+    const type=button.dataset.reactionType;
+    const active=mine===type;
+    button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));
+    const count=rows.filter(item=>item.reaction_type===type).length;
+    const countNode=button.querySelector('.reaction-count');
+    if(countNode)countNode.textContent=count;
+    button.setAttribute('aria-label',button.title+'، '+count);
+   });
+  });
+ };
  const loadTickets=async()=>{
   const feed=byId('communityTicketFeed');
   feed.innerHTML='<div class="community-empty">جارٍ تحميل الرسائل...</div>';
@@ -719,7 +745,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   feed.replaceChildren();
   rows.forEach(row=>{
    const profile=profiles.get(row.user_id)||{display_name:'عضو CLAYKO',avatar_path:null};
-   const card=document.createElement('article');card.className='community-ticket';
+   const card=document.createElement('article');card.className='community-ticket';card.dataset.ticketId=row.id;
    const head=document.createElement('div');head.className='community-ticket-head';
    const img=document.createElement('img');img.className='community-avatar';img.alt='';img.src=avatarUrl(profile.avatar_path);img.onerror=()=>{img.src=fallbackAvatar};
    const author=document.createElement('div');author.className='community-ticket-author';
@@ -731,26 +757,50 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    const ticketReactions=reactionsByTicket.get(row.id)||[];
    const myReaction=ticketReactions.find(reaction=>reaction.user_id===currentUser?.id)?.reaction_type||null;
    const reactionBar=document.createElement('div');reactionBar.className='community-reactions';
-   const makeReactionButton=(type,emoji,label)=>{
+   const reactionIcons={
+    like:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3Zm0 0 4-8c2 0 3 1 3 3l-1 5h5.5a2.5 2.5 0 0 1 2.45 3l-1.5 7A2.5 2.5 0 0 1 18 22H7"/></svg>',
+    dislike:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14V3H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3Zm0 0 4 8c2 0 3-1 3-3l-1-5h5.5a2.5 2.5 0 0 0 2.45-3l-1.5-7A2.5 2.5 0 0 0 18 2H7"/></svg>'
+   };
+   const lang=document.documentElement.lang;
+   const reactionLabels={like:lang==='en'?'Like':lang==='fr'?'J’aime':'أعجبني',dislike:lang==='en'?'Dislike':lang==='fr'?'Je n’aime pas':'لم يعجبني'};
+   const makeReactionButton=(type)=>{
     const count=ticketReactions.filter(reaction=>reaction.reaction_type===type).length;
     const button=document.createElement('button');button.type='button';button.className='community-reaction'+(type==='dislike'?' dislike':'')+(myReaction===type?' active':'');
-    button.textContent=emoji+' '+count;button.title=label;button.setAttribute('aria-label',label+'، '+count);button.setAttribute('aria-pressed',String(myReaction===type));
+    button.dataset.ticketId=row.id;button.dataset.reactionType=type;button.title=reactionLabels[type];button.setAttribute('aria-label',reactionLabels[type]+'، '+count);button.setAttribute('aria-pressed',String(myReaction===type));
+    const icon=document.createElement('span');icon.innerHTML=reactionIcons[type];
+    const number=document.createElement('span');number.className='reaction-count';number.textContent=count;
+    button.append(icon,number);
     button.addEventListener('click',async()=>{
      if(!currentUser){toast('سجّل الدخول حتى تتفاعل مع الرسائل');return}
+     const wasActive=button.classList.contains('active');
+     const previous=[...reactionBar.querySelectorAll('.community-reaction')].map(item=>({el:item,active:item.classList.contains('active'),count:Number(item.querySelector('.reaction-count').textContent)}));
      button.disabled=true;
      try{
       let change;
-      if(myReaction===type)change=await sbClient.from('support_ticket_reactions').delete().eq('ticket_id',row.id).eq('user_id',currentUser.id);
+      if(wasActive)change=await sbClient.from('support_ticket_reactions').delete().eq('ticket_id',row.id).eq('user_id',currentUser.id);
       else change=await sbClient.from('support_ticket_reactions').upsert({ticket_id:row.id,user_id:currentUser.id,reaction_type:type},{onConflict:'ticket_id,user_id'});
       if(change.error)throw change.error;
-      await loadTickets();
-     }catch(error){console.error('Reaction update error:',error);toast('تعذر حفظ التفاعل. حاول مرة ثانية');button.disabled=false}
+      const updated=await sbClient.from('support_ticket_reactions').select('user_id,reaction_type').eq('ticket_id',row.id);
+      if(updated.error)throw updated.error;
+      const myUpdated=updated.data.find(item=>item.user_id===currentUser.id)?.reaction_type||null;
+      reactionBar.querySelectorAll('.community-reaction').forEach(item=>{
+       const itemType=item.dataset.reactionType;
+       const nextActive=myUpdated===itemType;
+       const oldActive=item.classList.contains('active');
+       const count=updated.data.filter(item=>item.reaction_type===itemType).length;
+       item.classList.toggle('active',nextActive);item.setAttribute('aria-pressed',String(nextActive));
+       item.querySelector('.reaction-count').textContent=count;
+       item.setAttribute('aria-label',reactionLabels[itemType]+'، '+count);
+       if(nextActive&&!oldActive){item.classList.remove('reaction-pop');void item.offsetWidth;item.classList.add('reaction-pop');}
+      });
+     }catch(error){
+      console.error('Reaction update error:',error);toast('تعذر حفظ التفاعل. حاول مرة ثانية');
+      previous.forEach(item=>{item.el.classList.toggle('active',item.active);item.el.querySelector('.reaction-count').textContent=item.count;item.el.setAttribute('aria-pressed',String(item.active));});
+     }finally{button.disabled=false}
     });
     reactionBar.append(button);
    };
-   const lang=document.documentElement.lang;
-   makeReactionButton('like','👍',lang==='en'?'Like':lang==='fr'?'J’aime':'أعجبني');
-   makeReactionButton('dislike','👎',lang==='en'?'Dislike':lang==='fr'?'Je n’aime pas':'لم يعجبني');
+   makeReactionButton('like');makeReactionButton('dislike');
    card.append(reactionBar);
    const isAdmin=currentUser?.app_metadata?.role==='admin';
    if(currentUser&&(isAdmin||currentUser.id===row.user_id)){
@@ -875,7 +925,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   }
  });
  try{
-  realtimeChannel=sbClient.channel('clayko-community-feed').on('postgres_changes',{event:'*',schema:'public',table:'support_tickets'},()=>loadTickets()).on('postgres_changes',{event:'*',schema:'public',table:'profiles'},()=>loadTickets()).on('postgres_changes',{event:'*',schema:'public',table:'support_ticket_reactions'},()=>loadTickets()).subscribe();
+  realtimeChannel=sbClient.channel('clayko-community-feed').on('postgres_changes',{event:'*',schema:'public',table:'support_tickets'},()=>loadTickets()).on('postgres_changes',{event:'*',schema:'public',table:'profiles'},()=>loadTickets()).on('postgres_changes',{event:'*',schema:'public',table:'support_ticket_reactions'},()=>refreshCommunityReactions()).subscribe();
  }catch(error){console.warn('Community live updates unavailable:',error)}
  setMode('signin');
 })();
