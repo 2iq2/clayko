@@ -325,7 +325,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 @media(max-width:850px){.community-top{grid-template-columns:1fr}}
 @media(max-width:560px){.community-feed-wrap{padding:16px}.community-feed-head{align-items:flex-start}.profile-edit{align-items:flex-start;flex-direction:column}.profile-fields{width:100%}.community-actions{flex-direction:column}}
 
-</style>
+.hero-note{align-items:center;flex-wrap:wrap}.countdown-metric{min-width:270px}.countdown-label{display:block;margin-bottom:8px;font-size:11px;color:var(--muted)}.countdown{display:flex;align-items:center;gap:13px;direction:rtl}.count-unit{display:flex;flex-direction:column;align-items:center;min-width:34px}.count-unit strong{font:800 22px Inter,sans-serif;line-height:1.2}.count-unit small{font-size:10px;color:var(--muted)}@media(max-width:560px){.countdown-metric{min-width:0;flex:1 1 100%}.countdown{gap:17px}.count-unit strong{font-size:21px}}\n</style>
 </head>
 <body>
 <div id="claykoIntro" aria-label="مقدمة CLAYKO"><div class="intro-inner"><div class="intro-mark">CLAYKO</div><div class="intro-line"></div><p>LIGHT · FRAME · STORY</p><button id="introEnter" type="button">الدخول إلى الموقع ↗</button></div></div>
@@ -345,7 +345,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
   <h1>أوثّق<br><span class="gradient-text">ما أراه.</span></h1>
   <p class="hero-copy">أشارك هنا مجموعة من صوري والأعمال التي أستمتع بتصويرها.</p>
   <div class="hero-actions"><a class="btn primary" href="#gallery">استكشف أعمالي <span>↙</span></a><a class="btn" href="#contact">لنتحدث عن مشروعك</a></div>
-  <div class="hero-note"><div class="metric"><strong>01</strong><span>عين تبحث عن التفاصيل</span></div><div class="metric"><strong>∞</strong><span>قصص تستحق أن تُروى</span></div><div class="metric"><strong>BSR</strong><span>البصرة، العراق</span></div></div>
+  <div class="hero-note"><div class="metric countdown-metric"><span class="countdown-label">باقي على السنة الجديدة</span><div class="countdown" aria-label="الوقت المتبقي للسنة الجديدة"><div class="count-unit"><strong id="ny-days">--</strong><small>يوم</small></div><div class="count-unit"><strong id="ny-hours">--</strong><small>ساعة</small></div><div class="count-unit"><strong id="ny-minutes">--</strong><small>دقيقة</small></div><div class="count-unit"><strong id="ny-seconds">--</strong><small>ثانية</small></div></div></div><div class="metric"><strong>BSR</strong><span>البصرة، العراق</span></div></div>
  </div>
  <div class="hero-art reveal"><div class="orbit"></div><div class="hero-photo"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=85" alt="مشهد جبلي سينمائي"></div><div class="floating-card top"><b>CLAYKO / 2026</b><span>Capturing the unseen</span></div><div class="floating-card bottom"><b>LIGHT · FRAME · STORY</b><span>كل صورة بداية حكاية</span></div></div>
 </section>
@@ -963,5 +963,26 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
 })();
 </script>
 
+<script>
+(function(){
+ const ids={days:document.getElementById('ny-days'),hours:document.getElementById('ny-hours'),minutes:document.getElementById('ny-minutes'),seconds:document.getElementById('ny-seconds')};
+ if(!ids.days)return;
+ const baghdadYear=()=>Number(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Baghdad',year:'numeric'}).format(new Date()));
+ function updateCountdown(){
+  const now=Date.now();
+  const target=Date.UTC(baghdadYear()+1,0,1)-3*60*60*1000;
+  let remaining=Math.max(0,target-now);
+  const days=Math.floor(remaining/86400000);remaining%=86400000;
+  const hours=Math.floor(remaining/3600000);remaining%=3600000;
+  const minutes=Math.floor(remaining/60000);remaining%=60000;
+  const seconds=Math.floor(remaining/1000);
+  ids.days.textContent=String(days).padStart(2,'0');
+  ids.hours.textContent=String(hours).padStart(2,'0');
+  ids.minutes.textContent=String(minutes).padStart(2,'0');
+  ids.seconds.textContent=String(seconds).padStart(2,'0');
+ }
+ updateCountdown();setInterval(updateCountdown,1000);
+})();
+</script>
 </body>
 </html>
