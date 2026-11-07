@@ -383,7 +383,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
   <div class="glass community-card reveal" id="communityAccount">
    <div id="communityLoggedOut">
     <h3 class="community-title">حساب العضو</h3><p class="community-hint">سجّل الدخول أو أنشئ حساباً جديداً بالبريد وكلمة المرور.</p>
-    <div class="community-tabs"><button type="button" id="communitySignInTab" class="active">تسجيل الدخول</button><button type="button" id="communitySignUpTab">إنشاء حساب</button></div>
+    <div class="community-tabs" id="communityTabs" style="position:relative;z-index:5;pointer-events:auto"><button type="button" id="communitySignInTab" class="active" style="position:relative;z-index:6;pointer-events:auto" onclick="document.getElementById('communityNameField').hidden=true;document.getElementById('communityPassword').autocomplete='current-password';document.getElementById('communityAuthSubmit').textContent='دخول إلى الحساب ↗';document.getElementById('communitySignInTab').classList.add('active');document.getElementById('communitySignUpTab').classList.remove('active');document.dispatchEvent(new CustomEvent('clayko-auth-mode',{detail:'signin'}))">تسجيل الدخول</button><button type="button" id="communitySignUpTab" style="position:relative;z-index:6;pointer-events:auto" onclick="document.getElementById('communityNameField').hidden=false;document.getElementById('communityPassword').autocomplete='new-password';document.getElementById('communityAuthSubmit').textContent='إنشاء الحساب ↗';document.getElementById('communitySignUpTab').classList.add('active');document.getElementById('communitySignInTab').classList.remove('active');document.dispatchEvent(new CustomEvent('clayko-auth-mode',{detail:'signup'}))">إنشاء حساب</button></div>
     <form id="communityAuthForm" class="community-form">
      <div class="field" id="communityNameField" hidden><label for="communityName">الاسم الظاهر للجميع</label><input id="communityName" type="text" minlength="2" maxlength="40" autocomplete="name" placeholder="اكتب اسمك" /></div>
      <div class="field"><label for="communityEmail">البريد الإلكتروني</label><input id="communityEmail" type="email" required autocomplete="email" placeholder="name@example.com" /></div>
@@ -627,6 +627,7 @@ $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest
  };
  byId('communitySignInTab').addEventListener('click',()=>setMode('signin'));
  byId('communitySignUpTab').addEventListener('click',()=>setMode('signup'));
+ document.addEventListener('clayko-auth-mode',event=>setMode(event.detail==='signup'?'signup':'signin'));
  if(!sbClient){setMode('signin');status('communityAuthStatus','خدمة الحسابات غير متاحة حالياً. أعد تحميل الصفحة وحاول مجدداً.','error');return}
  const renderAuth=()=>{
   const logged=!!currentUser;
