@@ -613,7 +613,6 @@ $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest
  const byId=id=>document.getElementById(id);
  const status=(id,message,type='')=>{const el=byId(id);if(!el)return;el.textContent=message;el.className='community-status'+(type?' '+type:'')};
  if(!byId('communityAuthForm'))return;
- if(!sbClient){status('communityAuthStatus','تعذر تحميل خدمة الحسابات. حدّث الصفحة وحاول مرة أخرى.','error');return}
  let authMode='signin', currentUser=null, currentProfile=null, avatarFile=null, realtimeChannel=null;
  const fallbackAvatar='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="50" fill="#202938"/><circle cx="50" cy="37" r="18" fill="#8995a8"/><path d="M16 94c3-22 16-33 34-33s31 11 34 33" fill="#8995a8"/></svg>');
  const avatarUrl=path=>path?sbClient.storage.from('clayko-avatars').getPublicUrl(path).data.publicUrl:fallbackAvatar;
@@ -626,6 +625,9 @@ $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest
   byId('communitySignUpTab').classList.toggle('active',mode==='signup');
   status('communityAuthStatus','');
  };
+ byId('communitySignInTab').addEventListener('click',()=>setMode('signin'));
+ byId('communitySignUpTab').addEventListener('click',()=>setMode('signup'));
+ if(!sbClient){setMode('signin');status('communityAuthStatus','خدمة الحسابات غير متاحة حالياً. أعد تحميل الصفحة وحاول مجدداً.','error');return}
  const renderAuth=()=>{
   const logged=!!currentUser;
   byId('communityLoggedOut').hidden=logged;
@@ -697,8 +699,6 @@ $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest
   }
   await loadTickets();
  };
- byId('communitySignInTab').addEventListener('click',()=>setMode('signin'));
- byId('communitySignUpTab').addEventListener('click',()=>setMode('signup'));
  byId('communityAuthForm').addEventListener('submit',async event=>{
   event.preventDefault();
   const email=byId('communityEmail').value.trim(),password=byId('communityPassword').value;
