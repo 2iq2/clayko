@@ -686,14 +686,15 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    author.append(name,time);head.append(img,author);card.append(head);
    const title=document.createElement('h4');title.textContent=row.subject;card.append(title);
    const body=document.createElement('p');body.className='community-ticket-body';body.textContent=row.body;card.append(body);
-   if(currentUser&&currentUser.id===row.user_id){
+   const isAdmin=currentUser?.app_metadata?.role==='admin';
+   if(currentUser&&(isAdmin||currentUser.id===row.user_id)){
     const footer=document.createElement('div');footer.className='community-ticket-footer';
-    const remove=document.createElement('button');remove.type='button';remove.textContent='حذف رسالتي';
+    const remove=document.createElement('button');remove.type='button';remove.textContent=isAdmin&&currentUser.id!==row.user_id?'حذف رسالة العضو':'حذف رسالتي';
     remove.addEventListener('click',async()=>{
-     if(!window.confirm('تحذف هذه الرسالة من لوحة المجتمع؟'))return;
-     const deleted=await sbClient.from('support_tickets').delete().eq('id',row.id).eq('user_id',currentUser.id);
+     if(!window.confirm(isAdmin&&currentUser.id!==row.user_id?'أنت على وشك حذف رسالة عضو آخر. هل تريد المتابعة؟':'تحذف هذه الرسالة من لوحة المجتمع؟'))return;
+     const deleted=await sbClient.from('support_tickets').delete().eq('id',row.id);
      if(deleted.error){toast('تعذر حذف الرسالة');console.error(deleted.error);return}
-     toast('تم حذف الرسالة');loadTickets();
+     toast('تم حذف الرسالة');await loadTickets();
     });
     footer.append(remove);card.append(footer);
    }
