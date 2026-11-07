@@ -639,7 +639,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  byId('communityForgotPassword').addEventListener('click',async()=>{
   const email=byId('communityEmail').value.trim();if(!email){status('communityAuthStatus','اكتب بريدك الإلكتروني أولاً.','error');byId('communityEmail').focus();return}
   const button=byId('communityForgotPassword');button.disabled=true;status('communityAuthStatus','جارٍ إرسال رابط الاستعادة...');
-  try{const result=await sbClient.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname+'#community'});if(result.error)throw result.error;status('communityAuthStatus','إذا كان البريد مسجلاً، سيصلك رابط آمن. افحص الوارد والرسائل غير المرغوب بها.','success')}
+  try{const result=await sbClient.auth.resetPasswordForEmail(email,{redirectTo:'https://2iq2.github.io/clayko/?recovery=1#community'});if(result.error)throw result.error;status('communityAuthStatus','إذا كان البريد مسجلاً، سيصلك رابط آمن. افحص الوارد والرسائل غير المرغوب بها.','success')}
   catch(error){status('communityAuthStatus','تعذر إرسال رابط الاستعادة: '+error.message,'error')}finally{button.disabled=false}
  });
  byId('communityRecoveryForm').addEventListener('submit',async event=>{
@@ -810,15 +810,30 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   if(event==='PASSWORD_RECOVERY'){openModal(recoveryModal);status('communityRecoveryStatus','أدخل كلمة مرور جديدة لحسابك.');}
   setTimeout(()=>refreshUser(currentUser),0);
  });
- sbClient.auth.getSession().then(({data,error})=>{
+ sbClient.auth.getSession().then(async ({data,error})=>{
   if(error){status('communityAuthStatus','تعذر التحقق من جلسة الدخول: '+error.message,'error');return}
   refreshUser(data.session?.user||null);
   const hashParams=new URLSearchParams(location.hash.startsWith('#')?location.hash.slice(1):location.hash);
   const queryParams=new URLSearchParams(location.search);
-  const recoveryRequested=communityRecoveryPending||hashParams.get('type')==='recovery'||queryParams.get('type')==='recovery';
+  const recoveryRequested=communityRecoveryPending||hashParams.get('type')==='recovery'||queryParams.get('type')==='recovery'||queryParams.get('recovery')==='1';
   if(recoveryRequested){
-   if(data.session?.user){openModal(recoveryModal);status('communityRecoveryStatus','تم التحقق من رابط الاستعادة. اكتب كلمة المرور الجديدة ثم احفظها.','success');}
-   else{status('communityAuthStatus','رابط الاستعادة لم يكتمل أو انتهت صلاحيته. اطلب رابطاً جديداً.','error');}
+   let recoverySession=data.session;
+   try{
+    if(!recoverySession&&hashParams.get('access_token')&&hashParams.get('refresh_token')){
+     const restored=await sbClient.auth.setSession({access_token:hashParams.get('access_token'),refresh_token:hashParams.get('refresh_token')});
+     if(restored.error)throw restored.error;recoverySession=restored.data.session;
+    }
+    if(!recoverySession&&queryParams.get('token_hash')){
+     const verified=await sbClient.auth.verifyOtp({token_hash:queryParams.get('token_hash'),type:'recovery'});
+     if(verified.error)throw verified.error;recoverySession=verified.data.session;
+    }
+    if(!recoverySession&&queryParams.get('code')){
+     const exchanged=await sbClient.auth.exchangeCodeForSession(queryParams.get('code'));
+     if(exchanged.error)throw exchanged.error;recoverySession=exchanged.data.session;
+    }
+   }catch(recoveryError){console.error('Password recovery verification failed:',recoveryError);status('communityAuthStatus','تعذر التحقق من رابط الاستعادة. اطلب رابطاً جديداً وافتحه مباشرةً.','error');}
+   if(recoverySession?.user){communityRecoveryPending=true;currentUser=recoverySession.user;openModal(recoveryModal);status('communityRecoveryStatus','تم التحقق من رابط الاستعادة. اكتب كلمة المرور الجديدة ثم احفظها.','success');}
+   else if(!byId('communityAuthStatus').textContent.includes('تعذر التحقق')){status('communityAuthStatus','الرابط وصل للموقع لكن جلسة الاستعادة لم تكتمل. اطلب رابطاً جديداً وافتحه مباشرةً من البريد.','error');}
   }
  });
  try{
