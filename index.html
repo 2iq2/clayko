@@ -312,6 +312,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 .community-ticket-head{display:flex;align-items:center;gap:11px;margin-bottom:12px}
 .community-ticket-author{min-width:0;flex:1}
 .community-ticket-author strong{display:block;font-size:12px;overflow-wrap:anywhere}
+.verified-badge{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;margin-inline-start:6px;border-radius:50%;background:linear-gradient(135deg,#18c8e8,#6578ff);color:#fff;font:800 10px/1 Arial,sans-serif;vertical-align:middle;box-shadow:0 0 10px rgba(24,200,232,.3)}
 .community-ticket-author time{display:block;color:var(--muted);font-size:10px;margin-top:3px}
 .community-ticket h4{font-size:14px;margin:5px 0 8px;overflow-wrap:anywhere}
 .community-ticket-body{font-size:12px;color:var(--muted);line-height:2;white-space:pre-wrap;overflow-wrap:anywhere}
@@ -739,7 +740,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    reactionsByTicket.get(reaction.ticket_id).push(reaction);
   });
   const userIds=[...new Set(rows.map(row=>row.user_id))];
-  const profileResult=await sbClient.from('profiles').select('id,display_name,avatar_path').in('id',userIds);
+  const profileResult=await sbClient.from('profiles').select('id,display_name,avatar_path,is_verified').in('id',userIds);
   if(profileResult.error){feed.textContent='تعذر تحميل ملفات أصحاب الرسائل.';console.error(profileResult.error);return}
   const profiles=new Map((profileResult.data||[]).map(p=>[p.id,p]));
   feed.replaceChildren();
@@ -749,7 +750,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    const head=document.createElement('div');head.className='community-ticket-head';
    const img=document.createElement('img');img.className='community-avatar';img.alt='';img.src=avatarUrl(profile.avatar_path);img.onerror=()=>{img.src=fallbackAvatar};
    const author=document.createElement('div');author.className='community-ticket-author';
-   const name=document.createElement('strong');name.textContent=profile.display_name||'عضو CLAYKO';
+   const name=document.createElement('strong');name.textContent=profile.display_name||'عضو CLAYKO';if(profile.is_verified){const verified=document.createElement('span');verified.className='verified-badge';verified.textContent='✓';verified.title='حساب CLAYKO موثّق';verified.setAttribute('aria-label','حساب موثّق');name.append(verified)}
    const time=document.createElement('time');time.dateTime=row.created_at;time.textContent=new Date(row.created_at).toLocaleString('ar-IQ',{dateStyle:'medium',timeStyle:'short'});
    author.append(name,time);head.append(img,author);card.append(head);
    const title=document.createElement('h4');title.textContent=row.subject;card.append(title);
