@@ -8,7 +8,7 @@ on:
       - '.github/workflows/android-apk.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -21,10 +21,10 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-      - name: Install Android platform
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+      - name: Accept Android SDK licenses and install platform
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager "platforms;android-35" "build-tools;35.0.0"
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
@@ -32,10 +32,20 @@ jobs:
       - name: Build debug APK
         working-directory: android
         run: gradle --no-daemon assembleDebug
-      - name: Upload APK
+      - name: Prepare public APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk CLAYKO.apk
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: CLAYKO-Android-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: CLAYKO.apk
           if-no-files-found: error
           retention-days: 30
+      - name: Publish APK download
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: android-v1.0.0
+          name: CLAYKO Android v1.0.0
+          prerelease: true
+          make_latest: false
+          files: CLAYKO.apk
