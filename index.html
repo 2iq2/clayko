@@ -448,7 +448,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 <div class="lightbox" id="lightbox"><button id="lbZoom" type="button" aria-label="تكبير الصورة">＋ تكبير</button><button class="lb-close" id="lbClose" aria-label="إغلاق">×</button><button class="lb-prev" id="lbPrev" aria-label="السابق">‹</button><img id="lbImage" src="" alt="صورة مكبرة"><button class="lb-next" id="lbNext" aria-label="التالي">›</button><div class="lb-caption" id="lbCaption"></div><button class="lb-share" id="lbShare" type="button">مشاركة الصورة ↗</button></div>
 <div class="toast" id="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'"></script>
 <script>
  // CLAYKO Christmas snowfall — full-site viewport overlay
  (function(){
@@ -628,7 +628,7 @@ $('#galleryGrid img').forEach(img=>img.addEventListener('error',()=>{img.closest
  byId('communitySignInTab').addEventListener('click',()=>setMode('signin'));
  byId('communitySignUpTab').addEventListener('click',()=>setMode('signup'));
  document.addEventListener('clayko-auth-mode',event=>setMode(event.detail==='signup'?'signup':'signin'));
- if(!sbClient){setMode('signin');status('communityAuthStatus','خدمة الحسابات غير متاحة حالياً. أعد تحميل الصفحة وحاول مجدداً.','error');return}
+ if(!sbClient){setMode('signin');byId('communityAuthForm').addEventListener('submit',event=>{event.preventDefault();status('communityAuthStatus','تعذر تحميل خدمة الحسابات. تحقق من اتصال الإنترنت ثم أعد فتح الصفحة.','error')});status('communityAuthStatus','تعذر تحميل خدمة الحسابات حالياً. أعد فتح الصفحة وحاول مجدداً.','error');return}
  const renderAuth=()=>{
   const logged=!!currentUser;
   byId('communityLoggedOut').hidden=logged;
