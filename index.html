@@ -351,9 +351,24 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
  }
  .photo:hover{box-shadow:0 12px 30px rgba(0,219,227,.16),0 3px 12px rgba(0,0,0,.18)}
 }
+/* Touch devices: provide press feedback instead of hover */
+@media (hover:none), (pointer:coarse){
+ .photo,.service,.point,.community-ticket{
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+  -webkit-tap-highlight-color:transparent;
+ }
+ .photo:active,.service:active,.point:active,.community-ticket:active,
+ .photo:focus-visible,.service:focus-visible,.point:focus-visible,.community-ticket:focus-visible{
+  transform:translateY(-3px) scale(.995);
+  border-color:rgba(0,219,227,.65);
+  box-shadow:0 8px 22px rgba(0,219,227,.16),0 2px 9px rgba(0,0,0,.15);
+ }
+ .photo:active img{transform:scale(1.025);filter:brightness(.82)}
+}
 @media (prefers-reduced-motion:reduce){
  .photo,.service,.point,.community-ticket{transition:none!important;will-change:auto}
- .photo:hover,.service:hover,.point:hover,.community-ticket:hover{transform:none!important}
+ .photo:hover,.service:hover,.point:hover,.community-ticket:hover,
+ .photo:active,.service:active,.point:active,.community-ticket:active{transform:none!important}
 }
 </style>
 </head>
