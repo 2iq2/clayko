@@ -1321,12 +1321,13 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  });
  async function loadAdminQueue(){
   const box=el('clubAdminQueue');box.textContent='جارٍ تحميل الطلبات...';
-  const [requests,referrals,posts]=await Promise.all([
+  const [requests,referrals,posts,licenses]=await Promise.all([
    client.from('member_requests').select('*').eq('status','pending').order('created_at',{ascending:true}).limit(30),
    client.from('member_referrals').select('*').eq('status','pending').order('created_at',{ascending:true}).limit(30),
-   client.from('member_posts').select('*').eq('status','pending').order('created_at',{ascending:true}).limit(30)
+   client.from('member_posts').select('*').eq('status','pending').order('created_at',{ascending:true}).limit(30),
+   client.from('member_licenses').select('*').eq('status','awaiting_agreement').order('created_at',{ascending:true}).limit(30)
   ]);
-  if(requests.error||referrals.error||posts.error){box.textContent='تعذر تحميل قائمة المراجعة.';return}
+  if(requests.error||referrals.error||posts.error||licenses.error){box.textContent='تعذر تحميل قائمة المراجعة.';return}
   box.replaceChildren();
   const add=(title,description,actions)=>{
    const card=document.createElement('article');card.className='club-admin-item';const h=document.createElement('strong');h.textContent=title;const p=document.createElement('p');p.textContent=description;const row=document.createElement('div');row.className='club-admin-actions';actions.forEach(a=>{const b=document.createElement('button');b.textContent=a.label;if(a.approve)b.classList.add('approve');b.addEventListener('click',async()=>{b.disabled=true;try{await a.run();await loadMember();}catch(error){toast(error.message||'تعذر تنفيذ الإجراء');b.disabled=false}});row.append(b)});card.append(h,p,row);box.append(card);
@@ -1346,6 +1347,11 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   }
   for(const p of posts.data||[]){
    const card=document.createElement('article');card.className='club-admin-item';const img=document.createElement('img');img.src=client.storage.from('clayko-gallery').getPublicUrl(p.image_path).data.publicUrl;img.style.cssText='width:100%;max-height:220px;object-fit:contain;border-radius:10px';const title=document.createElement('strong');title.textContent='صورة عضو · '+p.user_id.slice(0,8);const desc=document.createElement('p');desc.textContent=p.caption;const row=document.createElement('div');row.className='club-admin-actions';[['نشر',true],['رفض',false]].forEach(([label,yes])=>{const b=document.createElement('button');b.textContent=label;if(yes)b.classList.add('approve');b.addEventListener('click',async()=>{b.disabled=true;const result=await client.rpc('admin_review_member_post',{p_post_id:p.id,p_approve:yes});if(result.error){toast(result.error.message);b.disabled=false}else await loadMember()});row.append(b)});card.append(img,title,desc,row);box.append(card);
+  }
+  for(const item of licenses.data||[]){
+   add('اتفاق حقوق صورة · '+item.user_id.slice(0,8),item.image_title+' · '+item.rights_description+' · تم اعتماد خصم النقاط، وبانتظار الاتفاق وتسليم الملف الأصلي',[
+    {label:'تأكيد الاتفاق والتسليم',approve:true,run:()=>client.rpc('admin_mark_member_license_delivered',{p_license_id:item.id}).then(x=>{if(x.error)throw x.error})}
+   ]);
   }
   if(!box.children.length)box.textContent='ماكو طلبات جديدة بانتظار المراجعة.';
  }
