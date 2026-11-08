@@ -336,7 +336,26 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 @media(max-width:850px){.community-top{grid-template-columns:1fr}}
 @media(max-width:560px){.community-feed-wrap{padding:16px}.community-feed-head{align-items:flex-start}.profile-edit{align-items:flex-start;flex-direction:column}.profile-fields{width:100%}.community-actions{flex-direction:column}}
 
-.hero-note{align-items:flex-start;flex-wrap:wrap}.countdown-metric{width:100%;max-width:540px;padding:15px 20px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,rgba(0,219,227,.07),rgba(232,59,255,.06));box-shadow:0 14px 40px rgba(0,0,0,.2)}.countdown-label{display:block;margin-bottom:11px;font-size:12px;font-weight:700;color:var(--muted)}.countdown{display:flex;align-items:center;justify-content:space-between;gap:clamp(8px,1.5vw,18px);direction:rtl}.count-unit{display:flex;flex:1;flex-direction:column;align-items:center;min-width:0}.count-unit strong{font:900 clamp(30px,3.8vw,44px) Inter,sans-serif;line-height:1.1;letter-spacing:-1px;background:var(--grad);background-clip:text;color:transparent;font-variant-numeric:tabular-nums}.count-unit small{font-size:11px;color:var(--muted);margin-top:5px}@media(max-width:560px){.countdown-metric{min-width:0;padding:14px 12px}.countdown{gap:7px}.count-unit strong{font-size:clamp(25px,7vw,32px);letter-spacing:-.5px}.count-unit small{font-size:10px;margin-top:5px}}\n</style>
+.hero-note{align-items:flex-start;flex-wrap:wrap}.countdown-metric{width:100%;max-width:540px;padding:15px 20px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,rgba(0,219,227,.07),rgba(232,59,255,.06));box-shadow:0 14px 40px rgba(0,0,0,.2)}.countdown-label{display:block;margin-bottom:11px;font-size:12px;font-weight:700;color:var(--muted)}.countdown{display:flex;align-items:center;justify-content:space-between;gap:clamp(8px,1.5vw,18px);direction:rtl}.count-unit{display:flex;flex:1;flex-direction:column;align-items:center;min-width:0}.count-unit strong{font:900 clamp(30px,3.8vw,44px) Inter,sans-serif;line-height:1.1;letter-spacing:-1px;background:var(--grad);background-clip:text;color:transparent;font-variant-numeric:tabular-nums}.count-unit small{font-size:11px;color:var(--muted);margin-top:5px}@media(max-width:560px){.countdown-metric{min-width:0;padding:14px 12px}.countdown{gap:7px}.count-unit strong{font-size:clamp(25px,7vw,32px);letter-spacing:-.5px}.count-unit small{font-size:10px;margin-top:5px}}\n
+/* CLAYKO interactive card hover */
+@media (hover:hover) and (pointer:fine){
+ .photo,.service,.point,.community-ticket{
+  transform:translateY(0);
+  transition:transform .32s cubic-bezier(.2,.75,.25,1),box-shadow .32s ease,border-color .32s ease;
+  will-change:transform;
+ }
+ .photo:hover,.service:hover,.point:hover,.community-ticket:hover{
+  transform:translateY(-5px);
+  border-color:rgba(0,219,227,.58);
+  box-shadow:0 10px 28px rgba(0,219,227,.12),0 3px 12px rgba(0,0,0,.16);
+ }
+ .photo:hover{box-shadow:0 12px 30px rgba(0,219,227,.16),0 3px 12px rgba(0,0,0,.18)}
+}
+@media (prefers-reduced-motion:reduce){
+ .photo,.service,.point,.community-ticket{transition:none!important;will-change:auto}
+ .photo:hover,.service:hover,.point:hover,.community-ticket:hover{transform:none!important}
+}
+</style>
 </head>
 <body>
 <div id="claykoIntro" aria-label="مقدمة CLAYKO"><div class="intro-inner"><div class="intro-mark">CLAYKO</div><div class="intro-line"></div><p>LIGHT · FRAME · STORY</p><button id="introEnter" type="button">الدخول إلى الموقع ↗</button></div></div>
