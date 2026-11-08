@@ -537,6 +537,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 <section class="section container" id="club">
  <div class="section-head reveal"><div><div class="section-kicker">04 — MEMBERSHIP & REWARDS</div><h2>CLAYKO <span class="gradient-text">CLUB.</span></h2></div><p class="section-desc">نقاط ومكافآت وعضويات تمنحك مساحة أكبر للمشاركة داخل مجتمع CLAYKO.</p></div>
  <p class="club-intro reveal">شارك الموقع، اجمع النقاط، واستبدلها بمكافآت أو ارتقِ بعضويتك. جميع الطلبات تخضع لمراجعة الإدارة قبل اعتمادها.</p>
+ <div class="club-panel reveal"><h3>منشورات أعضاء CLAYKO</h3><p class="club-panel-desc">الصور التي تمت الموافقة عليها من الإدارة تظهر هنا.</p><div id="clubPublicPosts" class="club-post-grid"><p class="club-panel-desc">جارٍ تحميل الصور...</p></div></div>
  <div id="clubLoggedOut" class="club-panel reveal"><h3>انضم إلى CLAYKO CLUB</h3><p class="club-panel-desc">سجّل الدخول من قسم مجتمع CLAYKO حتى تتابع نقاطك وتطلب العضوية والمكافآت.</p><a class="btn primary" href="#community">تسجيل الدخول / إنشاء حساب ↗</a></div>
  <div id="clubMemberArea" hidden>
   <div class="club-dashboard">
@@ -564,7 +565,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 </section>
 
 <section class="section container" id="services">
- <div class="section-head reveal"><div><div class="section-kicker">04 — WHAT I DO</div><h2>مساحات <span class="gradient-text">للتعاون.</span></h2></div><p class="section-desc">أفكار وخدمات إبداعية قابلة للتخصيص حسب طبيعة المشروع والنتيجة التي تبحث عنها.</p></div>
+ <div class="section-head reveal"><div><div class="section-kicker">05 — WHAT I DO</div><h2>مساحات <span class="gradient-text">للتعاون.</span></h2></div><p class="section-desc">أفكار وخدمات إبداعية قابلة للتخصيص حسب طبيعة المشروع والنتيجة التي تبحث عنها.</p></div>
  <div class="services">
   <article class="service reveal"><div class="symbol">◉</div><h3>تصوير البورتريه</h3><p>جلسات شخصية تبرز التعبير والهوية بأسلوب بصري متوازن.</p></article>
   <article class="service reveal"><div class="symbol">⌖</div><h3>تصوير الشارع</h3><p>توثيق الحياة اليومية واللحظات العفوية بتفاصيلها الإنسانية.</p></article>
@@ -872,7 +873,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    reactionsByTicket.get(reaction.ticket_id).push(reaction);
   });
   const userIds=[...new Set(rows.map(row=>row.user_id))];
-  const profileResult=await sbClient.from('profiles').select('id,display_name,avatar_path,is_verified,membership_tier').in('id',userIds);
+  const profileResult=await sbClient.from('profiles').select('id,display_name,avatar_path,is_verified,membership_tier,membership_expires_at').in('id',userIds);
   if(profileResult.error){feed.textContent='تعذر تحميل ملفات أصحاب الرسائل.';console.error(profileResult.error);return}
   const profiles=new Map((profileResult.data||[]).map(p=>[p.id,p]));
   feed.replaceChildren();
@@ -882,7 +883,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    const head=document.createElement('div');head.className='community-ticket-head';
    const img=document.createElement('img');img.className='community-avatar';img.alt='';img.src=avatarUrl(profile.avatar_path);img.onerror=()=>{img.src=fallbackAvatar};
    const author=document.createElement('div');author.className='community-ticket-author';
-   const name=document.createElement('strong');name.textContent=profile.display_name||'عضو CLAYKO';if(profile.is_verified){const verified=document.createElement('span');verified.className='verified-badge';verified.textContent='';verified.title='اضغط لمعرفة حالة التوثيق';verified.setAttribute('role','button');verified.setAttribute('tabindex','0');verified.setAttribute('aria-label','هذا الحساب موثّق رسميًا من CLAYKO');verified.setAttribute('aria-expanded','false');const toggleVerificationNotice=event=>{event.stopPropagation();const existing=document.getElementById('claykoVerificationNotice');if(existing)existing.remove();document.querySelectorAll('.verified-badge[aria-expanded="true"]').forEach(b=>b.setAttribute('aria-expanded','false'));const notice=document.createElement('div');notice.id='claykoVerificationNotice';notice.className='verification-notice';notice.textContent='هذا الحساب موثّق رسميًا من CLAYKO';document.body.append(notice);const rect=verified.getBoundingClientRect(),box=notice.getBoundingClientRect();let left=rect.left+rect.width/2-box.width/2;left=Math.max(14,Math.min(left,innerWidth-box.width-14));let top=rect.bottom+9;if(top+box.height>innerHeight-12)top=Math.max(12,rect.top-box.height-9);notice.style.left=left+'px';notice.style.top=top+'px';verified.setAttribute('aria-expanded','true');window.setTimeout(()=>{notice.classList.add('verification-notice-hide');window.setTimeout(()=>notice.remove(),1200);verified.setAttribute('aria-expanded','false')},4700)};verified.addEventListener('click',toggleVerificationNotice);verified.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleVerificationNotice(event)}});name.append(verified)}
+   const name=document.createElement('strong');name.textContent=profile.display_name||'عضو CLAYKO';if(['gold','platinum'].includes(profile.membership_tier)&&profile.membership_expires_at&&new Date(profile.membership_expires_at)>new Date()){const memberBadge=document.createElement('span');memberBadge.className='club-member-badge '+profile.membership_tier;memberBadge.textContent=profile.membership_tier==='platinum'?'PLATINUM':'GOLD';memberBadge.title='عضوية CLAYKO فعالة';name.append(memberBadge)}if(profile.is_verified){const verified=document.createElement('span');verified.className='verified-badge';verified.textContent='';verified.title='اضغط لمعرفة حالة التوثيق';verified.setAttribute('role','button');verified.setAttribute('tabindex','0');verified.setAttribute('aria-label','هذا الحساب موثّق رسميًا من CLAYKO');verified.setAttribute('aria-expanded','false');const toggleVerificationNotice=event=>{event.stopPropagation();const existing=document.getElementById('claykoVerificationNotice');if(existing)existing.remove();document.querySelectorAll('.verified-badge[aria-expanded="true"]').forEach(b=>b.setAttribute('aria-expanded','false'));const notice=document.createElement('div');notice.id='claykoVerificationNotice';notice.className='verification-notice';notice.textContent='هذا الحساب موثّق رسميًا من CLAYKO';document.body.append(notice);const rect=verified.getBoundingClientRect(),box=notice.getBoundingClientRect();let left=rect.left+rect.width/2-box.width/2;left=Math.max(14,Math.min(left,innerWidth-box.width-14));let top=rect.bottom+9;if(top+box.height>innerHeight-12)top=Math.max(12,rect.top-box.height-9);notice.style.left=left+'px';notice.style.top=top+'px';verified.setAttribute('aria-expanded','true');window.setTimeout(()=>{notice.classList.add('verification-notice-hide');window.setTimeout(()=>notice.remove(),1200);verified.setAttribute('aria-expanded','false')},4700)};verified.addEventListener('click',toggleVerificationNotice);verified.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleVerificationNotice(event)}});name.append(verified)}
    const time=document.createElement('time');time.dateTime=row.created_at;time.textContent=new Date(row.created_at).toLocaleString('ar-IQ',{dateStyle:'medium',timeStyle:'short'});
    author.append(name,time);head.append(img,author);card.append(head);
    const title=document.createElement('h4');title.textContent=row.subject;card.append(title);
@@ -1345,7 +1346,16 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   }
   if(!box.children.length)box.textContent='ماكو طلبات جديدة بانتظار المراجعة.';
  }
+ async function loadPublicPosts(){
+  const box=el('clubPublicPosts');if(!box)return;
+  const result=await client.from('member_posts').select('image_path,caption,created_at').eq('status','published').order('created_at',{ascending:false}).limit(12);
+  box.replaceChildren();
+  if(result.error){box.textContent='تعذر تحميل صور الأعضاء.';return}
+  if(!result.data?.length){box.innerHTML='<p class="club-panel-desc">ماكو صور منشورة من الأعضاء حالياً.</p>';return}
+  result.data.forEach(item=>{const card=document.createElement('article');card.className='club-post';const img=document.createElement('img');img.src=client.storage.from('clayko-gallery').getPublicUrl(item.image_path).data.publicUrl;img.alt='صورة منشورة من أحد أعضاء CLAYKO';const p=document.createElement('p');p.textContent=item.caption;card.append(img,p);box.append(card)});
+ }
  async function init(){
+  await loadPublicPosts();
   const session=await client.auth.getSession();user=session.data?.session?.user||null;
   if(user){await claimReferral();await loadMember()}
   else await loadMember();
