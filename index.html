@@ -386,6 +386,58 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
  .photo.clayko-card-active,.service.clayko-card-active,.point.clayko-card-active,.community-ticket.clayko-card-active{transform:none!important}
 }
 
+
+/* CLAYKO CLUB — membership, points and rewards */
+.club-intro{max-width:720px;color:var(--muted);font-size:13px;line-height:2}
+.club-dashboard{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:26px 0}
+.club-stat{background:linear-gradient(145deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;padding:18px;min-width:0}
+.club-stat small{display:block;color:var(--muted);font-size:11px;margin-bottom:7px}
+.club-stat strong{font:800 25px Inter,sans-serif;overflow-wrap:anywhere}
+.club-stat .club-stat-sub{display:block;color:var(--muted);font-size:10px;margin-top:7px}
+.club-plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:24px 0}
+.club-plan{position:relative;overflow:hidden;border-radius:24px;padding:25px;background:linear-gradient(145deg,rgba(217,189,131,.12),var(--panel) 58%);border:1px solid rgba(217,189,131,.42);box-shadow:var(--shadow)}
+.club-plan.platinum{background:linear-gradient(145deg,rgba(169,211,226,.14),var(--panel) 58%);border-color:rgba(169,211,226,.48)}
+.club-plan:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;top:-105px;left:-65px;background:radial-gradient(circle,rgba(217,189,131,.18),transparent 70%);pointer-events:none}
+.club-plan.platinum:after{background:radial-gradient(circle,rgba(169,211,226,.2),transparent 70%)}
+.club-plan-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.club-plan-mark{font:900 22px Inter,sans-serif;letter-spacing:2px;color:#e2c27d}
+.club-plan.platinum .club-plan-mark{color:#c8e3ed}
+.club-plan h3{font:800 30px Inter,sans-serif;margin:18px 0 5px;letter-spacing:1px}
+.club-plan p{color:var(--muted);font-size:12px;line-height:1.9}
+.club-plan ul{list-style:none;display:grid;gap:9px;margin:20px 0;color:var(--text);font-size:12px}
+.club-plan li:before{content:"✦";color:var(--cyan);margin-left:9px}
+.club-plan.platinum li:before{color:#b9dce8}
+.club-plan .btn{width:100%}
+.club-panel{padding:23px;border:1px solid var(--line);border-radius:20px;background:var(--panel);margin-top:18px}
+.club-panel h3{font-size:17px;margin-bottom:7px}
+.club-panel-desc{color:var(--muted);font-size:11px;line-height:1.9;margin-bottom:15px}
+.club-form{display:grid;gap:11px}
+.club-form input,.club-form textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--text);outline:none;font-size:12px}
+.club-form textarea{min-height:78px;resize:vertical}
+.club-form input:focus,.club-form textarea:focus{border-color:var(--cyan)}
+.club-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.club-row .btn{flex:1 1 150px}
+.club-history{display:grid;gap:8px;margin-top:14px}
+.club-history-item{display:flex;justify-content:space-between;gap:12px;padding:11px 13px;border:1px solid var(--line);border-radius:12px;font-size:11px}
+.club-history-item small{color:var(--muted)}
+.club-positive{color:#63d8a5;font-weight:800}.club-negative{color:#ff8e9a;font-weight:800}
+.club-admin-list{display:grid;gap:10px;margin-top:12px}
+.club-admin-item{border:1px solid var(--line);border-radius:14px;padding:13px;display:grid;gap:9px}
+.club-admin-item p{font-size:11px;color:var(--muted);line-height:1.8;overflow-wrap:anywhere}
+.club-admin-actions{display:flex;gap:8px;flex-wrap:wrap}
+.club-admin-actions button{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:8px 12px;font-size:11px}
+.club-admin-actions button.approve{border-color:rgba(99,216,165,.4);color:#63d8a5}
+.club-member-badge{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:30px;font:800 9px Inter,sans-serif;letter-spacing:.6px;vertical-align:middle;margin-inline-start:6px;border:1px solid rgba(217,189,131,.5);color:#e2c27d;background:rgba(217,189,131,.1)}
+.club-member-badge.platinum{border-color:rgba(169,211,226,.55);color:#c8e3ed;background:rgba(169,211,226,.1)}
+.club-post-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:15px}
+.club-post{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel2)}
+.club-post img{width:100%;height:180px;object-fit:cover;display:block}
+.club-post p{padding:10px;font-size:11px;color:var(--muted)}
+.club-status{min-height:18px;font-size:11px;color:var(--muted);line-height:1.8}
+.club-status.error{color:#ff8292}.club-status.success{color:#63d8a5}
+@media(max-width:700px){.club-dashboard{grid-template-columns:1fr 1fr}.club-plans{grid-template-columns:1fr}.club-post-grid{grid-template-columns:1fr 1fr}.club-plan{padding:20px}}
+@media(max-width:420px){.club-dashboard{grid-template-columns:1fr 1fr}.club-stat{padding:13px}.club-stat strong{font-size:21px}.club-post-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -394,10 +446,10 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 <header class="topbar">
  <div class="container nav">
   <a class="brand" href="#home">CLAYKO<small>VISUAL STORIES / BASRA</small></a>
-  <nav class="navlinks"><a href="#home">الرئيسية</a><a href="#about">من أنا</a><a href="#gallery">المعرض</a><a href="#community">مجتمع CLAYKO</a><a href="#services">الخدمات</a><a href="#contact">تواصل</a></nav>
+  <nav class="navlinks"><a href="#home">الرئيسية</a><a href="#about">من أنا</a><a href="#gallery">المعرض</a><a href="#community">مجتمع CLAYKO</a><a href="#club">CLAYKO CLUB</a><a href="#services">الخدمات</a><a href="#contact">تواصل</a></nav>
   <div class="navtools"><select id="languageSelect" class="language-select" aria-label="Select language" title="Language"><option value="ar">عربي</option><option value="en">English</option><option value="fr">Français</option></select><button class="iconbtn" id="christmasToggle" aria-label="إيقاف أو تشغيل زينة الكريسماس" title="زينة الكريسماس">❄</button><button class="iconbtn" id="themeBtn" aria-label="تبديل المظهر">☼</button><button class="iconbtn" id="favJump" aria-label="المفضلة">♡</button><button class="iconbtn" id="shareSite" aria-label="مشاركة الموقع" title="مشاركة الموقع">↗</button><button class="profile-nav" id="communityProfileOpen" type="button" aria-label="ملفي الشخصي" title="ملفي الشخصي" hidden><img id="communityNavAvatar" alt=""></button><button class="menu-toggle" id="menuBtn" aria-label="القائمة">☰</button></div>
  </div>
- <nav class="mobile-nav" id="mobileNav"><a href="#home">الرئيسية</a><a href="#about">من أنا</a><a href="#gallery">المعرض</a><a href="#community">مجتمع CLAYKO</a><a href="#services">الخدمات</a><a href="#contact">تواصل</a></nav>
+ <nav class="mobile-nav" id="mobileNav"><a href="#home">الرئيسية</a><a href="#about">من أنا</a><a href="#gallery">المعرض</a><a href="#community">مجتمع CLAYKO</a><a href="#club">CLAYKO CLUB</a><a href="#services">الخدمات</a><a href="#contact">تواصل</a></nav>
 </header>
 <main>
 <section class="container hero" id="home">
@@ -479,6 +531,36 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
   </div>
  </div>
  <div class="community-feed-wrap reveal"><div class="community-feed-head"><div><h3 class="community-title">رسائل المجتمع</h3><p class="community-hint">أحدث الرسائل المنشورة من أعضاء CLAYKO.</p></div><button class="btn community-refresh" id="communityRefresh" type="button">↻ تحديث</button></div><div id="communityTicketFeed" class="community-feed" aria-live="polite"><div class="community-empty">جارٍ تحميل الرسائل...</div></div></div>
+</section>
+
+
+<section class="section container" id="club">
+ <div class="section-head reveal"><div><div class="section-kicker">04 — MEMBERSHIP & REWARDS</div><h2>CLAYKO <span class="gradient-text">CLUB.</span></h2></div><p class="section-desc">نقاط ومكافآت وعضويات تمنحك مساحة أكبر للمشاركة داخل مجتمع CLAYKO.</p></div>
+ <p class="club-intro reveal">شارك الموقع، اجمع النقاط، واستبدلها بمكافآت أو ارتقِ بعضويتك. جميع الطلبات تخضع لمراجعة الإدارة قبل اعتمادها.</p>
+ <div id="clubLoggedOut" class="club-panel reveal"><h3>انضم إلى CLAYKO CLUB</h3><p class="club-panel-desc">سجّل الدخول من قسم مجتمع CLAYKO حتى تتابع نقاطك وتطلب العضوية والمكافآت.</p><a class="btn primary" href="#community">تسجيل الدخول / إنشاء حساب ↗</a></div>
+ <div id="clubMemberArea" hidden>
+  <div class="club-dashboard">
+   <div class="club-stat"><small>رصيد نقاطك</small><strong id="clubPoints">0</strong><span class="club-stat-sub">CLAYKO POINTS</span></div>
+   <div class="club-stat"><small>مستوى عضويتك</small><strong id="clubTier">FREE</strong><span class="club-stat-sub" id="clubExpiry">عضوية مجانية</span></div>
+   <div class="club-stat"><small>دعواتك</small><strong id="clubReferralCount">0</strong><span class="club-stat-sub">دعوات مسجلة</span></div>
+  </div>
+  <div class="club-panel reveal"><h3>رابط الدعوة الخاص بك</h3><p class="club-panel-desc">شارك الرابط. تحصل على 100 نقطة عن كل عضو جديد تتم مراجعة دعوته واعتمادها. الدعوات الذاتية أو المكررة لا تُحتسب.</p><div class="club-row"><input id="clubReferralLink" readonly style="flex:1;min-width:180px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--text);font-size:11px"><button class="btn primary" id="clubShareReferral" type="button">مشاركة الرابط ↗</button></div><p class="club-status" id="clubReferralStatus"></p></div>
+  <div class="club-plans reveal">
+   <article class="club-plan"><div class="club-plan-top"><span class="club-plan-mark">GOLD / 01</span><span>✦</span></div><h3>GOLD</h3><p>عضوية للمشاركين وصنّاع المحتوى.</p><ul><li>شارة عضوية ذهبية بجانب الاسم</li><li>نشر الصور في مجتمع CLAYKO بعد المراجعة</li><li>حد أقصى 3 صور منشورة لكل شهر</li><li>أولوية عادية في مراجعة المنشورات</li><li>مدة العضوية 30 يوماً</li></ul><button class="btn" data-club-plan="membership_gold" type="button">طلب عضوية GOLD</button></article>
+   <article class="club-plan platinum"><div class="club-plan-top"><span class="club-plan-mark">PLATINUM / 02</span><span>✧</span></div><h3>PLATINUM</h3><p>تجربة أوسع للأعضاء الأكثر نشاطاً.</p><ul><li>شارة بلاتينية حصرية</li><li>كل مزايا GOLD</li><li>نشر حتى 10 صور لكل شهر</li><li>أولوية أعلى في مراجعة المنشورات</li><li>مكافأة 50 نقطة عند تجديد العضوية</li><li>أولوية طلب جلسات التصوير</li><li>مدة العضوية 30 يوماً</li></ul><button class="btn primary" data-club-plan="membership_platinum" type="button">طلب عضوية PLATINUM</button></article>
+  </div>
+  <div class="club-panel reveal"><h3>متجر المكافآت</h3><p class="club-panel-desc">تُخصم النقاط بعد موافقة الإدارة فقط. شراء الصورة لا ينقل حقوق النشر تلقائياً؛ يتم تحديد الترخيص أو التنازل عن الحقوق كتابياً قبل التسليم.</p>
+   <form class="club-form" id="clubPhotoForm"><label class="field"><span>اسم الصورة التي تريد شراءها — 1,200 نقطة</span><input id="clubPhotoTitle" maxlength="180" required placeholder="اكتب اسم الصورة كما يظهر في المعرض"></label><label class="field"><span>تفاصيل أو نوع الترخيص المطلوب</span><textarea id="clubPhotoDetails" maxlength="1000" placeholder="مثلاً: استخدام شخصي أو تجاري..."></textarea></label><button class="btn" type="submit">طلب شراء الصورة · 1,200 نقطة</button></form>
+   <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+   <form class="club-form" id="clubSessionForm"><label class="field"><span>تفاصيل جلسة التصوير — 6,000 نقطة</span><textarea id="clubSessionDetails" maxlength="1000" required placeholder="نوع الجلسة، المكان المقترح، والوقت المناسب..."></textarea></label><button class="btn" type="submit">طلب جلسة تصوير · 6,000 نقطة</button></form>
+   <p class="club-status" id="clubRequestStatus" aria-live="polite"></p>
+  </div>
+  <div class="club-panel reveal" id="clubUploadPanel"><h3>مساحة نشر الأعضاء</h3><p class="club-panel-desc" id="clubUploadHint">النشر متاح للأعضاء الذهبيين والبلاتينيين خلال فترة اشتراك فعالة. كل صورة تمر بمراجعة الإدارة قبل ظهورها.</p>
+   <form class="club-form" id="clubPostForm"><label class="field"><span>اختر صورة (JPG / PNG / WebP حتى 10MB)</span><input id="clubPostFile" type="file" accept="image/jpeg,image/png,image/webp" required></label><label class="field"><span>وصف الصورة</span><textarea id="clubPostCaption" maxlength="500" minlength="2" required placeholder="اكتب وصفاً قصيراً للصورة"></textarea></label><button class="btn primary" type="submit" id="clubPostSubmit">إرسال الصورة للمراجعة ↗</button></form><p class="club-status" id="clubPostStatus"></p><div id="clubMyPosts" class="club-post-grid"></div>
+  </div>
+  <div class="club-panel reveal"><h3>سجل النقاط والطلبات</h3><div id="clubHistory" class="club-history"><p class="club-panel-desc">جارٍ تحميل السجل...</p></div></div>
+  <div class="club-panel reveal" id="clubAdminPanel" hidden><h3>إدارة CLAYKO CLUB</h3><p class="club-panel-desc">طلبات العضوية والمكافآت والدعوات والمنشورات بانتظار مراجعتك.</p><div id="clubAdminQueue" class="club-admin-list">جارٍ تحميل الطلبات...</div></div>
+ </div>
 </section>
 
 <section class="section container" id="services">
@@ -790,7 +872,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    reactionsByTicket.get(reaction.ticket_id).push(reaction);
   });
   const userIds=[...new Set(rows.map(row=>row.user_id))];
-  const profileResult=await sbClient.from('profiles').select('id,display_name,avatar_path,is_verified').in('id',userIds);
+  const profileResult=await sbClient.from('profiles').select('id,display_name,avatar_path,is_verified,membership_tier').in('id',userIds);
   if(profileResult.error){feed.textContent='تعذر تحميل ملفات أصحاب الرسائل.';console.error(profileResult.error);return}
   const profiles=new Map((profileResult.data||[]).map(p=>[p.id,p]));
   feed.replaceChildren();
@@ -888,7 +970,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    if(authMode==='signup'){
     const displayName=byId('communityName').value.trim();
     if(displayName.length<2||displayName.length>40)throw new Error('اكتب اسماً من حرفين إلى 40 حرفاً.');
-    const result=await sbClient.auth.signUp({email,password,options:{data:{display_name:displayName},emailRedirectTo:location.origin+location.pathname}});
+    const result=await sbClient.auth.signUp({email,password,options:{data:{display_name:displayName,referral_code:localStorage.getItem('clayko-referral-pending')||null},emailRedirectTo:location.origin+location.pathname}});
     if(result.error)throw result.error;
     if(result.data.session){await refreshUser(result.data.user);toast('تم إنشاء حسابك بنجاح')}
     else status('communityAuthStatus','تم إنشاء الحساب. افتح بريدك الإلكتروني واضغط رابط التأكيد، وبعدها ارجع وسجّل الدخول.','success');
@@ -1144,6 +1226,132 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  document.addEventListener('pointercancel',()=>{
   document.querySelectorAll('.clayko-card-active').forEach(card=>card.classList.remove('clayko-card-active'));
  });
+})();
+</script>
+
+
+<script>
+/* CLAYKO CLUB — secure membership and points UI */
+(()=>{
+ const client=window.supabase?.createClient?window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
+ if(!client)return;
+ const el=id=>document.getElementById(id);
+ const status=(id,msg,type)=>{const n=el(id);if(n){n.textContent=msg||'';n.className='club-status'+(type?' '+type:'')}};
+ const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ const refFromUrl=new URLSearchParams(location.search).get('ref');
+ if(refFromUrl&&/^[A-Z0-9]{6,20}$/i.test(refFromUrl))localStorage.setItem('clayko-referral-pending',refFromUrl.toUpperCase());
+ let user=null,profile=null,account=null;
+ const active=()=>profile&&profile.can_publish&&['gold','platinum'].includes(profile.membership_tier)&&profile.membership_expires_at&&new Date(profile.membership_expires_at)>new Date();
+ async function claimReferral(){
+  const code=localStorage.getItem('clayko-referral-pending')||user?.user_metadata?.referral_code;
+  if(!code||!user)return;
+  const result=await client.rpc('claim_member_referral',{p_code:code});
+  if(!result.error){localStorage.removeItem('clayko-referral-pending');status('clubReferralStatus','تم تسجيل الدعوة. تُضاف النقاط بعد مراجعة الإدارة.','success')}
+  else if(!/already|duplicate|دعوة مسجلة/i.test(result.error.message||''))console.warn('Referral claim:',result.error.message);
+ }
+ async function loadMember(){
+  if(!user){el('clubLoggedOut').hidden=false;el('clubMemberArea').hidden=true;return}
+  el('clubLoggedOut').hidden=true;el('clubMemberArea').hidden=false;
+  const [p,a,r,l,posts,referrals]=await Promise.all([
+   client.from('profiles').select('id,display_name,membership_tier,membership_expires_at,can_publish').eq('id',user.id).maybeSingle(),
+   client.from('member_accounts').select('referral_code,points_balance').eq('user_id',user.id).maybeSingle(),
+   client.from('member_requests').select('id,request_type,item_title,details,points_cost,status,created_at,admin_note').eq('user_id',user.id).order('created_at',{ascending:false}).limit(20),
+   client.from('member_points_ledger').select('amount,reason,created_at').eq('user_id',user.id).order('created_at',{ascending:false}).limit(20),
+   client.from('member_posts').select('id,image_path,caption,status,created_at').eq('user_id',user.id).order('created_at',{ascending:false}).limit(12),
+   client.from('member_referrals').select('id,status,created_at').eq('referrer_id',user.id)
+  ]);
+  if(p.error||a.error){status('clubRequestStatus','تعذر تحميل بيانات العضوية: '+(p.error||a.error).message,'error');return}
+  profile=p.data;account=a.data;
+  el('clubPoints').textContent=Number(account?.points_balance||0).toLocaleString('en-US');
+  const tier=profile?.membership_tier||'free';
+  el('clubTier').textContent=tier==='platinum'?'PLATINUM':tier==='gold'?'GOLD':'FREE';
+  el('clubExpiry').textContent=active()?'تنتهي في '+new Date(profile.membership_expires_at).toLocaleDateString('ar-IQ'):'عضوية مجانية / غير فعالة';
+  el('clubReferralCount').textContent=(referrals.data||[]).length;
+  const link=location.origin+location.pathname+'?ref='+(account?.referral_code||'');
+  el('clubReferralLink').value=link;
+  el('clubUploadPanel').querySelector('form').hidden=!active();
+  el('clubUploadHint').textContent=active()?'يمكنك إرسال صورك للمراجعة. عدد الصور الشهري: GOLD ثلاث صور، PLATINUM عشر صور.':'النشر متاح فقط للأعضاء الذهبيين والبلاتينيين خلال فترة اشتراك فعالة.';
+  const history=el('clubHistory');history.replaceChildren();
+  const ledger=l.data||[], requests=r.data||[];
+  if(!ledger.length&&!requests.length){history.innerHTML='<p class="club-panel-desc">ما عندك حركات نقاط أو طلبات حالياً.</p>'}
+  ledger.forEach(item=>{const row=document.createElement('div');row.className='club-history-item';const left=document.createElement('span');left.textContent=item.reason+' · '+new Date(item.created_at).toLocaleDateString('ar-IQ');const right=document.createElement('strong');right.className=item.amount>0?'club-positive':'club-negative';right.textContent=(item.amount>0?'+':'')+item.amount+' نقطة';row.append(left,right);history.append(row)});
+  requests.forEach(item=>{const row=document.createElement('div');row.className='club-history-item';const left=document.createElement('span');left.textContent=({membership_gold:'طلب GOLD',membership_platinum:'طلب PLATINUM',photo_purchase:'طلب شراء صورة',photo_session:'طلب جلسة تصوير'}[item.request_type]||item.request_type)+' · '+new Date(item.created_at).toLocaleDateString('ar-IQ');const right=document.createElement('strong');right.textContent=({pending:'قيد المراجعة',approved:'مقبول',rejected:'مرفوض'}[item.status]||item.status);row.append(left,right);history.append(row)});
+  const postBox=el('clubMyPosts');postBox.replaceChildren();
+  (posts.data||[]).forEach(item=>{const card=document.createElement('article');card.className='club-post';const img=document.createElement('img');img.src=client.storage.from('clayko-gallery').getPublicUrl(item.image_path).data.publicUrl;img.alt='صورة العضو';const p=document.createElement('p');p.textContent=item.caption+' · '+({pending:'بانتظار المراجعة',published:'منشور',rejected:'مرفوض'}[item.status]||item.status);card.append(img,p);postBox.append(card)});
+  if(user.app_metadata?.role==='admin'){el('clubAdminPanel').hidden=false;await loadAdminQueue()}else el('clubAdminPanel').hidden=true;
+ }
+ async function submitRequest(type,title,details){
+  if(!user){status('clubRequestStatus','سجّل الدخول أولاً.','error');return}
+  const result=await client.rpc('submit_member_request',{p_request_type:type,p_item_title:title||null,p_details:details||null});
+  if(result.error)throw result.error;
+  status('clubRequestStatus','تم إرسال طلبك بنجاح، وسيظهر في سجل الطلبات بعد قليل.','success');await loadMember();
+ }
+ document.querySelectorAll('[data-club-plan]').forEach(button=>button.addEventListener('click',async()=>{
+  if(!user){status('clubRequestStatus','سجّل الدخول أولاً من قسم المجتمع.','error');return}
+  button.disabled=true;
+  try{await submitRequest(button.dataset.clubPlan,button.dataset.clubPlan==='membership_gold'?'GOLD':'PLATINUM','طلب اشتراك لمدة 30 يوماً. يتم التفعيل بعد تأكيد الاشتراك من الإدارة.');toast('تم إرسال طلب العضوية')}
+  catch(error){status('clubRequestStatus',error.message||'تعذر إرسال الطلب.','error')}
+  finally{button.disabled=false}
+ }));
+ el('clubPhotoForm').addEventListener('submit',async event=>{event.preventDefault();try{await submitRequest('photo_purchase',el('clubPhotoTitle').value.trim(),el('clubPhotoDetails').value.trim());el('clubPhotoForm').reset()}catch(error){status('clubRequestStatus',error.message||'تعذر إرسال الطلب.','error')}});
+ el('clubSessionForm').addEventListener('submit',async event=>{event.preventDefault();try{await submitRequest('photo_session','جلسة تصوير',el('clubSessionDetails').value.trim());el('clubSessionForm').reset()}catch(error){status('clubRequestStatus',error.message||'تعذر إرسال الطلب.','error')}});
+ el('clubShareReferral').addEventListener('click',async()=>{
+  const value=el('clubReferralLink').value;
+  try{if(navigator.share)await navigator.share({title:'انضم إلى CLAYKO',text:'استخدم رابط الدعوة الخاص بي للانضمام إلى CLAYKO',url:value});else{await navigator.clipboard.writeText(value);status('clubReferralStatus','تم نسخ رابط الدعوة.','success')}}catch(error){if(error.name!=='AbortError')status('clubReferralStatus','تعذرت مشاركة الرابط. انسخه يدوياً.','error')}
+ });
+ el('clubPostForm').addEventListener('submit',async event=>{
+  event.preventDefault();if(!active()){status('clubPostStatus','النشر يحتاج عضوية فعالة.','error');return}
+  const file=el('clubPostFile').files?.[0],caption=el('clubPostCaption').value.trim(),button=el('clubPostSubmit');
+  if(!file||!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>10*1024*1024){status('clubPostStatus','اختر صورة JPG أو PNG أو WebP بحجم لا يتجاوز 10MB.','error');return}
+  button.disabled=true;status('clubPostStatus','جارٍ رفع الصورة وإرسالها للمراجعة...');
+  const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';
+  const path='members/'+user.id+'/'+crypto.randomUUID()+'.'+ext;
+  try{
+   const uploaded=await client.storage.from('clayko-gallery').upload(path,file,{contentType:file.type,upsert:false});
+   if(uploaded.error)throw uploaded.error;
+   const inserted=await client.from('member_posts').insert({user_id:user.id,image_path:path,caption,status:'pending'});
+   if(inserted.error){await client.storage.from('clayko-gallery').remove([path]);throw inserted.error}
+   el('clubPostForm').reset();status('clubPostStatus','وصلت صورتك إلى الإدارة وهي بانتظار المراجعة.','success');await loadMember();
+  }catch(error){status('clubPostStatus',error.message||'تعذر إرسال الصورة.','error')}
+  finally{button.disabled=false}
+ });
+ async function loadAdminQueue(){
+  const box=el('clubAdminQueue');box.textContent='جارٍ تحميل الطلبات...';
+  const [requests,referrals,posts]=await Promise.all([
+   client.from('member_requests').select('*').eq('status','pending').order('created_at',{ascending:true}).limit(30),
+   client.from('member_referrals').select('*').eq('status','pending').order('created_at',{ascending:true}).limit(30),
+   client.from('member_posts').select('*').eq('status','pending').order('created_at',{ascending:true}).limit(30)
+  ]);
+  if(requests.error||referrals.error||posts.error){box.textContent='تعذر تحميل قائمة المراجعة.';return}
+  box.replaceChildren();
+  const add=(title,description,actions)=>{
+   const card=document.createElement('article');card.className='club-admin-item';const h=document.createElement('strong');h.textContent=title;const p=document.createElement('p');p.textContent=description;const row=document.createElement('div');row.className='club-admin-actions';actions.forEach(a=>{const b=document.createElement('button');b.textContent=a.label;if(a.approve)b.classList.add('approve');b.addEventListener('click',async()=>{b.disabled=true;try{await a.run();await loadMember();}catch(error){toast(error.message||'تعذر تنفيذ الإجراء');b.disabled=false}});row.append(b)});card.append(h,p,row);box.append(card);
+  };
+  for(const r of requests.data||[]){
+   const tier=r.request_type==='membership_gold'?'عضوية GOLD':r.request_type==='membership_platinum'?'عضوية PLATINUM':r.request_type==='photo_purchase'?'شراء صورة':'جلسة تصوير';
+   add(tier+' · '+r.user_id.slice(0,8),((r.item_title||'')+' '+(r.details||'')+' · '+r.points_cost+' نقطة').trim(),[
+    {label:'موافقة',approve:true,run:()=>client.rpc('admin_review_member_request',{p_request_id:r.id,p_approve:true,p_note:'تمت المراجعة والموافقة'}) .then(x=>{if(x.error)throw x.error})},
+    {label:'رفض',run:()=>client.rpc('admin_review_member_request',{p_request_id:r.id,p_approve:false,p_note:'لم تتم الموافقة'}) .then(x=>{if(x.error)throw x.error})}
+   ]);
+  }
+  for(const r of referrals.data||[]){
+   add('دعوة عضو · '+r.referrer_id.slice(0,8),'العضو المدعو: '+r.referred_id.slice(0,8)+' · المكافأة 100 نقطة',[
+    {label:'اعتماد +100',approve:true,run:()=>client.rpc('admin_review_member_referral',{p_referral_id:r.id,p_approve:true}).then(x=>{if(x.error)throw x.error})},
+    {label:'رفض',run:()=>client.rpc('admin_review_member_referral',{p_referral_id:r.id,p_approve:false}).then(x=>{if(x.error)throw x.error})}
+   ]);
+  }
+  for(const p of posts.data||[]){
+   const card=document.createElement('article');card.className='club-admin-item';const img=document.createElement('img');img.src=client.storage.from('clayko-gallery').getPublicUrl(p.image_path).data.publicUrl;img.style.cssText='width:100%;max-height:220px;object-fit:contain;border-radius:10px';const title=document.createElement('strong');title.textContent='صورة عضو · '+p.user_id.slice(0,8);const desc=document.createElement('p');desc.textContent=p.caption;const row=document.createElement('div');row.className='club-admin-actions';[['نشر',true],['رفض',false]].forEach(([label,yes])=>{const b=document.createElement('button');b.textContent=label;if(yes)b.classList.add('approve');b.addEventListener('click',async()=>{b.disabled=true;const result=await client.rpc('admin_review_member_post',{p_post_id:p.id,p_approve:yes});if(result.error){toast(result.error.message);b.disabled=false}else await loadMember()});row.append(b)});card.append(img,title,desc,row);box.append(card);
+  }
+  if(!box.children.length)box.textContent='ماكو طلبات جديدة بانتظار المراجعة.';
+ }
+ async function init(){
+  const session=await client.auth.getSession();user=session.data?.session?.user||null;
+  if(user){await claimReferral();await loadMember()}
+  else await loadMember();
+  client.auth.onAuthStateChange(async(_event,session)=>{user=session?.user||null;profile=null;account=null;if(user){await claimReferral();await loadMember()}else await loadMember()});
+ }
+ init().catch(error=>{console.error('CLAYKO CLUB:',error);status('clubRequestStatus','تعذر تحميل لوحة العضوية.','error')});
 })();
 </script>
 
