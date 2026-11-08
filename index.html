@@ -370,6 +370,22 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
  .photo:hover,.service:hover,.point:hover,.community-ticket:hover,
  .photo:active,.service:active,.point:active,.community-ticket:active{transform:none!important}
 }
+
+/* CLAYKO card interaction — robust pointer-driven fallback */
+.photo.clayko-card-active,.service.clayko-card-active,.point.clayko-card-active,.community-ticket.clayko-card-active{
+ transform:translate3d(0,-8px,0) scale(1.012)!important;
+ border-color:rgba(0,219,227,.78)!important;
+ box-shadow:0 14px 34px rgba(0,219,227,.22),0 4px 14px rgba(0,0,0,.2)!important;
+ position:relative;
+ z-index:3;
+}
+.photo.clayko-card-active img{transform:scale(1.045);filter:brightness(.82)}
+.service,.point,.community-ticket{transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}
+.photo{transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}
+@media(prefers-reduced-motion:reduce){
+ .photo.clayko-card-active,.service.clayko-card-active,.point.clayko-card-active,.community-ticket.clayko-card-active{transform:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -1109,5 +1125,27 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  updateCountdown();setInterval(updateCountdown,1000);
 })();
 </script>
+
+<script>
+/* Pointer event fallback so card feedback works even if CSS hover is overridden */
+(()=> {
+ const selector='.photo,.service,.point,.community-ticket';
+ document.addEventListener('pointerover',event=>{
+  if(event.pointerType==='touch')return;
+  const card=event.target.closest?.(selector);
+  if(!card || card.contains(event.relatedTarget))return;
+  card.classList.add('clayko-card-active');
+ });
+ document.addEventListener('pointerout',event=>{
+  const card=event.target.closest?.(selector);
+  if(!card || card.contains(event.relatedTarget))return;
+  card.classList.remove('clayko-card-active');
+ });
+ document.addEventListener('pointercancel',()=>{
+  document.querySelectorAll('.clayko-card-active').forEach(card=>card.classList.remove('clayko-card-active'));
+ });
+})();
+</script>
+
 </body>
 </html>
