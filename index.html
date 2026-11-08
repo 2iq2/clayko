@@ -1291,7 +1291,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   status('clubRequestStatus','تم إرسال طلبك بنجاح، وسيظهر في سجل الطلبات بعد قليل.','success');await loadMember();
  }
  document.querySelectorAll('[data-club-plan]').forEach(button=>button.addEventListener('click',async()=>{
-  if(!user){status('clubRequestStatus','سجّل الدخول أولاً من قسم المجتمع.','error');return}
+  if(!user){toast('سجّل الدخول أولاً من قسم مجتمع CLAYKO');location.hash='#community';return}
   button.disabled=true;
   try{await submitRequest(button.dataset.clubPlan,button.dataset.clubPlan==='membership_gold'?'GOLD':'PLATINUM','طلب اشتراك لمدة 30 يوماً. يتم التفعيل بعد تأكيد الاشتراك من الإدارة.');toast('تم إرسال طلب العضوية')}
   catch(error){status('clubRequestStatus',error.message||'تعذر إرسال الطلب.','error')}
