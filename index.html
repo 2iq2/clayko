@@ -1362,7 +1362,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   const session=await client.auth.getSession();user=session.data?.session?.user||null;
   if(user){await claimReferral();await loadMember()}
   else await loadMember();
-  client.auth.onAuthStateChange(async(_event,session)=>{user=session?.user||null;profile=null;account=null;if(user){await claimReferral();await loadMember()}else await loadMember()});
+  client.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;profile=null;account=null;Promise.resolve().then(async()=>{if(user){await claimReferral();await loadMember()}else await loadMember()}).catch(error=>{console.error('CLAYKO CLUB auth refresh:',error);status('clubRequestStatus','تعذر تحديث بيانات العضوية.','error')})});
  }
  init().catch(error=>{console.error('CLAYKO CLUB:',error);status('clubRequestStatus','تعذر تحميل لوحة العضوية.','error')});
 })();
