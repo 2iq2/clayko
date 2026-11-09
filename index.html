@@ -537,6 +537,13 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 
 .community-ticket-username{display:block;color:var(--muted);font-size:11px;direction:ltr;text-align:right;margin-top:2px;opacity:.85}
 
+
+/* CLAYKO accessibility and gallery polish */
+:focus-visible{outline:2px solid var(--cyan)!important;outline-offset:3px}
+.lightbox[aria-hidden="true"]{visibility:hidden;pointer-events:none}
+.lightbox[aria-hidden="false"]{visibility:visible}
+#lbCaption{max-width:min(90vw,720px);text-align:center;line-height:1.7}
+@media(prefers-reduced-motion:reduce){.photo,.lightbox img{transition:none!important}}
 </style>
 
 <style id="clayko-ai-styles">
@@ -607,7 +614,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 <section class="section container" id="gallery">
  <div class="section-head reveal"><div><div class="section-kicker">02 — SELECTED WORKS</div><h2>معرض <span class="gradient-text">الحكايات.</span></h2></div><p class="section-desc">مجموعة مختارة من المشاهد. اختَر التصنيف، ابحث عن صورة، أو احفظ أعمالك المفضلة.</p></div>
  <div class="gallery-tools reveal"><div class="filters"><button class="filter active" data-filter="all">الكل</button><button class="filter" data-filter="nature">الطبيعة</button><button class="filter" data-filter="street">الشارع</button><button class="filter" data-filter="portrait">بورتريه</button><button class="filter" data-filter="architecture">عمارة</button><button class="filter" data-filter="favorites">♡ المفضلة</button></div><div class="search-wrap"><input class="search" id="searchInput" type="search" placeholder="ابحث في المعرض..." aria-label="ابحث في المعرض"><select class="search gallery-sort" id="gallerySort" aria-label="ترتيب الصور"><option value="default">الترتيب الافتراضي</option><option value="az">الاسم: أ إلى ي</option><option value="za">الاسم: ي إلى أ</option></select></div></div><div class="gallery-meta" id="galleryMeta" aria-live="polite">جارٍ تجهيز المعرض...</div>
- <div class="gallery" id="galleryGrid">
+ <div class="gallery" id="galleryGrid" aria-label="معرض صور CLAYKO">
   
   
   
@@ -754,7 +761,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 </main>
 <footer><div class="container footer-row"><a class="brand" href="#home">CLAYKO<small>VISUAL STORIES</small></a><span>© <span id="year"></span> CLAYKO. جميع الحقوق محفوظة.</span><div class="footer-links"><a href="#home">للأعلى ↑</a><a href="#gallery">المعرض</a><a href="#contact">تواصل</a><a href="https://www.instagram.com/2rir4?srtk=anhmZWt1ZnFub2Rp" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div></div></footer>
 <button class="iconbtn backtop" id="backTop" aria-label="العودة للأعلى">↑</button>
-<div class="lightbox" id="lightbox"><button id="lbZoom" type="button" aria-label="تكبير الصورة">＋ تكبير</button><button class="lb-close" id="lbClose" aria-label="إغلاق">×</button><button class="lb-prev" id="lbPrev" aria-label="السابق">‹</button><img id="lbImage" src="" alt="صورة مكبرة"><button class="lb-next" id="lbNext" aria-label="التالي">›</button><div class="lb-caption" id="lbCaption"></div><button class="lb-share" id="lbShare" type="button">مشاركة الصورة ↗</button></div>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="lbCaption" tabindex="-1"><button id="lbZoom" type="button" aria-label="تكبير الصورة">＋ تكبير</button><button class="lb-close" id="lbClose" aria-label="إغلاق">×</button><button class="lb-prev" id="lbPrev" aria-label="السابق">‹</button><img id="lbImage" src="" alt="صورة مكبرة"><button class="lb-next" id="lbNext" aria-label="التالي">›</button><div class="lb-caption" id="lbCaption"></div><button class="lb-share" id="lbShare" type="button">مشاركة الصورة ↗</button></div>
 <div id="communityProfileModal" class="profile-modal" aria-hidden="true"><div class="profile-modal-card"><div class="profile-modal-head"><h3>ملفي الشخصي</h3><button type="button" id="communityProfileClose">×</button></div><div id="communityProfileModalBody"></div></div></div><div id="communityRecoveryModal" class="profile-modal" aria-hidden="true"><div class="profile-modal-card"><div class="profile-modal-head"><h3>تعيين كلمة مرور جديدة</h3><button type="button" id="communityRecoveryClose">×</button></div><form id="communityRecoveryForm" class="community-form"><div class="field"><label for="communityNewPassword">كلمة المرور الجديدة</label><input id="communityNewPassword" type="password" minlength="8" required autocomplete="new-password"></div><div class="field"><label for="communityNewPasswordConfirm">تأكيد كلمة المرور</label><input id="communityNewPasswordConfirm" type="password" minlength="8" required autocomplete="new-password"></div><button class="btn primary" type="submit" id="communityRecoverySubmit">حفظ كلمة المرور</button><p class="community-status" id="communityRecoveryStatus"></p></form></div></div><div class="toast" id="toast"></div>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'"></script>
@@ -825,7 +832,7 @@ const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root
 const toast=(msg)=>{const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2300)};
 function recordAnalytics(eventType,itemKey=null){if(!sbClient)return;const token=eventType==='page_view'?'clayko-analytics-page':('clayko-analytics-photo-'+String(itemKey||'').slice(0,160));try{if(sessionStorage.getItem(token))return;sessionStorage.setItem(token,'1')}catch(e){}sbClient.from('site_analytics').insert({event_type:eventType,item_key:itemKey?String(itemKey).slice(0,160):null}).then(({error})=>{if(error)console.warn('Analytics event was not saved',error)})}
 recordAnalytics('page_view');
-let activeFilter='all', searchTerm='', currentIndex=0;
+let activeFilter='all', searchTerm='', currentIndex=0, lightboxReturnFocus=null;
 const saved=new Set(JSON.parse(localStorage.getItem('clayko-favs')||'[]'));
 function allPhotos(){return $$('.photo')}
 function visiblePhotos(){return allPhotos().filter(p=>p.style.display!=='none')}
@@ -856,9 +863,9 @@ $('#galleryGrid').addEventListener('click',e=>{
  const favBtn=e.target.closest('.save');if(favBtn){e.stopPropagation();const p=favBtn.closest('.photo'),name=p.dataset.title;if(saved.has(name)){saved.delete(name);toast('تمت إزالة الصورة من المفضلة')}else{saved.add(name);toast('تم حفظ الصورة في المفضلة')}persistFavs();updateFavButtons();applyFilters();return}
  const p=e.target.closest('.photo');if(p)openLightbox(p);
 });
-function openLightbox(photo){const list=visiblePhotos();currentIndex=list.indexOf(photo);recordAnalytics('photo_view',photo.dataset.analyticsKey||photo.dataset.title||'photo');renderLightbox()}
-function renderLightbox(){const list=visiblePhotos();if(!list.length)return;currentIndex=(currentIndex+list.length)%list.length;const p=list[currentIndex];$('#lbImage').src=$('img',p).src;$('#lbImage').classList.remove('zoomed');$('#lbZoom').textContent='＋ تكبير';$('#lbCaption').textContent=p.dataset.title;$('#lightbox').classList.add('open');document.body.style.overflow='hidden'}
-function closeLightbox(){$('#lightbox').classList.remove('open');document.body.style.overflow=''}
+function openLightbox(photo){const list=visiblePhotos();currentIndex=list.indexOf(photo);lightboxReturnFocus=document.activeElement;recordAnalytics('photo_view',photo.dataset.analyticsKey||photo.dataset.title||'photo');renderLightbox()}
+function renderLightbox(){const list=visiblePhotos();if(!list.length)return;currentIndex=(currentIndex+list.length)%list.length;const p=list[currentIndex],source=$('img',p);$('#lbImage').src=source.currentSrc||source.src;$('#lbImage').alt=source.alt||p.dataset.title||'صورة من معرض CLAYKO';$('#lbImage').classList.remove('zoomed');$('#lbZoom').textContent='＋ تكبير';$('#lbCaption').textContent=p.dataset.title||'CLAYKO';$('#lightbox').classList.add('open');$('#lightbox').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';if(lightboxReturnFocus)$('#lbClose').focus({preventScroll:true})}
+function closeLightbox(){$('#lightbox').classList.remove('open');$('#lightbox').setAttribute('aria-hidden','true');document.body.style.overflow='';if(lightboxReturnFocus&&typeof lightboxReturnFocus.focus==='function')lightboxReturnFocus.focus({preventScroll:true});lightboxReturnFocus=null}
 $('#lbShare').onclick=async()=>{
  const list=visiblePhotos(),p=list[currentIndex];if(!p)return;
  const imageUrl=$('img',p).src,title=p.dataset.title||'CLAYKO';
@@ -870,7 +877,7 @@ $('#lightbox').addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0]
 $('#lightbox').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-touchStartX;if(Math.abs(dx)>55){if(dx>0)$('#lbPrev').click();else $('#lbNext').click()}},{passive:true});
 $('#lbClose').onclick=closeLightbox;$('#lbZoom').onclick=()=>{const img=$('#lbImage'),zoomed=img.classList.toggle('zoomed');$('#lbZoom').textContent=zoomed?'－ تصغير':'＋ تكبير'};$('#lbImage').onclick=()=>$('#lbZoom').click();$('#lbPrev').onclick=()=>{currentIndex--;renderLightbox()};$('#lbNext').onclick=()=>{currentIndex++;renderLightbox()};
 $('#lightbox').addEventListener('click',e=>{if(e.target.id==='lightbox')closeLightbox()});
-document.addEventListener('keydown',e=>{if(!$('#lightbox').classList.contains('open'))return;if(e.key==='Escape')closeLightbox();if(e.key==='ArrowLeft'){$('#lbNext').click()}if(e.key==='ArrowRight'){$('#lbPrev').click()}});
+document.addEventListener('keydown',e=>{const box=$('#lightbox');if(!box.classList.contains('open'))return;if(e.key==='Escape'){e.preventDefault();closeLightbox();return}if(e.key==='ArrowLeft'){e.preventDefault();$('#lbNext').click();return}if(e.key==='ArrowRight'){e.preventDefault();$('#lbPrev').click();return}if(e.key==='Tab'){const items=$('#lbClose,#lbZoom,#lbPrev,#lbNext,#lbShare').filter(x=>!x.disabled&&x.offsetParent!==null);if(!items.length)return;const first=items[0],last=items[items.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
 $('#themeBtn').onclick=()=>{document.body.classList.toggle('light');localStorage.setItem('clayko-theme',document.body.classList.contains('light')?'light':'dark')};
 if(localStorage.getItem('clayko-theme')==='light')document.body.classList.add('light');
 $('#favJump').onclick=()=>{$('#gallery').scrollIntoView({behavior:'smooth'});activeFilter='favorites';$$('.filter').forEach(x=>x.classList.toggle('active',x.dataset.filter==='favorites'));applyFilters()};
