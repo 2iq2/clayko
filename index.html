@@ -891,7 +891,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  byId('communityForgotPassword').addEventListener('click',async()=>{
   const email=byId('communityEmail').value.trim();if(!email){status('communityAuthStatus','اكتب بريدك الإلكتروني أولاً.','error');byId('communityEmail').focus();return}
   const button=byId('communityForgotPassword');button.disabled=true;status('communityAuthStatus','جارٍ إرسال رابط الاستعادة...');
-  try{const result=await sbClient.auth.resetPasswordForEmail(email,{redirectTo:'https://2iq2.github.io/clayko/?recovery=1#community'});if(result.error)throw result.error;status('communityAuthStatus','إذا كان البريد مسجلاً، سيصلك رابط آمن. افحص الوارد والرسائل غير المرغوب بها.','success')}
+  try{const result=await sbClient.auth.resetPasswordForEmail(email,{redirectTo:'https://2iq2.github.io/clayko/?recovery=1'});if(result.error)throw result.error;status('communityAuthStatus','إذا كان البريد مسجلاً، سيصلك رابط آمن. افحص الوارد والرسائل غير المرغوب بها.','success')}
   catch(error){const limited=error.status===429||/rate limit|too many requests|email.*limit/i.test(error.message||'');status('communityAuthStatus',limited?'خدمة البريد وصلت الحد المؤقت لإرسال روابط الاستعادة. لا تعاود الطلب الآن؛ انتظر حتى يُرفع التقييد ثم جرّب مرة واحدة.':'تعذر إرسال رابط الاستعادة: '+error.message,'error')}finally{button.disabled=false}
  });
  byId('communityRecoveryForm').addEventListener('submit',async event=>{
@@ -1227,8 +1227,16 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
      if(exchanged.error)throw exchanged.error;recoverySession=exchanged.data.session;
     }
    }catch(recoveryError){console.error('Password recovery verification failed:',recoveryError);status('communityAuthStatus','تعذر التحقق من رابط الاستعادة. اطلب رابطاً جديداً وافتحه مباشرةً.','error');}
-   if(recoverySession?.user){communityRecoveryPending=true;currentUser=recoverySession.user;openModal(recoveryModal);status('communityRecoveryStatus','تم التحقق من رابط الاستعادة. اكتب كلمة المرور الجديدة ثم احفظها.','success');}
-   else if(!byId('communityAuthStatus').textContent.includes('تعذر التحقق')){status('communityAuthStatus','الرابط وصل للموقع لكن جلسة الاستعادة لم تكتمل. اطلب رابطاً جديداً وافتحه مباشرةً من البريد.','error');}
+   if(recoverySession?.user){
+    communityRecoveryPending=true;currentUser=recoverySession.user;
+    openModal(recoveryModal);
+    status('communityRecoveryStatus','تم التحقق من رابط الاستعادة. اكتب كلمة المرور الجديدة ثم احفظها.','success');
+    try{history.replaceState(null,document.title,location.pathname+'?recovery=1')}catch(cleanUrlError){console.warn('Could not clean recovery URL:',cleanUrlError)}
+   }
+   else if(!byId('communityAuthStatus').textContent.includes('تعذر التحقق')){
+    console.error('Recovery callback reached without a verified Supabase session',{url:location.href,hasCode:queryParams.has('code'),hasTokenHash:queryParams.has('token_hash'),hashType:hashParams.get('type')});
+    status('communityAuthStatus','وصل رابط الاستعادة، لكن لم تصل جلسة صالحة من خدمة الحسابات. لا تطلب رابطاً جديداً الآن؛ تواصل معنا مع صورة الرابط بعد إخفاء أي رموز سرية.','error');
+   }
   }
  });
  try{
