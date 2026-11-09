@@ -580,6 +580,11 @@ button,.btn,input,select,textarea{font-family:'Cairo','Inter',sans-serif}
 .photo-info,.photo-actions{z-index:2}
 .club-admin-item .club-watermarked-media{margin-bottom:9px}
 @media(max-width:560px){.member-profile-stats{gap:6px}.member-profile-stats>div{padding:9px 7px}.member-profile-stats strong{font-size:10px}.notification-item{align-items:flex-start;padding:11px;gap:8px}.notification-read-action{padding:7px 8px;font-size:9px}.notification-toolbar{align-items:stretch}.notification-mark-all{margin-inline-start:auto}}
+
+.membership-badge{display:inline-flex!important;align-items:center;justify-content:center;min-width:82px;padding:7px 13px;border:1px solid var(--line);border-radius:999px;font:800 12px Inter,sans-serif;letter-spacing:1px}
+.membership-badge-gold{color:#e7c66d!important;border-color:rgba(231,198,109,.48)!important;background:rgba(231,198,109,.08)}
+.membership-badge-platinum{color:#b8dce9!important;border-color:rgba(184,220,233,.52)!important;background:rgba(184,220,233,.09)}
+.membership-badge-free{color:var(--muted)!important}
 </style>
 
 <style id="clayko-ai-styles">
@@ -1574,7 +1579,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   const membershipTier=hasActiveMembership?(profile.membership_tier==='platinum'?'PLATINUM':'GOLD'):'FREE';
   const membershipExpiry=hasActiveMembership?new Date(profile.membership_expires_at).toLocaleDateString('ar-IQ'):'—';
   const profileTier=el('communityProfileMembershipTier'),profileStatus=el('communityProfileMembershipStatus'),profileExpiry=el('communityProfileMembershipExpiry');
-  if(profileTier)profileTier.textContent=membershipTier;
+  if(profileTier){profileTier.textContent=membershipTier;profileTier.className='membership-badge membership-badge-'+(hasActiveMembership?(profile.membership_tier==='platinum'?'platinum':'gold'):'free')}
   if(profileStatus)profileStatus.textContent=hasActiveMembership?'عضويتك فعّالة':'لا توجد عضوية فعّالة حالياً';
   if(profileExpiry)profileExpiry.textContent=membershipExpiry;
   const joined=profile?.created_at?new Date(profile.created_at).toLocaleDateString('ar-IQ',{year:'numeric',month:'long',day:'numeric'}):'—';
