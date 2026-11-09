@@ -1072,26 +1072,65 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   }
   await loadTickets();
  };
+ const signupImageDB=()=>{
+  if(!('indexedDB' in window))return Promise.reject(new Error('المتصفح لا يدعم حفظ الصورة مؤقتاً.'));
+  return new Promise((resolve,reject)=>{
+   const request=indexedDB.open('clayko-signup-cache',1);
+   request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains('pending'))request.result.createObjectStore('pending')};
+   request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);
+  });
+ };
+ const cacheSignupImage=async(email,file)=>{
+  const db=await signupImageDB();return new Promise((resolve,reject)=>{
+   const tx=db.transaction('pending','readwrite');tx.objectStore('pending').put({blob:file,type:file.type},email);
+   tx.oncomplete=()=>{db.close();resolve()};tx.onerror=()=>{db.close();reject(tx.error)};
+  });
+ };
+ const takeSignupImage=async(email)=>{
+  const db=await signupImageDB();return new Promise((resolve,reject)=>{
+   const tx=db.transaction('pending','readonly'),req=tx.objectStore('pending').get(email);
+   req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error);
+   tx.oncomplete=()=>db.close();
+  });
+ };
+ const clearSignupImage=async(email)=>{
+  const db=await signupImageDB();return new Promise((resolve,reject)=>{
+   const tx=db.transaction('pending','readwrite');tx.objectStore('pending').delete(email);
+   tx.oncomplete=()=>{db.close();resolve()};tx.onerror=()=>{db.close();reject(tx.error)};
+  });
+ };
+ const applyPendingSignupImage=async user=>{
+  if(!user?.email)return;
+  const pending=await takeSignupImage(user.email);if(!pending?.blob)return;
+  const ext=pending.type==='image/png'?'png':(pending.type==='image/webp'?'webp':'jpg');
+  const path=user.id+'/'+crypto.randomUUID()+'.'+ext;
+  const uploaded=await sbClient.storage.from('clayko-avatars').upload(path,pending.blob,{contentType:pending.type,upsert:false});
+  if(uploaded.error)throw uploaded.error;
+  const name=String(user.user_metadata?.display_name||user.email.split('@')[0]).trim().slice(0,40);
+  const saved=await sbClient.rpc('update_my_clayko_profile',{p_display_name:name,p_avatar_path:path});
+  if(saved.error)throw saved.error;
+  currentProfile=saved.data;await clearSignupImage(user.email);renderAuth();
+ };
  byId('communityAuthForm').addEventListener('submit',async event=>{
   event.preventDefault();
   const email=byId('communityEmail').value.trim(),password=byId('communityPassword').value,submit=byId('communityAuthSubmit');
   submit.disabled=true;status('communityAuthStatus','جارٍ تنفيذ الطلب...');
   try{
    if(authMode==='signup'){
-    const displayName=byId('communityName').value.trim();
+    const displayName=byId('communityName').value.trim(),file=byId('communitySignupAvatarFile').files?.[0]||null;
     if(displayName.length<2||displayName.length>40)throw new Error('اكتب اسماً من حرفين إلى 40 حرفاً.');
-    pendingSignupEmail=email;pendingSignupName=displayName;signupAvatarFile=byId('communitySignupAvatarFile').files?.[0]||null;
-    if(signupAvatarFile&&(!['image/jpeg','image/png','image/webp'].includes(signupAvatarFile.type)||signupAvatarFile.size>3145728))throw new Error('اختر صورة JPG أو PNG أو WebP بحجم لا يتجاوز 3MB.');
+    if(file&&(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>3145728))throw new Error('اختر صورة JPG أو PNG أو WebP بحجم لا يتجاوز 3MB.');
+    if(file)await cacheSignupImage(email,file);
     const result=await sbClient.auth.signUp({email,password,options:{data:{display_name:displayName,referral_code:localStorage.getItem('clayko-referral-pending')||null},emailRedirectTo:location.origin+location.pathname}});
-    if(result.error)throw result.error;
+    if(result.error){if(file)await clearSignupImage(email);throw result.error}
     if(result.data.session){
      await refreshUser(result.data.user);
-     if(signupAvatarFile)await finishSignupAvatar(result.data.user,displayName,signupAvatarFile);
-     signupAvatarFile=null;toast('تم إنشاء حسابك بنجاح');
+     if(file)await applyPendingSignupImage(result.data.user);
+     toast('تم إنشاء حسابك بنجاح');
     }else{
-     byId('communityAuthForm').hidden=true;byId('communityOtpPanel').hidden=false;
-     byId('communityOtpHint').textContent='أرسلنا رمز تحقق من 6 أرقام إلى '+email+'. أدخله هنا لإكمال إنشاء الحساب.';
-     status('communityOtpStatus','');byId('communityOtpCode').value='';byId('communityOtpCode').focus();
+     byId('communityAuthForm').hidden=true;
+     byId('communityOtpPanel').hidden=true;
+     status('communityAuthStatus','أرسلنا رابط تأكيد إلى بريدك الإلكتروني. افتح الرسالة واضغط «تأكيد البريد الإلكتروني» لإكمال إنشاء الحساب. بعد التأكيد ارجع إلى الموقع.','success');
     }
    }else{
     const result=await sbClient.auth.signInWithPassword({email,password});
@@ -1101,38 +1140,6 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   }catch(error){status('communityAuthStatus',error.message||'تعذر إكمال العملية. تحقق من البيانات وحاول مجدداً.','error')}
   finally{submit.disabled=false}
  });
- const finishSignupAvatar=async(user,displayName,file)=>{
-  const ext=file.type==='image/png'?'png':(file.type==='image/webp'?'webp':'jpg'),path=user.id+'/'+crypto.randomUUID()+'.'+ext;
-  const uploaded=await sbClient.storage.from('clayko-avatars').upload(path,file,{contentType:file.type,upsert:false});
-  if(uploaded.error)throw uploaded.error;
-  const saved=await sbClient.rpc('update_my_clayko_profile',{p_display_name:displayName,p_avatar_path:path});
-  if(saved.error)throw saved.error;
-  currentProfile=saved.data;renderAuth();
- };
- byId('communityVerifyOtp').addEventListener('click',async()=>{
-  const token=byId('communityOtpCode').value.replace(/\D/g,'').slice(0,6),button=byId('communityVerifyOtp');
-  if(token.length!==6){status('communityOtpStatus','أدخل رمز التحقق المكوّن من 6 أرقام.','error');return}
-  button.disabled=true;status('communityOtpStatus','جارٍ التحقق من الرمز...');
-  try{
-   const verified=await sbClient.auth.verifyOtp({email:pendingSignupEmail,token,type:'signup'});
-   if(verified.error)throw verified.error;
-   await refreshUser(verified.data.user);
-   if(signupAvatarFile)await finishSignupAvatar(verified.data.user,pendingSignupName,signupAvatarFile);
-   signupAvatarFile=null;byId('communitySignupAvatarFile').value='';byId('communityOtpPanel').hidden=true;byId('communityAuthForm').hidden=false;
-   status('communityAuthStatus','تم تأكيد بريدك وإنشاء حسابك بنجاح.','success');toast('أهلاً بك في CLAYKO');
-  }catch(error){status('communityOtpStatus',error.message||'الرمز غير صحيح أو انتهت صلاحيته.','error')}
-  finally{button.disabled=false}
- });
- byId('communityResendOtp').addEventListener('click',async()=>{
-  const button=byId('communityResendOtp');button.disabled=true;status('communityOtpStatus','جارٍ إرسال رمز جديد...');
-  try{const result=await sbClient.auth.resend({type:'signup',email:pendingSignupEmail});if(result.error)throw result.error;status('communityOtpStatus','تم إرسال رمز جديد إلى بريدك.','success')}
-  catch(error){status('communityOtpStatus',error.message||'تعذر إعادة إرسال الرمز.','error')}
-  finally{button.disabled=false}
- });
- byId('communityCancelOtp').addEventListener('click',()=>{
-  byId('communityOtpPanel').hidden=true;byId('communityAuthForm').hidden=false;signupAvatarFile=null;byId('communitySignupAvatarFile').value='';status('communityAuthStatus','يمكنك إعادة المحاولة عند الاستعداد.');
- });
- byId('communityOtpCode').addEventListener('input',event=>{event.target.value=event.target.value.replace(/\D/g,'').slice(0,6)});
  byId('communityAvatarFile').addEventListener('change',event=>{
   const file=event.target.files?.[0]||null;
   if(file&&(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>3145728)){
@@ -1188,11 +1195,15 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  sbClient.auth.onAuthStateChange((event,session)=>{
   currentUser=session?.user||null;
   if(event==='PASSWORD_RECOVERY'){openModal(recoveryModal);status('communityRecoveryStatus','أدخل كلمة مرور جديدة لحسابك.');}
-  setTimeout(()=>refreshUser(currentUser),0);
+  setTimeout(async()=>{
+   await refreshUser(currentUser);
+   if(currentUser){try{await applyPendingSignupImage(currentUser)}catch(error){console.error('Signup avatar restore failed:',error);status('communityProfileStatus','تم تأكيد البريد، لكن تعذر حفظ صورة التسجيل: '+error.message,'error')}}
+  },0);
  });
  sbClient.auth.getSession().then(async ({data,error})=>{
   if(error){status('communityAuthStatus','تعذر التحقق من جلسة الدخول: '+error.message,'error');return}
-  refreshUser(data.session?.user||null);
+  await refreshUser(data.session?.user||null);
+  if(data.session?.user){try{await applyPendingSignupImage(data.session.user)}catch(error){console.error('Signup avatar restore failed:',error);status('communityProfileStatus','تم تأكيد البريد، لكن تعذر حفظ صورة التسجيل: '+error.message,'error')}}
   const hashParams=new URLSearchParams(location.hash.startsWith('#')?location.hash.slice(1):location.hash);
   const queryParams=new URLSearchParams(location.search);
   const recoveryRequested=communityRecoveryPending||hashParams.get('type')==='recovery'||queryParams.get('type')==='recovery'||queryParams.get('recovery')==='1';
