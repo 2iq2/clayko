@@ -438,6 +438,50 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 @media(max-width:700px){.club-dashboard{grid-template-columns:1fr 1fr}.club-plans{grid-template-columns:1fr}.club-post-grid{grid-template-columns:1fr 1fr}.club-plan{padding:20px}}
 @media(max-width:420px){.club-dashboard{grid-template-columns:1fr 1fr}.club-stat{padding:13px}.club-stat strong{font-size:21px}.club-post-grid{grid-template-columns:1fr}}
 
+
+/* CLAYKO CLUB 2.0 — clearer member journey */
+.club-welcome{display:flex;align-items:center;justify-content:space-between;gap:22px;padding:clamp(22px,4vw,38px);margin:22px 0 14px;border:1px solid rgba(0,219,227,.2);border-radius:24px;background:radial-gradient(circle at 85% 15%,rgba(0,219,227,.12),transparent 34%),linear-gradient(130deg,var(--panel2),var(--panel));overflow:hidden}
+.club-eyebrow{display:block;color:var(--cyan);font:800 9px Inter,sans-serif;letter-spacing:1.8px;margin-bottom:9px}
+.club-welcome h3{font-size:clamp(22px,4vw,34px);line-height:1.4;margin:0 0 8px}
+.club-welcome p,.club-section-title p,.club-member-guide p{color:var(--muted);font-size:12px;line-height:1.9;margin:0;max-width:620px}
+.club-welcome-mark{font:900 clamp(64px,12vw,112px) Inter,sans-serif;color:rgba(0,219,227,.15);line-height:1;position:relative}
+.club-welcome-mark span{font-size:22px;color:var(--cyan);position:absolute;top:0;right:-12px}
+.club-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 28px}
+.club-steps>div{padding:16px;border:1px solid var(--line);border-radius:15px;background:var(--panel)}
+.club-steps b{display:block;color:var(--cyan);font:800 10px Inter,sans-serif;margin-bottom:10px}
+.club-steps strong,.club-steps small{display:block}.club-steps strong{font-size:12px}.club-steps small{font-size:10px;color:var(--muted);margin-top:5px;line-height:1.7}
+.club-panel-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.club-panel-heading h3{margin:0 0 5px}.club-panel-heading .club-panel-desc{margin:0}
+.club-heading-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--panel2);color:var(--cyan);font-size:20px;flex:none}
+.club-section-title{display:flex;justify-content:space-between;align-items:end;margin:34px 0 12px}
+.club-section-title h3{font-size:22px;margin:0 0 5px}
+.club-plans{margin:14px 0 12px}
+.club-plan{padding:clamp(20px,3vw,28px)}
+.club-plan-symbol{font-size:24px;opacity:.8}
+.club-plan-limit{display:flex;align-items:baseline;gap:9px;padding:12px 14px;margin:17px 0;border-radius:14px;background:rgba(0,0,0,.13);border:1px solid var(--line)}
+.club-plan-limit strong{font:800 32px Inter,sans-serif}.club-plan-limit span{font-size:11px;color:var(--muted)}
+.club-plan-gold .club-plan-limit strong{color:#e2c27d}.club-plan.platinum .club-plan-limit strong{color:#c8e3ed}
+.club-payment-note{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;margin:14px 0 24px;border:1px solid rgba(230,183,91,.3);border-radius:14px;background:rgba(230,183,91,.055)}
+.club-payment-note>span{color:#e2c27d;font-size:18px}.club-payment-note p{font-size:11px;line-height:1.9;color:var(--muted);margin:0}.club-payment-note strong{color:var(--text)}
+.club-login-panel{display:flex;justify-content:space-between;align-items:center;gap:18px}
+.club-login-panel h3{margin:0 0 6px}.club-login-panel .club-panel-desc{margin:0}
+.club-dashboard-new{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:22px}
+.club-stat-points{border-color:rgba(0,219,227,.3);background:linear-gradient(145deg,rgba(0,219,227,.1),var(--panel))}
+.club-stat-points strong{color:var(--cyan)}
+.club-member-guide{padding:4px 2px 18px}.club-member-guide h3{font-size:20px;margin:0 0 5px}
+.club-referral-row input{flex:1;min-width:180px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--text);font-size:11px}
+.club-service-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.club-service-card{padding:20px;border:1px solid var(--line);border-radius:19px;background:linear-gradient(155deg,var(--panel2),var(--panel));min-width:0}
+.club-service-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:rgba(0,219,227,.09);color:var(--cyan);font-size:21px;margin-bottom:15px}
+.club-service-card h4{font-size:18px;margin:0 0 8px}.club-service-cost{font:800 25px Inter,sans-serif;color:var(--cyan);margin:12px 0}
+.club-service-cost small{font:600 11px inherit;color:var(--muted)}
+.club-service-card>p{font-size:11px;color:var(--muted);line-height:1.9;min-height:58px;margin:0 0 15px}
+.club-service-card .club-form{margin-top:12px}.club-service-card .club-form .btn{width:100%}
+.club-service-card .club-form textarea{min-height:88px}
+.club-public-panel{margin-top:24px}
+@media(max-width:700px){.club-steps{grid-template-columns:1fr;gap:8px}.club-steps>div{display:grid;grid-template-columns:34px 1fr;align-items:center;column-gap:8px;padding:12px}.club-steps b{grid-row:span 2;margin:0}.club-service-grid{grid-template-columns:1fr}.club-login-panel{align-items:stretch;flex-direction:column}.club-login-panel .btn{width:100%;text-align:center}.club-dashboard-new{grid-template-columns:1fr 1fr}.club-welcome-mark{font-size:68px}}
+@media(max-width:420px){.club-dashboard-new{grid-template-columns:1fr 1fr}.club-service-card{padding:16px}.club-referral-row{align-items:stretch}.club-referral-row input{min-width:100%;width:100%}.club-referral-row .btn{width:100%}.club-plan-limit strong{font-size:28px}}
+
 </style>
 </head>
 <body>
@@ -535,32 +579,33 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 
 
 <section class="section container" id="club">
- <div class="section-head reveal"><div><div class="section-kicker">04 — MEMBERSHIP & REWARDS</div><h2>CLAYKO <span class="gradient-text">CLUB.</span></h2></div><p class="section-desc">نقاط ومكافآت وعضويات تمنحك مساحة أكبر للمشاركة داخل مجتمع CLAYKO.</p></div>
- <p class="club-intro reveal">شارك الموقع، اجمع النقاط، واستبدلها بمكافآت أو ارتقِ بعضويتك. طلب الاشتراك يُرسل للإدارة ويُفعّل بعد تأكيد الدفع يدوياً؛ الدفع الإلكتروني غير مربوط حالياً.</p>
- <div class="club-panel reveal"><h3>منشورات أعضاء CLAYKO</h3><p class="club-panel-desc">الصور التي تمت الموافقة عليها من الإدارة تظهر هنا.</p><div id="clubPublicPosts" class="club-post-grid"><p class="club-panel-desc">جارٍ تحميل الصور...</p></div></div>
-  <div class="club-plans reveal">
-   <article class="club-plan"><div class="club-plan-top"><span class="club-plan-mark">GOLD / 01</span><span>✦</span></div><h3>GOLD</h3><p>عضوية للمشاركين وصنّاع المحتوى.</p><ul><li>شارة عضوية ذهبية بجانب الاسم</li><li>نشر الصور في مجتمع CLAYKO بعد المراجعة</li><li>حد أقصى 3 صور منشورة لكل شهر</li><li>مراجعة كل منشور قبل ظهوره للزوار</li><li>مدة العضوية 30 يوماً</li></ul><button class="btn" data-club-plan="membership_gold" type="button">طلب عضوية GOLD</button></article>
-   <article class="club-plan platinum"><div class="club-plan-top"><span class="club-plan-mark">PLATINUM / 02</span><span>✧</span></div><h3>PLATINUM</h3><p>تجربة أوسع للأعضاء الأكثر نشاطاً.</p><ul><li>شارة بلاتينية حصرية</li><li>كل مزايا GOLD</li><li>نشر حتى 10 صور لكل شهر</li><li>شارة بلاتينية مميزة بجانب الاسم</li><li>مكافأة 50 نقطة عند تجديد العضوية</li><li>حد نشر شهري أوسع للأعمال والصور</li><li>مدة العضوية 30 يوماً</li></ul><button class="btn primary" data-club-plan="membership_platinum" type="button">طلب عضوية PLATINUM</button></article>
-  </div>
-
- <div id="clubLoggedOut" class="club-panel reveal"><h3>انضم إلى CLAYKO CLUB</h3><p class="club-panel-desc">سجّل الدخول من قسم مجتمع CLAYKO حتى تتابع نقاطك وتطلب العضوية والمكافآت.</p><a class="btn primary" href="#community">تسجيل الدخول / إنشاء حساب ↗</a></div>
+ <div class="section-head reveal"><div><div class="section-kicker">04 — MEMBERSHIP & REWARDS</div><h2>CLAYKO <span class="gradient-text">CLUB.</span></h2></div><p class="section-desc">مكان واحد تعرف منه عضويتك ونقاطك، وتطلب الصور والخدمات وتتابع كل خطوة.</p></div>
+ <div class="club-welcome reveal"><div><span class="club-eyebrow">YOUR MEMBERSHIP SPACE</span><h3>كل شيء يخص عضويتك، <span class="gradient-text">بشكل أوضح.</span></h3><p>ابدأ باختيار ما تحتاجه. كل خدمة موضّح سعرها بالنقاط، وحالة طلبك تظهر في حسابك.</p></div><div class="club-welcome-mark">C<span>✦</span></div></div>
+ <div class="club-steps reveal" aria-label="طريقة استخدام النادي"><div><b>01</b><strong>أنشئ حسابك</strong><small>سجّل الدخول من مجتمع CLAYKO</small></div><div><b>02</b><strong>اختر خدمتك</strong><small>عضوية أو ترخيص صورة أو جلسة</small></div><div><b>03</b><strong>تابع طلبك</strong><small>من سجل الطلبات داخل حسابك</small></div></div>
+ <div class="club-panel reveal club-public-panel"><div class="club-panel-heading"><div><span class="club-eyebrow">COMMUNITY GALLERY</span><h3>معرض أعضاء CLAYKO</h3><p class="club-panel-desc">الأعمال التي وافقت عليها الإدارة تظهر هنا للجميع.</p></div><span class="club-heading-icon">▧</span></div><div id="clubPublicPosts" class="club-post-grid"><p class="club-panel-desc">جارٍ تحميل الصور...</p></div></div>
+ <div class="club-section-title reveal"><div><span class="club-eyebrow">MEMBERSHIP PLANS</span><h3>اختر عضويتك</h3><p>كل العضويات مدتها 30 يوماً، وتفعيلها حالياً بعد مراجعة الإدارة.</p></div></div>
+ <div class="club-plans reveal">
+  <article class="club-plan club-plan-gold"><div class="club-plan-top"><span class="club-plan-mark">GOLD / 01</span><span class="club-plan-symbol">✦</span></div><h3>GOLD</h3><p>للمشاركين الذين يريدون نشر أعمالهم ضمن مجتمع CLAYKO.</p><div class="club-plan-limit"><strong>03</strong><span>صور شهرياً</span></div><ul><li>شارة GOLD بجانب اسمك</li><li>إرسال الصور للنشر بعد مراجعة الإدارة</li><li>حد أقصى 3 صور في الشهر</li><li>مدة العضوية 30 يوماً</li></ul><button class="btn" data-club-plan="membership_gold" type="button">إرسال طلب GOLD</button></article>
+  <article class="club-plan platinum"><div class="club-plan-top"><span class="club-plan-mark">PLATINUM / 02</span><span class="club-plan-symbol">✧</span></div><h3>PLATINUM</h3><p>مساحة أوسع للأعضاء الأكثر نشاطاً ومشاركة.</p><div class="club-plan-limit"><strong>10</strong><span>صور شهرياً</span></div><ul><li>شارة PLATINUM بجانب اسمك</li><li>كل مزايا GOLD</li><li>حد أقصى 10 صور في الشهر</li><li>50 نقطة عند تجديد العضوية</li><li>مدة العضوية 30 يوماً</li></ul><button class="btn primary" data-club-plan="membership_platinum" type="button">إرسال طلب PLATINUM</button></article>
+ </div>
+ <div class="club-payment-note reveal"><span>ⓘ</span><p><strong>معلومة مهمة عن الدفع:</strong> طلب العضوية يُرسل للإدارة للمراجعة، والدفع بالبطاقة المصرفية غير متاح حالياً داخل الموقع. لن يتم خصم مبلغ من بطاقتك عبر هذا الطلب.</p></div>
+ <div id="clubLoggedOut" class="club-panel reveal club-login-panel"><div><span class="club-eyebrow">MEMBER ACCESS</span><h3>مساحتك تبدأ من هنا</h3><p class="club-panel-desc">سجّل الدخول أو أنشئ حساباً حتى تظهر محفظتك وطلباتك وخيارات النشر الخاصة بك.</p></div><a class="btn primary" href="#community">تسجيل الدخول / إنشاء حساب ↗</a></div>
  <div id="clubMemberArea" hidden>
-  <div class="club-dashboard">
-   <div class="club-stat"><small>رصيد نقاطك</small><strong id="clubPoints">0</strong><span class="club-stat-sub">CLAYKO POINTS</span></div>
-   <div class="club-stat"><small>مستوى عضويتك</small><strong id="clubTier">FREE</strong><span class="club-stat-sub" id="clubExpiry">عضوية مجانية</span></div>
+  <div class="club-dashboard club-dashboard-new">
+   <div class="club-stat club-stat-points"><small>رصيدك المتاح</small><strong id="clubPoints">0</strong><span class="club-stat-sub">نقطة CLAYKO</span></div>
+   <div class="club-stat"><small>عضويتك الحالية</small><strong id="clubTier">FREE</strong><span class="club-stat-sub" id="clubExpiry">عضوية مجانية</span></div>
    <div class="club-stat"><small>دعواتك</small><strong id="clubReferralCount">0</strong><span class="club-stat-sub">دعوات مسجلة</span></div>
   </div>
-  <div class="club-panel reveal"><h3>رابط الدعوة الخاص بك</h3><p class="club-panel-desc">شارك الرابط. تحصل على 100 نقطة عن كل عضو جديد تتم مراجعة دعوته واعتمادها. الدعوات الذاتية أو المكررة لا تُحتسب.</p><div class="club-row"><input id="clubReferralLink" readonly style="flex:1;min-width:180px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--text);font-size:11px"><button class="btn primary" id="clubShareReferral" type="button">مشاركة الرابط ↗</button></div><p class="club-status" id="clubReferralStatus"></p></div>
-  <div class="club-panel reveal"><h3>متجر المكافآت</h3><p class="club-panel-desc">تُخصم النقاط بعد موافقة الإدارة فقط. طلب الصورة لا ينقل حقوق النشر تلقائياً؛ يلزم اتفاق مكتوب يحدد الترخيص أو التنازل عن الحقوق، ثم تسليم النسخة الأصلية.</p>
-   <form class="club-form" id="clubPhotoForm"><label class="field"><span>اسم الصورة التي تريد شراءها — 1,200 نقطة</span><input id="clubPhotoTitle" maxlength="180" required placeholder="اكتب اسم الصورة كما يظهر في المعرض"></label><label class="field"><span>تفاصيل أو نوع الترخيص المطلوب</span><textarea id="clubPhotoDetails" maxlength="1000" placeholder="مثلاً: استخدام شخصي أو تجاري..."></textarea></label><button class="btn" type="submit">طلب شراء الصورة · 1,200 نقطة</button></form>
-   <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
-   <form class="club-form" id="clubSessionForm"><label class="field"><span>تفاصيل جلسة التصوير — 6,000 نقطة</span><textarea id="clubSessionDetails" maxlength="1000" required placeholder="نوع الجلسة، المكان المقترح، والوقت المناسب..."></textarea></label><button class="btn" type="submit">طلب جلسة تصوير · 6,000 نقطة</button></form>
-   <p class="club-status" id="clubRequestStatus" aria-live="polite"></p>
+  <div class="club-member-guide reveal"><span class="club-eyebrow">MEMBER DASHBOARD</span><h3>لوحة حسابك</h3><p>رصيد النقاط يوضح ما تملكه حالياً. لا تُخصم النقاط عند إرسال الطلب؛ تتم المراجعة وفق آلية الخدمة المعتمدة.</p></div>
+  <div class="club-panel reveal"><div class="club-panel-heading"><div><span class="club-eyebrow">INVITE & EARN</span><h3>ادعُ صديقاً واكسب نقاطاً</h3><p class="club-panel-desc">تحصل على 100 نقطة عند انضمام عضو جديد عبر رابطك وتأكيد بريده وموافقة الإدارة. المشاركة وحدها لا تمنح نقاطاً.</p></div><span class="club-heading-icon">↗</span></div><div class="club-row club-referral-row"><input id="clubReferralLink" readonly aria-label="رابط الدعوة الخاص بك"><button class="btn primary" id="clubShareReferral" type="button">مشاركة رابط الدعوة</button></div><p class="club-status" id="clubReferralStatus"></p></div>
+  <div class="club-section-title reveal"><div><span class="club-eyebrow">REWARDS & SERVICES</span><h3>شنو تگدر تطلب؟</h3><p>راجع تكلفة كل خدمة بالنقاط قبل إرسال الطلب.</p></div></div>
+  <div class="club-service-grid reveal">
+   <article class="club-service-card"><span class="club-service-icon">▧</span><span class="club-eyebrow">PHOTO LICENSE</span><h4>ترخيص استخدام صورة</h4><div class="club-service-cost">1,200 <small>نقطة</small></div><p>حدد اسم الصورة ونوع الاستخدام المطلوب. تفاصيل الترخيص والحقوق تُتفق بشكل مكتوب قبل التسليم.</p><form class="club-form" id="clubPhotoForm"><label class="field"><span>اسم الصورة</span><input id="clubPhotoTitle" maxlength="180" required placeholder="اكتب اسم الصورة من المعرض"></label><label class="field"><span>طريقة الاستخدام المطلوبة</span><textarea id="clubPhotoDetails" maxlength="1000" placeholder="شخصي، تجاري، منصات التواصل..."></textarea></label><button class="btn" type="submit">إرسال طلب الترخيص</button></form></article>
+   <article class="club-service-card"><span class="club-service-icon">◉</span><span class="club-eyebrow">PHOTO SESSION</span><h4>جلسة تصوير</h4><div class="club-service-cost">6,000 <small>نقطة</small></div><p>أرسل فكرة الجلسة والموقع والوقت المقترح حتى تتم مراجعة التفاصيل والتواصل معك.</p><form class="club-form" id="clubSessionForm"><label class="field"><span>تفاصيل الجلسة</span><textarea id="clubSessionDetails" maxlength="1000" required placeholder="نوع التصوير، المكان، الوقت المناسب..."></textarea></label><button class="btn" type="submit">إرسال طلب الجلسة</button></form></article>
   </div>
-  <div class="club-panel reveal" id="clubUploadPanel"><h3>مساحة نشر الأعضاء</h3><p class="club-panel-desc" id="clubUploadHint">النشر متاح للأعضاء الذهبيين والبلاتينيين خلال فترة اشتراك فعالة. كل صورة تمر بمراجعة الإدارة قبل ظهورها.</p>
-   <form class="club-form" id="clubPostForm"><label class="field"><span>اختر صورة (JPG / PNG / WebP حتى 10MB)</span><input id="clubPostFile" type="file" accept="image/jpeg,image/png,image/webp" required></label><label class="field"><span>وصف الصورة</span><textarea id="clubPostCaption" maxlength="500" minlength="2" required placeholder="اكتب وصفاً قصيراً للصورة"></textarea></label><button class="btn primary" type="submit" id="clubPostSubmit">إرسال الصورة للمراجعة ↗</button></form><p class="club-status" id="clubPostStatus"></p><div id="clubMyPosts" class="club-post-grid"></div>
-  </div>
-  <div class="club-panel reveal"><h3>سجل النقاط والطلبات</h3><div id="clubHistory" class="club-history"><p class="club-panel-desc">جارٍ تحميل السجل...</p></div></div>
+  <p class="club-status" id="clubRequestStatus" aria-live="polite"></p>
+  <div class="club-panel reveal" id="clubUploadPanel"><div class="club-panel-heading"><div><span class="club-eyebrow">PUBLISH YOUR WORK</span><h3>انشر أعمالك في المجتمع</h3><p class="club-panel-desc" id="clubUploadHint">النشر متاح للأعضاء ذوي العضوية الفعالة، وكل صورة تمر بمراجعة الإدارة.</p></div><span class="club-heading-icon">＋</span></div><form class="club-form" id="clubPostForm"><label class="field"><span>الصورة (JPG / PNG / WebP حتى 10MB)</span><input id="clubPostFile" type="file" accept="image/jpeg,image/png,image/webp" required></label><label class="field"><span>وصف الصورة</span><textarea id="clubPostCaption" maxlength="500" minlength="2" required placeholder="اكتب وصفاً قصيراً للصورة"></textarea></label><button class="btn primary" type="submit" id="clubPostSubmit">إرسال الصورة للمراجعة ↗</button></form><p class="club-status" id="clubPostStatus"></p><div id="clubMyPosts" class="club-post-grid"></div></div>
+  <div class="club-panel reveal"><div class="club-panel-heading"><div><span class="club-eyebrow">ACTIVITY</span><h3>سجل عملياتك وطلباتك</h3><p class="club-panel-desc">هنا تتابع حركة النقاط وحالة الطلبات والتراخيص.</p></div><span class="club-heading-icon">≡</span></div><div id="clubHistory" class="club-history"><p class="club-panel-desc">جارٍ تحميل السجل...</p></div></div>
   <div class="club-panel reveal" id="clubAdminPanel" hidden><h3>إدارة CLAYKO CLUB</h3><p class="club-panel-desc">طلبات العضوية والمكافآت والدعوات والمنشورات بانتظار مراجعتك.</p><div id="clubAdminQueue" class="club-admin-list">جارٍ تحميل الطلبات...</div></div>
  </div>
 </section>
