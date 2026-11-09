@@ -538,6 +538,35 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 .community-ticket-username{display:block;color:var(--muted);font-size:11px;direction:ltr;text-align:right;margin-top:2px;opacity:.85}
 
 </style>
+
+<style id="clayko-ai-styles">
+#claykoAiLauncher{position:fixed;left:24px;bottom:26px;z-index:180;border:0;border-radius:999px;padding:12px 17px;background:linear-gradient(120deg,#00dbe3,#e83bff);color:#071014;font-weight:900;font-size:12px;box-shadow:0 12px 35px #00dbe333;display:flex;align-items:center;gap:9px;transition:transform .2s,box-shadow .2s}
+#claykoAiLauncher:hover{transform:translateY(-3px);box-shadow:0 16px 42px #00dbe355}
+#claykoAiLauncher .ai-spark{font-size:19px;line-height:1}
+#claykoAiPanel{position:fixed;left:24px;bottom:88px;z-index:181;width:min(390px,calc(100vw - 28px));height:min(590px,calc(100dvh - 120px));display:none;flex-direction:column;overflow:hidden;border:1px solid var(--line);border-radius:22px;background:var(--panel);box-shadow:0 24px 90px #0009;color:var(--text)}
+#claykoAiPanel.open{display:flex;animation:claykoAiIn .22s ease-out}
+@keyframes claykoAiIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+.clayko-ai-head{display:flex;align-items:center;gap:11px;padding:15px 16px;border-bottom:1px solid var(--line);background:linear-gradient(110deg,rgba(0,219,227,.09),rgba(232,59,255,.08))}
+.clayko-ai-mark{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:var(--grad);color:#071014;font-size:21px;font-weight:900}
+.clayko-ai-title{flex:1;min-width:0}.clayko-ai-title strong{display:block;font-size:14px}.clayko-ai-title small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.clayko-ai-close{width:34px;height:34px;border:1px solid var(--line);border-radius:11px;background:var(--panel);color:var(--text);font-size:19px}
+#claykoAiMessages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:11px;scroll-behavior:smooth}
+.clayko-ai-msg{max-width:88%;padding:11px 13px;border-radius:15px;font-size:12px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
+.clayko-ai-msg.assistant{align-self:flex-start;background:var(--panel2);border:1px solid var(--line);border-top-right-radius:5px}
+.clayko-ai-msg.user{align-self:flex-end;background:linear-gradient(120deg,rgba(0,219,227,.17),rgba(232,59,255,.13));border:1px solid rgba(0,219,227,.22);border-top-left-radius:5px}
+.clayko-ai-quick{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.clayko-ai-quick button{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:30px;padding:7px 10px;font-size:10px}
+.clayko-ai-quick button:hover{border-color:var(--cyan);color:var(--cyan)}
+.clayko-ai-typing{align-self:flex-start;color:var(--muted);font-size:11px;padding:5px 9px}
+.clayko-ai-compose{padding:12px;border-top:1px solid var(--line);display:flex;align-items:flex-end;gap:8px;background:var(--panel)}
+#claykoAiInput{flex:1;min-width:0;max-height:100px;resize:none;border:1px solid var(--line);border-radius:13px;background:var(--panel2);color:var(--text);padding:10px 12px;outline:none;font:inherit;font-size:12px;line-height:1.7}
+#claykoAiInput:focus{border-color:var(--cyan)}
+#claykoAiSend{width:42px;height:42px;flex:0 0 42px;border:0;border-radius:13px;background:var(--grad);color:#071014;font-size:17px;font-weight:900}
+#claykoAiSend:disabled{opacity:.45;cursor:not-allowed}
+.clayko-ai-foot{padding:0 14px 9px;text-align:center;color:var(--muted);font-size:9px;background:var(--panel)}
+@media(max-width:560px){#claykoAiLauncher{left:14px;bottom:17px;padding:11px 14px}#claykoAiPanel{left:10px;right:10px;bottom:75px;width:auto;height:min(590px,calc(100dvh - 100px));border-radius:19px}}
+@media(prefers-reduced-motion:reduce){#claykoAiPanel{animation:none}}
+</style>
 </head>
 <body>
 <div id="claykoIntro" aria-label="مقدمة CLAYKO"><div class="intro-inner"><div class="intro-mark">CLAYKO</div><div class="intro-line"></div><p>LIGHT · FRAME · STORY</p><button id="introEnter" type="button">الدخول إلى الموقع ↗</button></div></div>
@@ -1575,5 +1604,85 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
 
 
 
+
+<div id="claykoAiPanel" role="dialog" aria-label="CLAYKO AI" aria-modal="false">
+ <div class="clayko-ai-head">
+  <div class="clayko-ai-mark">✦</div>
+  <div class="clayko-ai-title"><strong>CLAYKO AI</strong><small>مساعدك الذكي للتصوير واستخدام الموقع</small></div>
+  <button class="clayko-ai-close" id="claykoAiClose" aria-label="إغلاق">×</button>
+ </div>
+ <div id="claykoAiMessages" aria-live="polite">
+  <div class="clayko-ai-msg assistant">أهلاً بيك! ✨
+أنا CLAYKO AI. أگدر أساعدك بالتصوير، اختيار الإعدادات، الإضاءة وتعديل الصور، أو أشرحلك شلون تستخدم موقع CLAYKO.
+
+شنو تحب تسأل؟</div>
+  <div class="clayko-ai-quick" id="claykoAiQuick">
+   <button type="button" data-prompt="شلون أطور مهاراتي بالتصوير؟">تطوير التصوير</button>
+   <button type="button" data-prompt="اشرحلي شلون أستخدم CLAYKO CLUB">شرح CLAYKO CLUB</button>
+   <button type="button" data-prompt="شنو أفضل إعدادات لتصوير البورتريه؟">تصوير البورتريه</button>
+  </div>
+ </div>
+ <form class="clayko-ai-compose" id="claykoAiForm">
+  <textarea id="claykoAiInput" rows="1" maxlength="2200" placeholder="اكتب سؤالك هنا..." aria-label="اكتب سؤالك"></textarea>
+  <button id="claykoAiSend" type="submit" aria-label="إرسال">➤</button>
+ </form>
+ <div class="clayko-ai-foot">قد يخطئ الذكاء الاصطناعي؛ لا ترسل معلوماتك السرية.</div>
+</div>
+<button id="claykoAiLauncher" type="button" aria-label="افتح مساعد CLAYKO AI"><span class="ai-spark">✦</span><span>اسأل CLAYKO AI</span></button>
+<script id="clayko-ai-client">
+(()=> {
+ const panel=document.getElementById('claykoAiPanel');
+ const launcher=document.getElementById('claykoAiLauncher');
+ const close=document.getElementById('claykoAiClose');
+ const form=document.getElementById('claykoAiForm');
+ const input=document.getElementById('claykoAiInput');
+ const send=document.getElementById('claykoAiSend');
+ const messagesBox=document.getElementById('claykoAiMessages');
+ const quick=document.getElementById('claykoAiQuick');
+ if(!panel||!launcher||!form)return;
+ const history=[];
+ let busy=false;
+ const open=()=>{panel.classList.add('open');launcher.hidden=true;setTimeout(()=>input.focus(),80)};
+ const shut=()=>{panel.classList.remove('open');launcher.hidden=false};
+ launcher.addEventListener('click',open);
+ close.addEventListener('click',shut);
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('open'))shut()});
+ function addMessage(text,role){
+  const node=document.createElement('div');
+  node.className='clayko-ai-msg '+role;
+  node.textContent=text;
+  messagesBox.append(node);
+  messagesBox.scrollTop=messagesBox.scrollHeight;
+  return node;
+ }
+ async function ask(raw){
+  const text=String(raw||'').trim();
+  if(!text||busy)return;
+  if(quick)quick.remove();
+  busy=true;send.disabled=true;input.disabled=true;
+  addMessage(text,'user');
+  history.push({role:'user',text});
+  const typing=document.createElement('div');typing.className='clayko-ai-typing';typing.textContent='CLAYKO AI يكتب...';messagesBox.append(typing);messagesBox.scrollTop=messagesBox.scrollHeight;
+  try{
+   if(!window.supabase||!sbClient)throw new Error('تعذر الاتصال بالخدمة حالياً.');
+   const result=await sbClient.functions.invoke('clayko-ai',{body:{messages:history.slice(-12)}});
+   if(result.error)throw result.error;
+   const reply=result.data?.reply;
+   if(typeof reply!=='string'||!reply.trim())throw new Error(result.data?.error||'ما وصل رد من المساعد.');
+   history.push({role:'model',text:reply});
+   if(history.length>12)history.splice(0,history.length-12);
+   addMessage(reply,'assistant');
+  }catch(error){
+   const msg=error?.context?.error||error?.message||'صار خطأ بالاتصال. حاول مرة ثانية.';
+   addMessage(String(msg).slice(0,500),'assistant');
+  }finally{
+   typing.remove();busy=false;send.disabled=false;input.disabled=false;input.value='';input.focus();messagesBox.scrollTop=messagesBox.scrollHeight;
+  }
+ }
+ form.addEventListener('submit',e=>{e.preventDefault();ask(input.value)});
+ input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();form.requestSubmit()}});
+ if(quick)quick.addEventListener('click',e=>{const b=e.target.closest('button[data-prompt]');if(b)ask(b.dataset.prompt)});
+})();
+</script>
 </body>
 </html>
