@@ -692,6 +692,16 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
    <div class="club-stat"><small>دعواتك</small><strong id="clubReferralCount">0</strong><span class="club-stat-sub">دعوات مسجلة</span></div>
   </div>
   <div class="club-member-guide reveal"><span class="club-eyebrow">MEMBER DASHBOARD</span><h3>لوحة حسابك</h3><p>رصيد النقاط يوضح ما تملكه حالياً. لا تُخصم النقاط عند إرسال الطلب؛ تتم المراجعة وفق آلية الخدمة المعتمدة.</p></div>
+  <div class="club-panel reveal" id="clubGiftPanel">
+   <div class="club-panel-heading"><div><span class="club-eyebrow">POINTS GIFT</span><h3>أهدِ نقاطاً لعضو</h3><p class="club-panel-desc">اكتب اسم المستخدم وحدد عدد النقاط. ستصل الهدية مباشرةً إلى محفظته مع إشعار باسمك.</p></div><span class="club-heading-icon">🎁</span></div>
+   <form class="club-form" id="clubGiftForm">
+    <input id="clubGiftUsername" type="text" maxlength="21" autocomplete="off" placeholder="اسم المستخدم، مثال: clayko" aria-label="اسم المستخدم للمستلم" required>
+    <input id="clubGiftAmount" type="number" min="1" max="10000" step="1" inputmode="numeric" placeholder="عدد النقاط" aria-label="عدد النقاط" required>
+    <button class="btn primary" id="clubGiftSubmit" type="submit">إرسال هدية النقاط ↗</button>
+   </form>
+   <p class="club-status" id="clubGiftStatus" aria-live="polite"></p>
+   <div class="club-history" id="clubGiftNotifications"><p class="club-panel-desc">جارٍ تحميل الهدايا المستلمة...</p></div>
+  </div>
   <div class="club-panel reveal"><div class="club-panel-heading"><div><span class="club-eyebrow">INVITE & EARN</span><h3>ادعُ صديقاً واكسب نقاطاً</h3><p class="club-panel-desc">تحصل على 100 نقطة عند انضمام عضو جديد عبر رابطك وتأكيد بريده وموافقة الإدارة. المشاركة وحدها لا تمنح نقاطاً.</p></div><span class="club-heading-icon">↗</span></div><div class="club-row club-referral-row"><input id="clubReferralLink" readonly aria-label="رابط الدعوة الخاص بك"><button class="btn primary" id="clubShareReferral" type="button">مشاركة رابط الدعوة</button></div><p class="club-status" id="clubReferralStatus"></p></div>
   <div class="club-section-title reveal"><div><span class="club-eyebrow">REWARDS & SERVICES</span><h3>شنو تگدر تطلب؟</h3><p>راجع تكلفة كل خدمة بالنقاط قبل إرسال الطلب.</p></div></div>
   <div class="club-service-grid reveal">
@@ -1510,7 +1520,16 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   const postBox=el('clubMyPosts');postBox.replaceChildren();
   (posts.data||[]).forEach(item=>{const card=document.createElement('article');card.className='club-post';const img=document.createElement('img');img.src=client.storage.from('clayko-gallery').getPublicUrl(item.image_path).data.publicUrl;img.alt='صورة العضو';const p=document.createElement('p');p.textContent=item.caption+' · '+({pending:'بانتظار المراجعة',published:'منشور',rejected:'مرفوض'}[item.status]||item.status);card.append(img,p);postBox.append(card)});
   if(user.app_metadata?.role==='admin'){el('clubAdminPanel').hidden=false;await loadAdminQueue()}else el('clubAdminPanel').hidden=true;
+  await loadPointGiftNotifications();
   await loadPublicPosts();
+ }
+ async function loadPointGiftNotifications(){
+  const box=el('clubGiftNotifications');if(!box||!user)return;
+  const result=await client.from('member_notifications').select('id,message,points_amount,created_at').eq('recipient_id',user.id).order('created_at',{ascending:false}).limit(10);
+  box.replaceChildren();
+  if(result.error){const p=document.createElement('p');p.className='club-panel-desc';p.textContent='تعذر تحميل إشعارات الهدايا.';box.append(p);return}
+  if(!result.data?.length){const p=document.createElement('p');p.className='club-panel-desc';p.textContent='ما استلمت هدايا نقاط لحد الآن.';box.append(p);return}
+  result.data.forEach(item=>{const row=document.createElement('div');row.className='club-history-item';const left=document.createElement('span');left.textContent=item.message+' · '+new Date(item.created_at).toLocaleDateString('ar-IQ');const right=document.createElement('strong');right.className='club-positive';right.textContent='+'+Number(item.points_amount||0).toLocaleString('en-US')+' نقطة';row.append(left,right);box.append(row)});
  }
  async function submitRequest(type,title,details){
   if(!user){toast('سجّل الدخول أولاً من قسم مجتمع CLAYKO');location.hash='#community';return}
@@ -1530,6 +1549,23 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  el('clubShareReferral').addEventListener('click',async()=>{
   const value=el('clubReferralLink').value;
   try{if(navigator.share)await navigator.share({title:'انضم إلى CLAYKO',text:'استخدم رابط الدعوة الخاص بي للانضمام إلى CLAYKO',url:value});else{await navigator.clipboard.writeText(value);status('clubReferralStatus','تم نسخ رابط الدعوة.','success')}}catch(error){if(error.name!=='AbortError')status('clubReferralStatus','تعذرت مشاركة الرابط. انسخه يدوياً.','error')}
+ });
+ el('clubGiftForm').addEventListener('submit',async event=>{
+  event.preventDefault();
+  const username=el('clubGiftUsername').value.trim().replace(/^@/,'');
+  const amount=Number(el('clubGiftAmount').value);
+  const button=el('clubGiftSubmit'),message=el('clubGiftStatus');
+  if(!username||!Number.isInteger(amount)||amount<1||amount>10000){message.textContent='تحقق من اسم المستخدم وعدد النقاط (1 إلى 10,000).';return}
+  if(!confirm('تأكيد إهداء '+amount.toLocaleString('en-US')+' نقطة إلى @'+username+'؟ لا يمكن التراجع عن الهدية بعد إرسالها.'))return;
+  button.disabled=true;message.textContent='جارٍ إرسال الهدية...';
+  try{
+   const result=await client.rpc('gift_member_points',{p_recipient_username:username,p_amount:amount});
+   if(result.error)throw result.error;
+   message.textContent='تم إرسال '+amount.toLocaleString('en-US')+' نقطة إلى @'+(result.data?.recipient_username||username)+'.';
+   el('clubGiftForm').reset();
+   await loadMember();
+  }catch(error){message.textContent=error.message||'تعذر إرسال الهدية. حاول مرة ثانية.'}
+  finally{button.disabled=false}
  });
  el('clubPostForm').addEventListener('submit',async event=>{
   event.preventDefault();if(!active()){status('clubPostStatus','النشر يحتاج عضوية فعالة.','error');return}
