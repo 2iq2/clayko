@@ -535,6 +535,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 .community-otp-actions{display:flex;gap:10px;flex-wrap:wrap}
 .community-otp-actions button{flex:1;min-width:130px}
 
+.community-ticket-username{display:block;color:var(--muted);font-size:11px;direction:ltr;text-align:right;margin-top:2px;opacity:.85}
 </style>
 </head>
 <body>
@@ -596,6 +597,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
     <div class="community-tabs" id="communityTabs" style="position:relative;z-index:5;pointer-events:auto"><button type="button" id="communitySignInTab" class="active" style="position:relative;z-index:6;pointer-events:auto" onclick="document.getElementById('communityNameField').hidden=true;document.getElementById('communityPassword').autocomplete='current-password';document.getElementById('communityAuthSubmit').textContent='دخول إلى الحساب ↗';document.getElementById('communitySignInTab').classList.add('active');document.getElementById('communitySignUpTab').classList.remove('active');document.dispatchEvent(new CustomEvent('clayko-auth-mode',{detail:'signin'}))">تسجيل الدخول</button><button type="button" id="communitySignUpTab" style="position:relative;z-index:6;pointer-events:auto" onclick="document.getElementById('communityNameField').hidden=false;document.getElementById('communityPassword').autocomplete='new-password';document.getElementById('communityAuthSubmit').textContent='إنشاء الحساب ↗';document.getElementById('communitySignUpTab').classList.add('active');document.getElementById('communitySignInTab').classList.remove('active');document.dispatchEvent(new CustomEvent('clayko-auth-mode',{detail:'signup'}))">إنشاء حساب</button></div>
     <form id="communityAuthForm" class="community-form">
      <div class="field" id="communityNameField" hidden><label for="communityName">الاسم الظاهر للجميع</label><input id="communityName" type="text" minlength="2" maxlength="40" autocomplete="name" placeholder="اكتب اسمك" /></div>
+     <div class="field" id="communitySignupUsernameField" hidden><label for="communitySignupUsername">اسم المستخدم الفريد</label><input id="communitySignupUsername" type="text" minlength="3" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="مثلاً ali.bsr" /><p class="signup-avatar-note">3–20 حرفاً: إنجليزي صغير أو أرقام أو نقطة أو _ . يجب أن يكون غير مستخدم.</p></div>
      <div class="field" id="communitySignupAvatarField" hidden><label for="communitySignupAvatarFile">الصورة الشخصية (اختياري، JPG / PNG / WebP حتى 3MB)</label><input id="communitySignupAvatarFile" type="file" accept="image/jpeg,image/png,image/webp" /><p class="signup-avatar-note">تُرفع الصورة بعد تأكيد بريدك الإلكتروني.</p></div>
      <div class="field"><label for="communityEmail">البريد الإلكتروني</label><input id="communityEmail" type="email" required autocomplete="email" placeholder="name@example.com" /></div>
      <div class="field"><label for="communityPassword">كلمة المرور</label><div class="password-wrap"><input id="communityPassword" type="password" required minlength="8" autocomplete="current-password" placeholder="8 أحرف على الأقل" /><button type="button" class="password-toggle" id="communityPasswordToggle">إظهار</button></div></div>
@@ -617,6 +619,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
      <img id="communityAvatarPreview" class="community-avatar large" alt="الصورة الشخصية" />
      <div class="profile-fields">
       <div class="field"><label for="communityProfileName">الاسم الظاهر</label><input id="communityProfileName" type="text" minlength="2" maxlength="40" required /></div>
+      <div class="field"><label for="communityProfileUsername">اسم المستخدم الفريد</label><input id="communityProfileUsername" type="text" minlength="3" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="مثلاً ali.bsr" /><p class="signup-avatar-note">اسم فريد غير قابل للتكرار. الأحرف الإنجليزية الصغيرة والأرقام والنقطة والشرطة السفلية.</p></div>
       <div class="field"><label for="communityAvatarFile">الصورة الشخصية (JPG / PNG / WebP، حتى 3MB)</label><input id="communityAvatarFile" type="file" accept="image/jpeg,image/png,image/webp" /></div>
      </div>
     </div>
@@ -907,6 +910,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   authMode=mode;
   byId('communityNameField').hidden=mode!=='signup';
   byId('communitySignupAvatarField').hidden=mode!=='signup';
+  byId('communitySignupUsernameField').hidden=mode!=='signup';
   byId('communityPassword').autocomplete=mode==='signup'?'new-password':'current-password';
   byId('communityAuthSubmit').textContent=mode==='signup'?'إنشاء الحساب ↗':'دخول إلى الحساب ↗';
   byId('communitySignInTab').classList.toggle('active',mode==='signin');
@@ -928,21 +932,31 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   byId('communityTicketForm').hidden=!logged;
   if(logged&&currentProfile){
    byId('communityProfileName').value=currentProfile.display_name||'';
+   byId('communityProfileUsername').value=currentProfile.username||'';
    byId('communityAvatarPreview').src=avatarUrl(currentProfile.avatar_path);
   }
  };
  const ensureProfile=async user=>{
   if(!user)return null;
-  const found=await sbClient.from('profiles').select('id,display_name,avatar_path,updated_at').eq('id',user.id).maybeSingle();
+  const found=await sbClient.from('profiles').select('id,display_name,avatar_path,username,updated_at').eq('id',user.id).maybeSingle();
   if(found.error)throw found.error;
-  if(found.data){currentProfile=found.data;return found.data}
-  const candidate=String(user.user_metadata?.display_name||user.email?.split('@')[0]||'عضو CLAYKO').trim().slice(0,40);
-  const name=candidate.length>=2?candidate:'عضو CLAYKO';
-  const created=await sbClient.from('profiles').upsert({id:user.id,display_name:name},{onConflict:'id',ignoreDuplicates:true});
-  if(created.error)throw created.error;
-  const refreshed=await sbClient.from('profiles').select('id,display_name,avatar_path,updated_at').eq('id',user.id).single();
-  if(refreshed.error)throw refreshed.error;
-  currentProfile=refreshed.data;return refreshed.data;
+  let profile=found.data;
+  if(!profile){
+   const candidate=String(user.user_metadata?.display_name||user.email?.split('@')[0]||'عضو CLAYKO').trim().slice(0,40);
+   const name=candidate.length>=2?candidate:'عضو CLAYKO';
+   const created=await sbClient.from('profiles').upsert({id:user.id,display_name:name},{onConflict:'id',ignoreDuplicates:true});
+   if(created.error)throw created.error;
+   const refreshed=await sbClient.from('profiles').select('id,display_name,avatar_path,username,updated_at').eq('id',user.id).single();
+   if(refreshed.error)throw refreshed.error;
+   profile=refreshed.data;
+  }
+  const signupUsername=String(user.user_metadata?.username||'').trim().toLowerCase();
+  if(signupUsername && profile.username!==signupUsername){
+   const saved=await sbClient.rpc('update_my_clayko_profile',{p_display_name:profile.display_name,p_avatar_path:profile.avatar_path||null,p_username:signupUsername});
+   if(saved.error)throw saved.error;
+   profile=saved.data;
+  }
+  currentProfile=profile;return profile;
  };
  const refreshCommunityReactions=async()=>{
   const cards=[...byId('communityTicketFeed').querySelectorAll('.community-ticket')];
@@ -982,7 +996,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    reactionsByTicket.get(reaction.ticket_id).push(reaction);
   });
   const userIds=[...new Set(rows.map(row=>row.user_id))];
-  const profileResult=await sbClient.from('profiles').select('id,display_name,avatar_path,is_verified,membership_tier,membership_expires_at').in('id',userIds);
+  const profileResult=await sbClient.from('profiles').select('id,display_name,avatar_path,username,is_verified,membership_tier,membership_expires_at').in('id',userIds);
   if(profileResult.error){feed.textContent='تعذر تحميل ملفات أصحاب الرسائل.';console.error(profileResult.error);return}
   const profiles=new Map((profileResult.data||[]).map(p=>[p.id,p]));
   feed.replaceChildren();
@@ -993,8 +1007,8 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    const img=document.createElement('img');img.className='community-avatar';img.alt='';img.src=avatarUrl(profile.avatar_path);img.onerror=()=>{img.src=fallbackAvatar};
    const author=document.createElement('div');author.className='community-ticket-author';
    const name=document.createElement('strong');name.textContent=profile.display_name||'عضو CLAYKO';if(['gold','platinum'].includes(profile.membership_tier)&&profile.membership_expires_at&&new Date(profile.membership_expires_at)>new Date()){const memberBadge=document.createElement('span');memberBadge.className='club-member-badge '+profile.membership_tier;memberBadge.textContent=profile.membership_tier==='platinum'?'PLATINUM':'GOLD';memberBadge.title='عضوية CLAYKO فعالة';name.append(memberBadge)}if(profile.is_verified){const verified=document.createElement('span');verified.className='verified-badge';verified.textContent='';verified.title='اضغط لمعرفة حالة التوثيق';verified.setAttribute('role','button');verified.setAttribute('tabindex','0');verified.setAttribute('aria-label','هذا الحساب موثّق رسميًا من CLAYKO');verified.setAttribute('aria-expanded','false');const toggleVerificationNotice=event=>{event.stopPropagation();const existing=document.getElementById('claykoVerificationNotice');if(existing)existing.remove();document.querySelectorAll('.verified-badge[aria-expanded="true"]').forEach(b=>b.setAttribute('aria-expanded','false'));const notice=document.createElement('div');notice.id='claykoVerificationNotice';notice.className='verification-notice';notice.textContent='هذا الحساب موثّق رسميًا من CLAYKO';document.body.append(notice);const rect=verified.getBoundingClientRect(),box=notice.getBoundingClientRect();let left=rect.left+rect.width/2-box.width/2;left=Math.max(14,Math.min(left,innerWidth-box.width-14));let top=rect.bottom+9;if(top+box.height>innerHeight-12)top=Math.max(12,rect.top-box.height-9);notice.style.left=left+'px';notice.style.top=top+'px';verified.setAttribute('aria-expanded','true');window.setTimeout(()=>{notice.classList.add('verification-notice-hide');window.setTimeout(()=>notice.remove(),1200);verified.setAttribute('aria-expanded','false')},4700)};verified.addEventListener('click',toggleVerificationNotice);verified.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleVerificationNotice(event)}});name.append(verified)}
-   const time=document.createElement('time');time.dateTime=row.created_at;time.textContent=new Date(row.created_at).toLocaleString('ar-IQ',{dateStyle:'medium',timeStyle:'short'});
-   author.append(name,time);head.append(img,author);card.append(head);
+   const handle=document.createElement('span');handle.className='community-ticket-username';handle.textContent=profile.username?'@'+profile.username:'';const time=document.createElement('time');time.dateTime=row.created_at;time.textContent=new Date(row.created_at).toLocaleString('ar-IQ',{dateStyle:'medium',timeStyle:'short'});
+   author.append(name);if(profile.username)author.append(handle);author.append(time);head.append(img,author);card.append(head);
    const title=document.createElement('h4');title.textContent=row.subject;card.append(title);
    const body=document.createElement('p');body.className='community-ticket-body';body.textContent=row.body;card.append(body);
    const ticketReactions=reactionsByTicket.get(row.id)||[];
@@ -1110,7 +1124,8 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   const uploaded=await sbClient.storage.from('clayko-avatars').upload(path,pending.blob,{contentType:pending.type,upsert:false});
   if(uploaded.error)throw uploaded.error;
   const name=String(user.user_metadata?.display_name||user.email.split('@')[0]).trim().slice(0,40);
-  const saved=await sbClient.rpc('update_my_clayko_profile',{p_display_name:name,p_avatar_path:path});
+  const username=String(user.user_metadata?.username||'').trim().toLowerCase();
+  const saved=await sbClient.rpc('update_my_clayko_profile',{p_display_name:name,p_avatar_path:path,p_username:username});
   if(saved.error)throw saved.error;
   currentProfile=saved.data;await clearSignupImage(user.email);renderAuth();
   }finally{pendingSignupImageJobs.delete(user.email)}
@@ -1121,11 +1136,15 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   submit.disabled=true;status('communityAuthStatus','جارٍ تنفيذ الطلب...');
   try{
    if(authMode==='signup'){
-    const displayName=byId('communityName').value.trim(),file=byId('communitySignupAvatarFile').files?.[0]||null;
+    const displayName=byId('communityName').value.trim(),username=byId('communitySignupUsername').value.trim().toLowerCase(),file=byId('communitySignupAvatarFile').files?.[0]||null;
     if(displayName.length<2||displayName.length>40)throw new Error('اكتب اسماً من حرفين إلى 40 حرفاً.');
+    if(!/^[a-z0-9._]{3,20}$/.test(username))throw new Error('اسم المستخدم يجب أن يكون 3 إلى 20 حرفاً إنجليزياً صغيراً أو رقماً أو نقطة أو _.');
+    const usernameCheck=await sbClient.from('profiles').select('id').eq('username',username).maybeSingle();
+    if(usernameCheck.error)throw usernameCheck.error;
+    if(usernameCheck.data)throw new Error('اسم المستخدم محجوز بالفعل، اختَر اسماً آخر.');
     if(file&&(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>3145728))throw new Error('اختر صورة JPG أو PNG أو WebP بحجم لا يتجاوز 3MB.');
     if(file)await cacheSignupImage(email,file);
-    const result=await sbClient.auth.signUp({email,password,options:{data:{display_name:displayName,referral_code:localStorage.getItem('clayko-referral-pending')||null},emailRedirectTo:location.origin+location.pathname}});
+    const result=await sbClient.auth.signUp({email,password,options:{data:{display_name:displayName,username,referral_code:localStorage.getItem('clayko-referral-pending')||null},emailRedirectTo:location.origin+location.pathname}});
     if(result.error){if(file)await clearSignupImage(email);throw result.error}
     if(result.data.session){
      await refreshUser(result.data.user);
@@ -1154,8 +1173,9 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  });
  byId('communitySaveProfile').addEventListener('click',async()=>{
   if(!currentUser)return;
-  const name=byId('communityProfileName').value.trim(),button=byId('communitySaveProfile');
+  const name=byId('communityProfileName').value.trim(),username=byId('communityProfileUsername').value.trim().toLowerCase(),button=byId('communitySaveProfile');
   if(name.length<2||name.length>40){status('communityProfileStatus','الاسم لازم يكون بين حرفين و40 حرفاً.','error');return}
+  if(!/^[a-z0-9._]{3,20}$/.test(username)){status('communityProfileStatus','اسم المستخدم يجب أن يكون 3 إلى 20 حرفاً إنجليزياً صغيراً أو رقماً أو نقطة أو _.','error');return}
   button.disabled=true;status('communityProfileStatus','جارٍ حفظ الملف الشخصي...');
   let newlyUploadedPath=null;
   try{
@@ -1167,7 +1187,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
     if(uploaded.error)throw uploaded.error;
     newlyUploadedPath=path;
    }
-   const updated=await sbClient.rpc('update_my_clayko_profile',{p_display_name:name,p_avatar_path:path});
+   const updated=await sbClient.rpc('update_my_clayko_profile',{p_display_name:name,p_avatar_path:path,p_username:username});
    if(updated.error)throw updated.error;
    if(!updated.data||!updated.data.id)throw new Error('لم يصل تأكيد حفظ الملف الشخصي من الخادم.');
    currentProfile=updated.data;avatarFile=null;byId('communityAvatarFile').value='';renderAuth();status('communityProfileStatus','تم حفظ الملف الشخصي.','success');loadTickets();toast('تم تحديث ملفك الشخصي');
