@@ -1086,6 +1086,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   const name=byId('communityProfileName').value.trim(),button=byId('communitySaveProfile');
   if(name.length<2||name.length>40){status('communityProfileStatus','الاسم لازم يكون بين حرفين و40 حرفاً.','error');return}
   button.disabled=true;status('communityProfileStatus','جارٍ حفظ الملف الشخصي...');
+  let newlyUploadedPath=null;
   try{
    let path=currentProfile?.avatar_path||null;
    if(avatarFile){
@@ -1093,12 +1094,17 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
     path=currentUser.id+'/'+crypto.randomUUID()+'.'+ext;
     const uploaded=await sbClient.storage.from('clayko-avatars').upload(path,avatarFile,{contentType:avatarFile.type,upsert:false});
     if(uploaded.error)throw uploaded.error;
+    newlyUploadedPath=path;
    }
-   const updated=await sbClient.from('profiles').update({display_name:name,avatar_path:path,updated_at:new Date().toISOString()}).eq('id',currentUser.id).select('id,display_name,avatar_path,updated_at').single();
+   const updated=await sbClient.rpc('update_my_clayko_profile',{p_display_name:name,p_avatar_path:path});
    if(updated.error)throw updated.error;
+   if(!updated.data||!updated.data.id)throw new Error('لم يصل تأكيد حفظ الملف الشخصي من الخادم.');
    currentProfile=updated.data;avatarFile=null;byId('communityAvatarFile').value='';renderAuth();status('communityProfileStatus','تم حفظ الملف الشخصي.','success');loadTickets();toast('تم تحديث ملفك الشخصي');
-  }catch(error){console.error('Profile update error:',error);status('communityProfileStatus','تعذر حفظ الملف: '+error.message,'error')}
-  finally{button.disabled=false}
+  }catch(error){
+   console.error('Profile update error:',error);
+   if(newlyUploadedPath){try{await sbClient.storage.from('clayko-avatars').remove([newlyUploadedPath])}catch(cleanupError){console.warn('Avatar cleanup failed:',cleanupError)}}
+   status('communityProfileStatus','تعذر حفظ الملف: '+(error.message||'حدث خطأ غير معروف'),'error');
+  }finally{button.disabled=false}
  });
  byId('communitySignOut').addEventListener('click',async()=>{
   const result=await sbClient.auth.signOut();
