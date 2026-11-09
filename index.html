@@ -585,6 +585,10 @@ button,.btn,input,select,textarea{font-family:'Cairo','Inter',sans-serif}
 .membership-badge-gold{color:#e7c66d!important;border-color:rgba(231,198,109,.48)!important;background:rgba(231,198,109,.08)}
 .membership-badge-platinum{color:#b8dce9!important;border-color:rgba(184,220,233,.52)!important;background:rgba(184,220,233,.09)}
 .membership-badge-free{color:var(--muted)!important}
+
+.lb-watermark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-22deg);z-index:1;pointer-events:none;white-space:nowrap;color:rgba(255,255,255,.34);font:900 clamp(18px,4vw,34px) Inter,sans-serif;letter-spacing:5px;text-shadow:0 2px 14px #000}
+#lbImage{position:relative;z-index:0}
+.lb-close,.lb-prev,.lb-next,#lbZoom,.lb-share,.lb-caption{z-index:2}
 </style>
 
 <style id="clayko-ai-styles">
@@ -808,7 +812,7 @@ button,.btn,input,select,textarea{font-family:'Cairo','Inter',sans-serif}
 </main>
 <footer><div class="container footer-row"><a class="brand" href="#home">CLAYKO<small>VISUAL STORIES</small></a><span>© <span id="year"></span> CLAYKO. جميع الحقوق محفوظة.</span><div class="footer-links"><a href="#home">للأعلى ↑</a><a href="#gallery">المعرض</a><a href="#contact">تواصل</a><a href="https://www.instagram.com/2rir4?srtk=anhmZWt1ZnFub2Rp" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div></div></footer>
 <button class="iconbtn backtop" id="backTop" aria-label="العودة للأعلى">↑</button>
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="lbCaption" tabindex="-1"><button id="lbZoom" type="button" aria-label="تكبير الصورة">＋ تكبير</button><button class="lb-close" id="lbClose" aria-label="إغلاق">×</button><button class="lb-prev" id="lbPrev" aria-label="السابق">‹</button><img id="lbImage" src="" alt="صورة مكبرة"><button class="lb-next" id="lbNext" aria-label="التالي">›</button><div class="lb-caption" id="lbCaption"></div><button class="lb-share" id="lbShare" type="button">مشاركة الصورة ↗</button></div>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="lbCaption" tabindex="-1"><span class="lb-watermark" aria-hidden="true">CLAYKO  •  ©</span><button id="lbZoom" type="button" aria-label="تكبير الصورة">＋ تكبير</button><button class="lb-close" id="lbClose" aria-label="إغلاق">×</button><button class="lb-prev" id="lbPrev" aria-label="السابق">‹</button><img id="lbImage" src="" alt="صورة مكبرة"><button class="lb-next" id="lbNext" aria-label="التالي">›</button><div class="lb-caption" id="lbCaption"></div><button class="lb-share" id="lbShare" type="button">مشاركة الصورة ↗</button></div>
 <div id="communityProfileModal" class="profile-modal" aria-hidden="true"><div class="profile-modal-card"><div class="profile-modal-head"><h3>ملفي الشخصي</h3><button type="button" id="communityProfileClose">×</button></div><div id="communityProfileModalBody"></div></div></div><div id="communityRecoveryModal" class="profile-modal" aria-hidden="true"><div class="profile-modal-card"><div class="profile-modal-head"><h3>تعيين كلمة مرور جديدة</h3><button type="button" id="communityRecoveryClose">×</button></div><form id="communityRecoveryForm" class="community-form"><div class="field"><label for="communityNewPassword">كلمة المرور الجديدة</label><input id="communityNewPassword" type="password" minlength="8" required autocomplete="new-password"></div><div class="field"><label for="communityNewPasswordConfirm">تأكيد كلمة المرور</label><input id="communityNewPasswordConfirm" type="password" minlength="8" required autocomplete="new-password"></div><button class="btn primary" type="submit" id="communityRecoverySubmit">حفظ كلمة المرور</button><p class="community-status" id="communityRecoveryStatus"></p></form></div></div><div class="toast" id="toast"></div>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'"></script>
