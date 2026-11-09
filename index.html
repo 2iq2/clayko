@@ -1099,8 +1099,11 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    tx.oncomplete=()=>{db.close();resolve()};tx.onerror=()=>{db.close();reject(tx.error)};
   });
  };
+ const pendingSignupImageJobs=new Set();
  const applyPendingSignupImage=async user=>{
-  if(!user?.email)return;
+  if(!user?.email||pendingSignupImageJobs.has(user.email))return;
+  pendingSignupImageJobs.add(user.email);
+  try{
   const pending=await takeSignupImage(user.email);if(!pending?.blob)return;
   const ext=pending.type==='image/png'?'png':(pending.type==='image/webp'?'webp':'jpg');
   const path=user.id+'/'+crypto.randomUUID()+'.'+ext;
@@ -1110,6 +1113,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   const saved=await sbClient.rpc('update_my_clayko_profile',{p_display_name:name,p_avatar_path:path});
   if(saved.error)throw saved.error;
   currentProfile=saved.data;await clearSignupImage(user.email);renderAuth();
+  }finally{pendingSignupImageJobs.delete(user.email)}
  };
  byId('communityAuthForm').addEventListener('submit',async event=>{
   event.preventDefault();
