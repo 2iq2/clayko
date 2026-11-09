@@ -536,6 +536,24 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 .community-otp-actions button{flex:1;min-width:130px}
 
 .community-ticket-username{display:block;color:var(--muted);font-size:11px;direction:ltr;text-align:right;margin-top:2px;opacity:.85}
+
+/* CLAYKO image protection deterrents: visual watermark + no native image dragging */
+.photo,.club-post,.club-admin-item,#lightbox{position:relative;isolation:isolate;overflow:hidden}
+.photo::after,.club-post::after,.club-admin-item::after,#lightbox::after{
+ content:"CLAYKO  •  ©";
+ position:absolute;inset:0;z-index:3;pointer-events:none;
+ display:flex;align-items:center;justify-content:center;
+ color:rgba(255,255,255,.30);font-size:clamp(17px,3.2vw,34px);
+ font-weight:800;letter-spacing:.20em;text-shadow:0 2px 12px rgba(0,0,0,.75);
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='180' viewBox='0 0 300 180'%3E%3Ctext x='12' y='90' fill='white' fill-opacity='.18' font-family='Arial,sans-serif' font-size='17' font-weight='700' letter-spacing='3' transform='rotate(-24 150 90)'%3ECLAYKO %E2%80%A2 %C2%A9%3C/text%3E%3C/svg%3E");
+ background-repeat:repeat;background-size:300px 180px
+}
+.photo>img,.club-post>img,.club-admin-item>img,#lbImage{
+ -webkit-user-drag:none;user-select:none;-webkit-user-select:none
+}
+.photo-actions,.club-admin-actions,#lbZoom,#lbClose,#lbPrev,#lbNext,#lbShare{position:relative;z-index:5}
+#lightbox #lbImage{position:relative;z-index:1}
+@media print{.photo,.club-post,.club-admin-item,#lightbox{visibility:hidden!important}}
 </style>
 </head>
 <body>
@@ -1572,5 +1590,33 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
 })();
 </script>
 
+
+<script>
+/* Lightweight anti-copy deterrents. These cannot prevent screenshots or screen recording. */
+(()=> {
+ const protectedTarget = target => target instanceof Element && !!target.closest('.photo,.club-post,.club-admin-item,#lightbox img');
+ document.addEventListener('contextmenu',event=>{
+  if(protectedTarget(event.target)){event.preventDefault();event.stopPropagation();}
+ },true);
+ document.addEventListener('dragstart',event=>{
+  if(protectedTarget(event.target)){event.preventDefault();event.stopPropagation();}
+ },true);
+ document.addEventListener('keydown',event=>{
+  const key=(event.key||'').toLowerCase();
+  if((event.ctrlKey||event.metaKey) && ['s','p'].includes(key)){
+   event.preventDefault();event.stopPropagation();
+  }
+ },true);
+ document.querySelectorAll('img').forEach(img=>{img.draggable=false;img.setAttribute('draggable','false');});
+ const observer=new MutationObserver(records=>{
+  records.forEach(record=>record.addedNodes.forEach(node=>{
+   if(node.nodeType!==1)return;
+   if(node.matches?.('img')){node.draggable=false;node.setAttribute('draggable','false');}
+   node.querySelectorAll?.('img').forEach(img=>{img.draggable=false;img.setAttribute('draggable','false');});
+  }));
+ });
+ observer.observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
 </body>
 </html>
