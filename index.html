@@ -526,6 +526,15 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
   .profile-nav{flex-basis:36px;width:36px;height:36px}
 }
 
+
+/* CLAYKO email OTP signup flow */
+#communitySignupAvatarField .signup-avatar-note{font-size:.82rem;color:var(--muted);margin-top:6px}
+#communityOtpPanel{display:grid;gap:14px;margin-top:16px;padding:20px;border:1px solid var(--line);border-radius:20px;background:var(--panel)}
+#communityOtpPanel[hidden]{display:none}
+#communityOtpPanel input{direction:ltr;text-align:center;letter-spacing:.42em;font-size:1.45rem;font-weight:700}
+.community-otp-actions{display:flex;gap:10px;flex-wrap:wrap}
+.community-otp-actions button{flex:1;min-width:130px}
+
 </style>
 </head>
 <body>
@@ -587,11 +596,20 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
     <div class="community-tabs" id="communityTabs" style="position:relative;z-index:5;pointer-events:auto"><button type="button" id="communitySignInTab" class="active" style="position:relative;z-index:6;pointer-events:auto" onclick="document.getElementById('communityNameField').hidden=true;document.getElementById('communityPassword').autocomplete='current-password';document.getElementById('communityAuthSubmit').textContent='دخول إلى الحساب ↗';document.getElementById('communitySignInTab').classList.add('active');document.getElementById('communitySignUpTab').classList.remove('active');document.dispatchEvent(new CustomEvent('clayko-auth-mode',{detail:'signin'}))">تسجيل الدخول</button><button type="button" id="communitySignUpTab" style="position:relative;z-index:6;pointer-events:auto" onclick="document.getElementById('communityNameField').hidden=false;document.getElementById('communityPassword').autocomplete='new-password';document.getElementById('communityAuthSubmit').textContent='إنشاء الحساب ↗';document.getElementById('communitySignUpTab').classList.add('active');document.getElementById('communitySignInTab').classList.remove('active');document.dispatchEvent(new CustomEvent('clayko-auth-mode',{detail:'signup'}))">إنشاء حساب</button></div>
     <form id="communityAuthForm" class="community-form">
      <div class="field" id="communityNameField" hidden><label for="communityName">الاسم الظاهر للجميع</label><input id="communityName" type="text" minlength="2" maxlength="40" autocomplete="name" placeholder="اكتب اسمك" /></div>
+     <div class="field" id="communitySignupAvatarField" hidden><label for="communitySignupAvatarFile">الصورة الشخصية (اختياري، JPG / PNG / WebP حتى 3MB)</label><input id="communitySignupAvatarFile" type="file" accept="image/jpeg,image/png,image/webp" /><p class="signup-avatar-note">تُرفع الصورة بعد تأكيد بريدك الإلكتروني.</p></div>
      <div class="field"><label for="communityEmail">البريد الإلكتروني</label><input id="communityEmail" type="email" required autocomplete="email" placeholder="name@example.com" /></div>
      <div class="field"><label for="communityPassword">كلمة المرور</label><div class="password-wrap"><input id="communityPassword" type="password" required minlength="8" autocomplete="current-password" placeholder="8 أحرف على الأقل" /><button type="button" class="password-toggle" id="communityPasswordToggle">إظهار</button></div></div>
      <button class="btn primary" id="communityAuthSubmit" type="submit">دخول إلى الحساب ↗</button><button class="forgot-link" id="communityForgotPassword" type="button">نسيت كلمة المرور؟</button>
      <p class="community-status" id="communityAuthStatus" aria-live="polite"></p>
     </form>
+    <div id="communityOtpPanel" hidden>
+     <h4 class="community-title">تأكيد البريد الإلكتروني</h4>
+     <p class="community-hint" id="communityOtpHint">أرسلنا رمز تحقق من 6 أرقام إلى بريدك الإلكتروني.</p>
+     <div class="field"><label for="communityOtpCode">رمز التحقق</label><input id="communityOtpCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" /></div>
+     <button class="btn primary" id="communityVerifyOtp" type="button">تأكيد البريد وفتح الحساب</button>
+     <div class="community-otp-actions"><button class="btn" id="communityResendOtp" type="button">إعادة إرسال الرمز</button><button class="btn" id="communityCancelOtp" type="button">رجوع</button></div>
+     <p class="community-status" id="communityOtpStatus" aria-live="polite"></p>
+    </div>
    </div>
    <div id="communityLoggedIn" hidden>
     <h3 class="community-title">ملفي الشخصي</h3>
@@ -859,7 +877,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  const byId=id=>document.getElementById(id);
  const status=(id,message,type='')=>{const el=byId(id);if(!el)return;el.textContent=message;el.className='community-status'+(type?' '+type:'')};
  if(!byId('communityAuthForm'))return;
- let authMode='signin', currentUser=null, currentProfile=null, avatarFile=null, realtimeChannel=null;
+ let authMode='signin', currentUser=null, currentProfile=null, avatarFile=null, signupAvatarFile=null, pendingSignupEmail='', pendingSignupName='', realtimeChannel=null;
  const profileModal=byId('communityProfileModal'),recoveryModal=byId('communityRecoveryModal');
  const profileBody=byId('communityProfileModalBody');profileBody.appendChild(byId('communityLoggedIn'));
  const openModal=modal=>{modal.classList.add('open');modal.setAttribute('aria-hidden','false')};
@@ -888,6 +906,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  const setMode=mode=>{
   authMode=mode;
   byId('communityNameField').hidden=mode!=='signup';
+  byId('communitySignupAvatarField').hidden=mode!=='signup';
   byId('communityPassword').autocomplete=mode==='signup'?'new-password':'current-password';
   byId('communityAuthSubmit').textContent=mode==='signup'?'إنشاء الحساب ↗':'دخول إلى الحساب ↗';
   byId('communitySignInTab').classList.toggle('active',mode==='signin');
@@ -1055,16 +1074,25 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  };
  byId('communityAuthForm').addEventListener('submit',async event=>{
   event.preventDefault();
-  const email=byId('communityEmail').value.trim(),password=byId('communityPassword').value;
-  const submit=byId('communityAuthSubmit');submit.disabled=true;status('communityAuthStatus','جارٍ تنفيذ الطلب...');
+  const email=byId('communityEmail').value.trim(),password=byId('communityPassword').value,submit=byId('communityAuthSubmit');
+  submit.disabled=true;status('communityAuthStatus','جارٍ تنفيذ الطلب...');
   try{
    if(authMode==='signup'){
     const displayName=byId('communityName').value.trim();
     if(displayName.length<2||displayName.length>40)throw new Error('اكتب اسماً من حرفين إلى 40 حرفاً.');
+    pendingSignupEmail=email;pendingSignupName=displayName;signupAvatarFile=byId('communitySignupAvatarFile').files?.[0]||null;
+    if(signupAvatarFile&&(!['image/jpeg','image/png','image/webp'].includes(signupAvatarFile.type)||signupAvatarFile.size>3145728))throw new Error('اختر صورة JPG أو PNG أو WebP بحجم لا يتجاوز 3MB.');
     const result=await sbClient.auth.signUp({email,password,options:{data:{display_name:displayName,referral_code:localStorage.getItem('clayko-referral-pending')||null},emailRedirectTo:location.origin+location.pathname}});
     if(result.error)throw result.error;
-    if(result.data.session){await refreshUser(result.data.user);toast('تم إنشاء حسابك بنجاح')}
-    else status('communityAuthStatus','تم إنشاء الحساب. افتح بريدك الإلكتروني واضغط رابط التأكيد، وبعدها ارجع وسجّل الدخول.','success');
+    if(result.data.session){
+     await refreshUser(result.data.user);
+     if(signupAvatarFile)await finishSignupAvatar(result.data.user,displayName,signupAvatarFile);
+     signupAvatarFile=null;toast('تم إنشاء حسابك بنجاح');
+    }else{
+     byId('communityAuthForm').hidden=true;byId('communityOtpPanel').hidden=false;
+     byId('communityOtpHint').textContent='أرسلنا رمز تحقق من 6 أرقام إلى '+email+'. أدخله هنا لإكمال إنشاء الحساب.';
+     status('communityOtpStatus','');byId('communityOtpCode').value='';byId('communityOtpCode').focus();
+    }
    }else{
     const result=await sbClient.auth.signInWithPassword({email,password});
     if(result.error)throw result.error;
@@ -1073,6 +1101,38 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   }catch(error){status('communityAuthStatus',error.message||'تعذر إكمال العملية. تحقق من البيانات وحاول مجدداً.','error')}
   finally{submit.disabled=false}
  });
+ const finishSignupAvatar=async(user,displayName,file)=>{
+  const ext=file.type==='image/png'?'png':(file.type==='image/webp'?'webp':'jpg'),path=user.id+'/'+crypto.randomUUID()+'.'+ext;
+  const uploaded=await sbClient.storage.from('clayko-avatars').upload(path,file,{contentType:file.type,upsert:false});
+  if(uploaded.error)throw uploaded.error;
+  const saved=await sbClient.rpc('update_my_clayko_profile',{p_display_name:displayName,p_avatar_path:path});
+  if(saved.error)throw saved.error;
+  currentProfile=saved.data;renderAuth();
+ };
+ byId('communityVerifyOtp').addEventListener('click',async()=>{
+  const token=byId('communityOtpCode').value.replace(/\D/g,'').slice(0,6),button=byId('communityVerifyOtp');
+  if(token.length!==6){status('communityOtpStatus','أدخل رمز التحقق المكوّن من 6 أرقام.','error');return}
+  button.disabled=true;status('communityOtpStatus','جارٍ التحقق من الرمز...');
+  try{
+   const verified=await sbClient.auth.verifyOtp({email:pendingSignupEmail,token,type:'signup'});
+   if(verified.error)throw verified.error;
+   await refreshUser(verified.data.user);
+   if(signupAvatarFile)await finishSignupAvatar(verified.data.user,pendingSignupName,signupAvatarFile);
+   signupAvatarFile=null;byId('communitySignupAvatarFile').value='';byId('communityOtpPanel').hidden=true;byId('communityAuthForm').hidden=false;
+   status('communityAuthStatus','تم تأكيد بريدك وإنشاء حسابك بنجاح.','success');toast('أهلاً بك في CLAYKO');
+  }catch(error){status('communityOtpStatus',error.message||'الرمز غير صحيح أو انتهت صلاحيته.','error')}
+  finally{button.disabled=false}
+ });
+ byId('communityResendOtp').addEventListener('click',async()=>{
+  const button=byId('communityResendOtp');button.disabled=true;status('communityOtpStatus','جارٍ إرسال رمز جديد...');
+  try{const result=await sbClient.auth.resend({type:'signup',email:pendingSignupEmail});if(result.error)throw result.error;status('communityOtpStatus','تم إرسال رمز جديد إلى بريدك.','success')}
+  catch(error){status('communityOtpStatus',error.message||'تعذر إعادة إرسال الرمز.','error')}
+  finally{button.disabled=false}
+ });
+ byId('communityCancelOtp').addEventListener('click',()=>{
+  byId('communityOtpPanel').hidden=true;byId('communityAuthForm').hidden=false;signupAvatarFile=null;byId('communitySignupAvatarFile').value='';status('communityAuthStatus','يمكنك إعادة المحاولة عند الاستعداد.');
+ });
+ byId('communityOtpCode').addEventListener('input',event=>{event.target.value=event.target.value.replace(/\D/g,'').slice(0,6)});
  byId('communityAvatarFile').addEventListener('change',event=>{
   const file=event.target.files?.[0]||null;
   if(file&&(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>3145728)){
