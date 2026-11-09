@@ -567,6 +567,13 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 @media(max-width:560px){#claykoAiLauncher{left:14px;bottom:17px;padding:11px 14px}#claykoAiPanel{left:10px;right:10px;bottom:75px;width:auto;height:min(590px,calc(100dvh - 100px));border-radius:19px}}
 @media(prefers-reduced-motion:reduce){#claykoAiPanel{animation:none}}
 </style>
+<style>
+.profile-membership-card{margin:18px 0;padding:17px 19px;border:1px solid rgba(0,219,227,.22);border-radius:17px;background:linear-gradient(135deg,rgba(0,219,227,.075),rgba(232,59,255,.045))}
+.profile-membership-main{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:9px 0}
+.profile-membership-main strong{font:900 20px Inter,sans-serif;letter-spacing:1px;color:var(--cyan)}
+.profile-membership-main span,.profile-membership-card p{font-size:12px;color:var(--muted)}
+.profile-membership-card p b{color:var(--text);font-weight:800}
+</style>
 </head>
 <body>
 <div id="claykoIntro" aria-label="مقدمة CLAYKO"><div class="intro-inner"><div class="intro-mark">CLAYKO</div><div class="intro-line"></div><p>LIGHT · FRAME · STORY</p><button id="introEnter" type="button">الدخول إلى الموقع ↗</button></div></div>
@@ -653,6 +660,11 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
       <div class="field"><label for="communityAvatarFile">الصورة الشخصية (JPG / PNG / WebP، حتى 3MB)</label><input id="communityAvatarFile" type="file" accept="image/jpeg,image/png,image/webp" /></div>
      </div>
     </div>
+    <div class="profile-membership-card" id="communityMembershipSummary">
+     <span class="club-eyebrow">CLAYKO MEMBERSHIP</span>
+     <div class="profile-membership-main"><strong id="communityProfileMembershipTier">FREE</strong><span id="communityProfileMembershipStatus">لا توجد عضوية فعالة</span></div>
+     <p>تاريخ الانتهاء: <b id="communityProfileMembershipExpiry">—</b></p>
+    </div>
     <p class="community-private-note">بريدك الإلكتروني وكلمة مرورك لا يظهران للزوار.</p>
     <div class="community-actions"><button class="btn primary" id="communitySaveProfile" type="button">حفظ الملف الشخصي</button><button class="btn" id="communitySignOut" type="button">تسجيل الخروج</button></div>
     <p class="community-status" id="communityProfileStatus" aria-live="polite"></p>
@@ -678,12 +690,14 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
  <div class="club-welcome reveal"><div><span class="club-eyebrow">YOUR MEMBERSHIP SPACE</span><h3>كل شيء يخص عضويتك، <span class="gradient-text">بشكل أوضح.</span></h3><p>ابدأ باختيار ما تحتاجه. كل خدمة موضّح سعرها بالنقاط، وحالة طلبك تظهر في حسابك.</p></div><div class="club-welcome-mark">C<span>✦</span></div></div>
  <div class="club-steps reveal" aria-label="طريقة استخدام النادي"><div><b>01</b><strong>أنشئ حسابك</strong><small>سجّل الدخول من مجتمع CLAYKO</small></div><div><b>02</b><strong>اختر خدمتك</strong><small>عضوية أو ترخيص صورة أو جلسة</small></div><div><b>03</b><strong>تابع طلبك</strong><small>من سجل الطلبات داخل حسابك</small></div></div>
  <div class="club-panel reveal club-public-panel"><div class="club-panel-heading"><div><span class="club-eyebrow">COMMUNITY GALLERY</span><h3>معرض أعضاء CLAYKO</h3><p class="club-panel-desc">الأعمال التي وافقت عليها الإدارة تظهر هنا للجميع.</p></div><span class="club-heading-icon">▧</span></div><div id="clubPublicPosts" class="club-post-grid"><p class="club-panel-desc">جارٍ تحميل الصور...</p></div></div>
+ <div id="clubPlanOptions">
  <div class="club-section-title reveal"><div><span class="club-eyebrow">MEMBERSHIP PLANS</span><h3>اختر عضويتك</h3><p>كل العضويات مدتها 30 يوماً، وتفعيلها حالياً بعد مراجعة الإدارة.</p></div></div>
  <div class="club-plans reveal">
   <article class="club-plan club-plan-gold"><div class="club-plan-top"><span class="club-plan-mark">GOLD / 01</span><span class="club-plan-symbol">✦</span></div><h3>GOLD</h3><p>للمشاركين الذين يريدون نشر أعمالهم ضمن مجتمع CLAYKO.</p><div class="club-plan-limit"><strong>03</strong><span>صور شهرياً</span></div><ul><li>شارة GOLD بجانب اسمك</li><li>إرسال الصور للنشر بعد مراجعة الإدارة</li><li>حد أقصى 3 صور في الشهر</li><li>مدة العضوية 30 يوماً</li></ul><button class="btn" data-club-plan="membership_gold" type="button">إرسال طلب GOLD</button></article>
   <article class="club-plan platinum"><div class="club-plan-top"><span class="club-plan-mark">PLATINUM / 02</span><span class="club-plan-symbol">✧</span></div><h3>PLATINUM</h3><p>مساحة أوسع للأعضاء الأكثر نشاطاً ومشاركة.</p><div class="club-plan-limit"><strong>10</strong><span>صور شهرياً</span></div><ul><li>شارة PLATINUM بجانب اسمك</li><li>كل مزايا GOLD</li><li>حد أقصى 10 صور في الشهر</li><li>50 نقطة عند تجديد العضوية</li><li>مدة العضوية 30 يوماً</li></ul><button class="btn primary" data-club-plan="membership_platinum" type="button">إرسال طلب PLATINUM</button></article>
  </div>
  <div class="club-payment-note reveal"><span>ⓘ</span><p><strong>معلومة مهمة عن الدفع:</strong> طلب العضوية يُرسل للإدارة للمراجعة، والدفع بالبطاقة المصرفية غير متاح حالياً داخل الموقع. لن يتم خصم مبلغ من بطاقتك عبر هذا الطلب.</p></div>
+ </div>
  <div id="clubLoggedOut" class="club-panel reveal club-login-panel"><div><span class="club-eyebrow">MEMBER ACCESS</span><h3>مساحتك تبدأ من هنا</h3><p class="club-panel-desc">سجّل الدخول أو أنشئ حساباً حتى تظهر محفظتك وطلباتك وخيارات النشر الخاصة بك.</p></div><a class="btn primary" href="#community">تسجيل الدخول / إنشاء حساب ↗</a></div>
  <div id="clubMemberArea" hidden>
   <div class="club-dashboard club-dashboard-new">
@@ -1502,6 +1516,15 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   ]);
   if(p.error||a.error){status('clubRequestStatus','تعذر تحميل بيانات العضوية: '+(p.error||a.error).message,'error');return}
   profile=p.data;account=a.data;
+  const hasActiveMembership=active();
+  const planOptions=el('clubPlanOptions');
+  if(planOptions)planOptions.style.display=hasActiveMembership?'none':'';
+  const membershipTier=hasActiveMembership?(profile.membership_tier==='platinum'?'PLATINUM':'GOLD'):'FREE';
+  const membershipExpiry=hasActiveMembership?new Date(profile.membership_expires_at).toLocaleDateString('ar-IQ'):'—';
+  const profileTier=el('communityProfileMembershipTier'),profileStatus=el('communityProfileMembershipStatus'),profileExpiry=el('communityProfileMembershipExpiry');
+  if(profileTier)profileTier.textContent=membershipTier;
+  if(profileStatus)profileStatus.textContent=hasActiveMembership?'عضويتك فعّالة':'لا توجد عضوية فعّالة حالياً';
+  if(profileExpiry)profileExpiry.textContent=membershipExpiry;
   el('clubPoints').textContent=Number(account?.points_balance||0).toLocaleString('en-US');
   const tier=profile?.membership_tier||'free';
   el('clubTier').textContent=tier==='platinum'?'PLATINUM':tier==='gold'?'GOLD':'FREE';
