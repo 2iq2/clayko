@@ -544,6 +544,42 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
 .lightbox[aria-hidden="false"]{visibility:visible}
 #lbCaption{max-width:min(90vw,720px);text-align:center;line-height:1.7}
 @media(prefers-reduced-motion:reduce){.photo,.lightbox img{transition:none!important}}
+
+/* CLAYKO signature refresh — quiet luxury system */
+:root{--clayko-radius-sm:12px;--clayko-radius-md:18px;--clayko-radius-lg:24px;--clayko-space:clamp(14px,2.2vw,24px)}
+button,.btn,input,select,textarea{font-family:'Cairo','Inter',sans-serif}
+.btn{border-radius:14px;min-height:44px;letter-spacing:0}
+.glass,.club-panel,.club-service-card,.club-plan,.service,.community-card{border-radius:var(--clayko-radius-lg)}
+.section-head{margin-bottom:clamp(22px,3vw,34px)}
+.club-panel{padding:clamp(17px,2.5vw,25px)}
+.club-panel-heading{gap:16px}
+.member-profile-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:15px 0 4px}
+.member-profile-stats>div{min-width:0;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--panel2)}
+.member-profile-stats small{display:block;color:var(--muted);font-size:10px;margin-bottom:5px}
+.member-profile-stats strong{display:block;font-size:12px;overflow-wrap:anywhere}
+.club-notification-panel{margin-top:18px}
+.notification-count{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;margin-inline-start:8px;padding:4px 9px;border-radius:30px;background:rgba(0,219,227,.1);color:var(--cyan);font:700 10px Inter,sans-serif}
+.notification-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:16px 0}
+.notification-filters{display:flex;gap:6px;flex-wrap:wrap}
+.notification-filter,.notification-mark-all,.notification-read-action{border:1px solid var(--line);background:var(--panel2);color:var(--muted);border-radius:11px;padding:8px 12px;font:600 11px 'Cairo',sans-serif;cursor:pointer}
+.notification-filter.active{border-color:var(--cyan);color:var(--cyan);background:rgba(0,219,227,.07)}
+.notification-mark-all:disabled,.notification-read-action:disabled{opacity:.45;cursor:default}
+.notification-list{display:grid;gap:9px}
+.notification-item{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 14px;border:1px solid var(--line);border-radius:15px;background:var(--panel2)}
+.notification-item.is-unread{border-color:rgba(0,219,227,.35);background:linear-gradient(110deg,rgba(0,219,227,.055),var(--panel2) 55%)}
+.notification-body{min-width:0}
+.notification-body strong{display:block;font-size:12px;color:var(--text)}
+.notification-body p{margin:4px 0;color:var(--muted);font-size:11px;line-height:1.8}
+.notification-body small{font-size:9px;color:var(--muted)}
+.notification-read-action{flex:0 0 auto}
+.club-watermarked-media{position:relative;overflow:hidden;border-radius:12px}
+.club-watermarked-media img{display:block;width:100%;max-height:280px;object-fit:cover}
+.club-watermarked-media:after{content:"CLAYKO  •  ©";position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;color:rgba(255,255,255,.52);font:800 clamp(14px,3vw,24px) Inter,sans-serif;letter-spacing:3px;text-shadow:0 2px 12px #000;transform:rotate(-18deg)}
+.photo{isolation:isolate}
+.photo-watermark{position:absolute;z-index:1;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-22deg);pointer-events:none;white-space:nowrap;color:rgba(255,255,255,.36);font:800 12px Inter,sans-serif;letter-spacing:2px;text-shadow:0 1px 8px #000}
+.photo-info,.photo-actions{z-index:2}
+.club-admin-item .club-watermarked-media{margin-bottom:9px}
+@media(max-width:560px){.member-profile-stats{gap:6px}.member-profile-stats>div{padding:9px 7px}.member-profile-stats strong{font-size:10px}.notification-item{align-items:flex-start;padding:11px;gap:8px}.notification-read-action{padding:7px 8px;font-size:9px}.notification-toolbar{align-items:stretch}.notification-mark-all{margin-inline-start:auto}}
 </style>
 
 <style id="clayko-ai-styles">
@@ -672,6 +708,11 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
      <div class="profile-membership-main"><strong id="communityProfileMembershipTier">FREE</strong><span id="communityProfileMembershipStatus">لا توجد عضوية فعالة</span></div>
      <p>تاريخ الانتهاء: <b id="communityProfileMembershipExpiry">—</b></p>
     </div>
+    <div class="member-profile-stats" id="memberProfileStats">
+     <div><small>تاريخ الانضمام</small><strong id="memberJoinedAt">—</strong></div>
+     <div><small>الصور المرسلة</small><strong id="memberPhotoCount">0</strong></div>
+     <div><small>منشورات المجتمع</small><strong id="memberPostCount">0</strong></div>
+    </div>
     <p class="community-private-note">بريدك الإلكتروني وكلمة مرورك لا يظهران للزوار.</p>
     <div class="community-actions"><button class="btn primary" id="communitySaveProfile" type="button">حفظ الملف الشخصي</button><button class="btn" id="communitySignOut" type="button">تسجيل الخروج</button></div>
     <p class="community-status" id="communityProfileStatus" aria-live="polite"></p>
@@ -723,6 +764,7 @@ section[id]{scroll-margin-top:calc(78px + 14px)}
    <p class="club-status" id="clubGiftStatus" aria-live="polite"></p>
    <div class="club-history" id="clubGiftNotifications"><p class="club-panel-desc">جارٍ تحميل الهدايا المستلمة...</p></div>
   </div>
+  <div class="club-panel reveal club-notification-panel" id="clubNotificationPanel"><div class="club-panel-heading"><div><span class="club-eyebrow">NOTIFICATION CENTER</span><h3>مركز الإشعارات <span class="notification-count" id="clubNotificationCount">0</span></h3><p class="club-panel-desc">التحديثات المهمة فقط: الهدايا، الطلبات، ومراجعة الصور.</p></div><span class="club-heading-icon">♢</span></div><div class="notification-toolbar"><div class="notification-filters"><button type="button" class="notification-filter active" data-notification-filter="all">الكل</button><button type="button" class="notification-filter" data-notification-filter="unread">غير مقروءة</button><button type="button" class="notification-filter" data-notification-filter="read">مقروءة</button></div><button type="button" class="notification-mark-all" id="clubMarkAllNotifications">تحديد الكل كمقروء</button></div><div id="clubNotifications" class="notification-list" aria-live="polite"><p class="club-panel-desc">جارٍ تحميل الإشعارات...</p></div></div>
   <div class="club-panel reveal"><div class="club-panel-heading"><div><span class="club-eyebrow">INVITE & EARN</span><h3>ادعُ صديقاً واكسب نقاطاً</h3><p class="club-panel-desc">تحصل على 100 نقطة عند انضمام عضو جديد عبر رابطك وتأكيد بريده وموافقة الإدارة. المشاركة وحدها لا تمنح نقاطاً.</p></div><span class="club-heading-icon">↗</span></div><div class="club-row club-referral-row"><input id="clubReferralLink" readonly aria-label="رابط الدعوة الخاص بك"><button class="btn primary" id="clubShareReferral" type="button">مشاركة رابط الدعوة</button></div><p class="club-status" id="clubReferralStatus"></p></div>
   <div class="club-section-title reveal"><div><span class="club-eyebrow">REWARDS & SERVICES</span><h3>شنو تگدر تطلب؟</h3><p>راجع تكلفة كل خدمة بالنقاط قبل إرسال الطلب.</p></div></div>
   <div class="club-service-grid reveal">
@@ -839,6 +881,7 @@ function visiblePhotos(){return allPhotos().filter(p=>p.style.display!=='none')}
 function applyFilters(){
  let shown=0;
  allPhotos().forEach(p=>{
+  if(!p.querySelector('.photo-watermark')){const mark=document.createElement('span');mark.className='photo-watermark';mark.textContent='CLAYKO  •  ©';p.append(mark)}
   const cat=p.dataset.cat,title=((p.dataset.title||'')+' '+($('img',p)?.alt||'')).toLowerCase(),fav=saved.has(p.dataset.title);
   const categoryOk=activeFilter==='all'||(activeFilter==='favorites'?fav:cat===activeFilter);
   const searchOk=title.includes(searchTerm);
@@ -1512,16 +1555,18 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
  async function loadMember(){
   if(!user){el('clubLoggedOut').hidden=false;el('clubMemberArea').hidden=true;return}
   el('clubLoggedOut').hidden=true;el('clubMemberArea').hidden=false;
-  const [p,a,r,l,posts,referrals,licenses]=await Promise.all([
-   client.from('profiles').select('id,display_name,membership_tier,membership_expires_at,can_publish').eq('id',user.id).maybeSingle(),
+  const [p,a,r,l,posts,referrals,licenses,ticketCount]=await Promise.all([
+   client.from('profiles').select('id,display_name,membership_tier,membership_expires_at,can_publish,created_at').eq('id',user.id).maybeSingle(),
    client.from('member_accounts').select('referral_code,points_balance').eq('user_id',user.id).maybeSingle(),
    client.from('member_requests').select('id,request_type,item_title,details,points_cost,status,created_at,admin_note').eq('user_id',user.id).order('created_at',{ascending:false}).limit(20),
    client.from('member_points_ledger').select('amount,reason,created_at').eq('user_id',user.id).order('created_at',{ascending:false}).limit(20),
-   client.from('member_posts').select('id,image_path,caption,status,created_at').eq('user_id',user.id).order('created_at',{ascending:false}).limit(12),
+   client.from('member_posts').select('id,image_path,caption,status,created_at,original_path',{count:'exact'}).eq('user_id',user.id).order('created_at',{ascending:false}).limit(12),
    client.from('member_referrals').select('id,status,created_at').eq('referrer_id',user.id),
-   client.from('member_licenses').select('image_title,rights_description,status,created_at').eq('user_id',user.id).order('created_at',{ascending:false}).limit(10)
+   client.from('member_licenses').select('image_title,rights_description,status,created_at').eq('user_id',user.id).order('created_at',{ascending:false}).limit(10),
+   client.from('support_tickets').select('id',{count:'exact',head:true}).eq('user_id',user.id)
   ]);
   if(p.error||a.error){status('clubRequestStatus','تعذر تحميل بيانات العضوية: '+(p.error||a.error).message,'error');return}
+  if(ticketCount?.error)console.warn('Member community post count:',ticketCount.error.message);
   profile=p.data;account=a.data;
   const hasActiveMembership=active();
   const planOptions=el('clubPlanOptions');
@@ -1532,6 +1577,11 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   if(profileTier)profileTier.textContent=membershipTier;
   if(profileStatus)profileStatus.textContent=hasActiveMembership?'عضويتك فعّالة':'لا توجد عضوية فعّالة حالياً';
   if(profileExpiry)profileExpiry.textContent=membershipExpiry;
+  const joined=profile?.created_at?new Date(profile.created_at).toLocaleDateString('ar-IQ',{year:'numeric',month:'long',day:'numeric'}):'—';
+  const joinedEl=el('memberJoinedAt'),photoCountEl=el('memberPhotoCount'),postCountEl=el('memberPostCount');
+  if(joinedEl)joinedEl.textContent=joined;
+  if(photoCountEl)photoCountEl.textContent=Number(posts.count??(posts.data||[]).length).toLocaleString('en-US');
+  if(postCountEl)postCountEl.textContent=Number(ticketCount?.count||0).toLocaleString('en-US');
   el('clubPoints').textContent=Number(account?.points_balance||0).toLocaleString('en-US');
   const tier=profile?.membership_tier||'free';
   el('clubTier').textContent=tier==='platinum'?'PLATINUM':tier==='gold'?'GOLD':'FREE';
@@ -1548,14 +1598,15 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   (licenses.data||[]).forEach(item=>{const row=document.createElement('div');row.className='club-history-item';const left=document.createElement('span');left.textContent='ترخيص صورة: '+item.image_title+' · '+item.rights_description;const right=document.createElement('strong');right.textContent=item.status==='delivered'?'تم التسليم':'بانتظار اتفاق الحقوق وتسليم الملف';row.append(left,right);history.append(row)});
   requests.forEach(item=>{const row=document.createElement('div');row.className='club-history-item';const left=document.createElement('span');left.textContent=({membership_gold:'طلب GOLD',membership_platinum:'طلب PLATINUM',photo_purchase:'طلب شراء صورة',photo_session:'طلب جلسة تصوير'}[item.request_type]||item.request_type)+' · '+new Date(item.created_at).toLocaleDateString('ar-IQ');const right=document.createElement('strong');right.textContent=({pending:'قيد المراجعة',approved:'مقبول',rejected:'مرفوض'}[item.status]||item.status);row.append(left,right);history.append(row)});
   const postBox=el('clubMyPosts');postBox.replaceChildren();
-  (posts.data||[]).forEach(item=>{const card=document.createElement('article');card.className='club-post';const img=document.createElement('img');img.src=client.storage.from('clayko-gallery').getPublicUrl(item.image_path).data.publicUrl;img.alt='صورة العضو';const p=document.createElement('p');p.textContent=item.caption+' · '+({pending:'بانتظار المراجعة',published:'منشور',rejected:'مرفوض'}[item.status]||item.status);card.append(img,p);postBox.append(card)});
+  (posts.data||[]).forEach(item=>{const card=document.createElement('article');card.className='club-post';const media=document.createElement('div');media.className='club-watermarked-media';const img=document.createElement('img');img.src=client.storage.from('clayko-gallery').getPublicUrl(item.image_path).data.publicUrl;img.alt='صورة العضو';media.append(img);const p=document.createElement('p');p.textContent=item.caption+' · '+({pending:'بانتظار المراجعة',published:'منشور',rejected:'مرفوض'}[item.status]||item.status);card.append(media,p);postBox.append(card)});
   if(user.app_metadata?.role==='admin'){el('clubAdminPanel').hidden=false;await loadAdminQueue()}else el('clubAdminPanel').hidden=true;
   await loadPointGiftNotifications();
+  await loadNotifications();
   await loadPublicPosts();
  }
  async function loadPointGiftNotifications(){
   const box=el('clubGiftNotifications');if(!box||!user)return;
-  const result=await client.from('member_notifications').select('id,message,points_amount,created_at').eq('recipient_id',user.id).order('created_at',{ascending:false}).limit(10);
+  const result=await client.from('member_notifications').select('id,message,points_amount,created_at').eq('recipient_id',user.id).not('points_amount','is',null).order('created_at',{ascending:false}).limit(10);
   box.replaceChildren();
   if(result.error){const p=document.createElement('p');p.className='club-panel-desc';p.textContent='تعذر تحميل إشعارات الهدايا.';box.append(p);return}
   if(!result.data?.length){const p=document.createElement('p');p.className='club-panel-desc';p.textContent='ما استلمت هدايا نقاط لحد الآن.';box.append(p);return}
@@ -1597,18 +1648,33 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   }catch(error){message.textContent=error.message||'تعذر إرسال الهدية. حاول مرة ثانية.'}
   finally{button.disabled=false}
  });
+ async function makeWatermarkedPreview(file){
+  const bitmap=await createImageBitmap(file);const scale=Math.min(1,1800/Math.max(bitmap.width,bitmap.height));
+  const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(bitmap.width*scale));canvas.height=Math.max(1,Math.round(bitmap.height*scale));
+  const ctx=canvas.getContext('2d');if(!ctx)throw new Error('تعذر تجهيز معاينة الصورة.');
+  ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close?.();
+  ctx.save();ctx.translate(canvas.width/2,canvas.height/2);ctx.rotate(-Math.PI/7);ctx.textAlign='center';ctx.textBaseline='middle';
+  const fontSize=Math.max(20,Math.round(Math.min(canvas.width,canvas.height)*.055));ctx.font='800 '+fontSize+'px Inter, Arial, sans-serif';ctx.lineWidth=Math.max(2,fontSize*.08);ctx.strokeStyle='rgba(0,0,0,.34)';ctx.fillStyle='rgba(255,255,255,.48)';
+  const stepX=Math.max(220,fontSize*8),stepY=Math.max(150,fontSize*5);
+  for(let y=-canvas.height;y<canvas.height;y+=stepY){for(let x=-canvas.width;x<canvas.width;x+=stepX){ctx.strokeText('CLAYKO  •  ©',x,y);ctx.fillText('CLAYKO  •  ©',x,y)}}
+  ctx.restore();return await new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('تعذر إنشاء نسخة المعاينة.')),'image/jpeg',.86));
+ }
  el('clubPostForm').addEventListener('submit',async event=>{
   event.preventDefault();if(!active()){status('clubPostStatus','النشر يحتاج عضوية فعالة.','error');return}
   const file=el('clubPostFile').files?.[0],caption=el('clubPostCaption').value.trim(),button=el('clubPostSubmit');
   if(!file||!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>10*1024*1024){status('clubPostStatus','اختر صورة JPG أو PNG أو WebP بحجم لا يتجاوز 10MB.','error');return}
   button.disabled=true;status('clubPostStatus','جارٍ رفع الصورة وإرسالها للمراجعة...');
   const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';
-  const path='members/'+user.id+'/'+crypto.randomUUID()+'.'+ext;
+  const token=crypto.randomUUID(),originalPath='members/'+user.id+'/'+token+'.'+ext,previewPath='members/'+user.id+'/'+token+'-preview.jpg';
   try{
-   const uploaded=await client.storage.from('clayko-gallery').upload(path,file,{contentType:file.type,upsert:false});
-   if(uploaded.error)throw uploaded.error;
-   const inserted=await client.from('member_posts').insert({user_id:user.id,image_path:path,caption,status:'pending'});
-   if(inserted.error){await client.storage.from('clayko-gallery').remove([path]);throw inserted.error}
+   status('clubPostStatus','جارٍ تجهيز نسخة معاينة بعلامة CLAYKO ورفع الأصل المحمي...');
+   const preview=await makeWatermarkedPreview(file);
+   const originalUpload=await client.storage.from('clayko-originals').upload(originalPath,file,{contentType:file.type,upsert:false});
+   if(originalUpload.error)throw originalUpload.error;
+   const previewUpload=await client.storage.from('clayko-gallery').upload(previewPath,preview,{contentType:'image/jpeg',upsert:false});
+   if(previewUpload.error){await client.storage.from('clayko-originals').remove([originalPath]);throw previewUpload.error}
+   const inserted=await client.from('member_posts').insert({user_id:user.id,image_path:previewPath,original_path:originalPath,caption,status:'pending'});
+   if(inserted.error){await client.storage.from('clayko-gallery').remove([previewPath]);await client.storage.from('clayko-originals').remove([originalPath]);throw inserted.error}
    el('clubPostForm').reset();status('clubPostStatus','وصلت صورتك إلى الإدارة وهي بانتظار المراجعة.','success');await loadMember();
   }catch(error){status('clubPostStatus',error.message||'تعذر إرسال الصورة.','error')}
   finally{button.disabled=false}
@@ -1640,7 +1706,7 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    ]);
   }
   for(const p of posts.data||[]){
-   const card=document.createElement('article');card.className='club-admin-item';const img=document.createElement('img');img.src=client.storage.from('clayko-gallery').getPublicUrl(p.image_path).data.publicUrl;img.style.cssText='width:100%;max-height:220px;object-fit:contain;border-radius:10px';const title=document.createElement('strong');title.textContent='صورة عضو · '+p.user_id.slice(0,8);const desc=document.createElement('p');desc.textContent=p.caption;const row=document.createElement('div');row.className='club-admin-actions';[['نشر',true],['رفض',false]].forEach(([label,yes])=>{const b=document.createElement('button');b.textContent=label;if(yes)b.classList.add('approve');b.addEventListener('click',async()=>{b.disabled=true;const result=await client.rpc('admin_review_member_post',{p_post_id:p.id,p_approve:yes});if(result.error){toast(result.error.message);b.disabled=false}else await loadMember()});row.append(b)});card.append(img,title,desc,row);box.append(card);
+   const card=document.createElement('article');card.className='club-admin-item';const img=document.createElement('img');img.src=client.storage.from('clayko-gallery').getPublicUrl(p.image_path).data.publicUrl;img.style.cssText='width:100%;max-height:220px;object-fit:contain;border-radius:10px';const title=document.createElement('strong');title.textContent='صورة عضو · '+p.user_id.slice(0,8);const desc=document.createElement('p');desc.textContent=p.caption;const row=document.createElement('div');row.className='club-admin-actions';[['نشر',true],['رفض',false]].forEach(([label,yes])=>{const b=document.createElement('button');b.textContent=label;if(yes)b.classList.add('approve');b.addEventListener('click',async()=>{b.disabled=true;const result=await client.rpc('admin_review_member_post',{p_post_id:p.id,p_approve:yes});if(result.error){toast(result.error.message);b.disabled=false}else await loadMember()});row.append(b)});const media=document.createElement('div');media.className='club-watermarked-media';media.append(img);card.append(media,title,desc,row);if(p.original_path){const original=document.createElement('button');original.type='button';original.className='notification-read-action';original.textContent='عرض النسخة الأصلية';original.addEventListener('click',async()=>{const tab=window.open('about:blank','_blank');const signed=await client.storage.from('clayko-originals').createSignedUrl(p.original_path,300);if(signed.error){tab?.close();toast('تعذر فتح النسخة الأصلية');return}if(tab)tab.location=signed.data.signedUrl;else toast('اسمح بالنوافذ المنبثقة لفتح الأصلية')});card.append(original)}box.append(card);
   }
   for(const item of licenses.data||[]){
    add('اتفاق حقوق صورة · '+item.user_id.slice(0,8),item.image_title+' · '+item.rights_description+' · تم اعتماد خصم النقاط، وبانتظار الاتفاق وتسليم الملف الأصلي',[
@@ -1649,13 +1715,28 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
   }
   if(!box.children.length)box.textContent='ماكو طلبات جديدة بانتظار المراجعة.';
  }
+ async function loadNotifications(){
+  const box=el('clubNotifications');if(!box||!user)return;
+  const result=await client.from('member_notifications').select('id,message,notification_type,points_amount,created_at,read_at').eq('recipient_id',user.id).order('created_at',{ascending:false}).limit(40);
+  box.replaceChildren();if(result.error){box.textContent='تعذر تحميل مركز الإشعارات.';return}
+  const items=result.data||[],unread=items.filter(x=>!x.read_at).length;
+  const count=el('clubNotificationCount');if(count)count.textContent=unread+' غير مقروء';
+  const markAll=el('clubMarkAllNotifications');if(markAll)markAll.disabled=!unread;
+  const activeFilter=document.querySelector('[data-notification-filter].active')?.dataset.notificationFilter||'all';
+  const shown=items.filter(x=>activeFilter==='all'||(activeFilter==='unread'?!x.read_at:!!x.read_at));
+  if(!shown.length){const empty=document.createElement('p');empty.className='club-panel-desc';empty.textContent=items.length?'ماكو إشعارات ضمن هذا التصنيف.':'ما عندك إشعارات حالياً. راح تظهر هنا التحديثات المهمة فقط.';box.append(empty);return}
+  const labels={points_gift:'هدية نقاط',request_approved:'تمت الموافقة على طلب',request_rejected:'تحديث على طلبك',post_published:'تم نشر صورتك',post_rejected:'تحديث مراجعة الصورة'};
+  shown.forEach(item=>{const row=document.createElement('article');row.className='notification-item'+(item.read_at?' is-read':' is-unread');const body=document.createElement('div');body.className='notification-body';const title=document.createElement('strong');title.textContent=labels[item.notification_type]||'إشعار من CLAYKO';const message=document.createElement('p');message.textContent=item.message;const meta=document.createElement('small');meta.textContent=new Date(item.created_at).toLocaleString('ar-IQ',{dateStyle:'medium',timeStyle:'short'});body.append(title,message,meta);const action=document.createElement('button');action.type='button';action.className='notification-read-action';action.textContent=item.read_at?'مقروء':'تحديد كمقروء';action.disabled=!!item.read_at;action.addEventListener('click',async()=>{action.disabled=true;const update=await client.from('member_notifications').update({read_at:new Date().toISOString()}).eq('id',item.id).eq('recipient_id',user.id).is('read_at',null);if(update.error){action.disabled=false;toast('تعذر تحديث حالة الإشعار');return}await loadNotifications()});row.append(body,action);box.append(row)});
+ }
+ document.querySelectorAll('[data-notification-filter]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-notification-filter]').forEach(x=>x.classList.toggle('active',x===button));loadNotifications()}));
+ el('clubMarkAllNotifications')?.addEventListener('click',async()=>{const button=el('clubMarkAllNotifications');button.disabled=true;const update=await client.from('member_notifications').update({read_at:new Date().toISOString()}).eq('recipient_id',user.id).is('read_at',null);if(update.error){button.disabled=false;toast('تعذر تحديث الإشعارات');return}await loadNotifications()});
  async function loadPublicPosts(){
   const box=el('clubPublicPosts');if(!box)return;
   const result=await client.from('member_posts').select('image_path,caption,created_at').eq('status','published').order('created_at',{ascending:false}).limit(12);
   box.replaceChildren();
   if(result.error){box.textContent='تعذر تحميل صور الأعضاء.';return}
   if(!result.data?.length){box.innerHTML='<p class="club-panel-desc">ماكو صور منشورة من الأعضاء حالياً.</p>';return}
-  result.data.forEach(item=>{const card=document.createElement('article');card.className='club-post';const img=document.createElement('img');img.src=client.storage.from('clayko-gallery').getPublicUrl(item.image_path).data.publicUrl;img.alt='صورة منشورة من أحد أعضاء CLAYKO';const p=document.createElement('p');p.textContent=item.caption;card.append(img,p);box.append(card)});
+  result.data.forEach(item=>{const card=document.createElement('article');card.className='club-post';const media=document.createElement('div');media.className='club-watermarked-media';const img=document.createElement('img');img.src=client.storage.from('clayko-gallery').getPublicUrl(item.image_path).data.publicUrl;img.alt='صورة منشورة من أحد أعضاء CLAYKO';media.append(img);const p=document.createElement('p');p.textContent=item.caption;card.append(media,p);box.append(card)});
  }
  async function init(){
   await loadPublicPosts();
