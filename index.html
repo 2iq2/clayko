@@ -1673,7 +1673,10 @@ const toast=(msg)=>{const t=document.getElementById('toast');if(!t)return;t.text
    if(history.length>12)history.splice(0,history.length-12);
    addMessage(reply,'assistant');
   }catch(error){
-   const msg=error?.context?.error||error?.message||'صار خطأ بالاتصال. حاول مرة ثانية.';
+   let msg=error?.message||'صار خطأ بالاتصال. حاول مرة ثانية.';
+   if(error?.context&&typeof error.context.json==='function'){
+    try{const detail=await error.context.json();msg=detail?.error||detail?.message||msg}catch{}
+   }
    addMessage(String(msg).slice(0,500),'assistant');
   }finally{
    typing.remove();busy=false;send.disabled=false;input.disabled=false;input.value='';input.focus();messagesBox.scrollTop=messagesBox.scrollHeight;
